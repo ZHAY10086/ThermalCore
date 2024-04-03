@@ -84,15 +84,15 @@ public class TreeExtractorCategory implements IRecipeCategory<TreeExtractorMappi
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, TreeExtractorMapping recipe, IFocusGroup focuses) {
+        //TODO Hek
+        List<ItemStack> trunk = recipe.getTrunk().getBlockStates().stream().map(state -> state.getBlock().asItem()).distinct().map(ItemStack::new).toList();
+        List<ItemStack> leaves = recipe.getLeaves().getBlockStates().stream().map(state -> state.getBlock().asItem()).distinct().map(ItemStack::new).toList();
 
-        ItemStack trunk = new ItemStack(recipe.getTrunk());
-        ItemStack leaves = new ItemStack(recipe.getLeaves());
-
-        builder.addSlot(RecipeIngredientRole.INPUT, 35, 41).addItemStack(trunk);
-        builder.addSlot(RecipeIngredientRole.INPUT, 35, 23).addItemStack(trunk);
-        builder.addSlot(RecipeIngredientRole.INPUT, 17, 14).addItemStack(leaves);
-        builder.addSlot(RecipeIngredientRole.INPUT, 35, 5).addItemStack(leaves);
-        builder.addSlot(RecipeIngredientRole.INPUT, 53, 14).addItemStack(leaves);
+        builder.addSlot(RecipeIngredientRole.INPUT, 35, 41).addItemStacks(trunk);
+        builder.addSlot(RecipeIngredientRole.INPUT, 35, 23).addItemStacks(trunk);
+        builder.addSlot(RecipeIngredientRole.INPUT, 17, 14).addItemStacks(leaves);
+        builder.addSlot(RecipeIngredientRole.INPUT, 35, 5).addItemStacks(leaves);
+        builder.addSlot(RecipeIngredientRole.INPUT, 53, 14).addItemStacks(leaves);
 
         builder.addSlot(RecipeIngredientRole.OUTPUT, 116, 11)
                 .addIngredients(ForgeTypes.FLUID_STACK, List.of(recipe.getFluid()))
