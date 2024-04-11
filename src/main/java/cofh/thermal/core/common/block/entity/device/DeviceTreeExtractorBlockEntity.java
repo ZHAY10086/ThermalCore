@@ -348,7 +348,8 @@ public class DeviceTreeExtractorBlockEntity extends DeviceBlockEntity implements
         List<BlockPos> logs = new ArrayList<>();
         logs.add(base.immutable());
         BlockPos.MutableBlockPos cursor = base.mutable();
-        scan: while (cursor.getY() < max && cursor.getY() > min) {
+        scan:
+        while (cursor.getY() < max && cursor.getY() > min) {
             cursor.move(growth);
             for (Vec3i offset : TRUNK_SEARCH) {
                 cursor.move(offset);
@@ -373,7 +374,7 @@ public class DeviceTreeExtractorBlockEntity extends DeviceBlockEntity implements
         }
 
         // Find number of leaves around top log
-        Reference2ReferenceMap<TreeExtractorMapping,LongList> leaves = new Reference2ReferenceArrayMap<>();
+        Reference2ReferenceMap<TreeExtractorMapping, LongList> leaves = new Reference2ReferenceArrayMap<>();
         for (TreeExtractorMapping recipe : recipes) {
             leaves.put(recipe, new LongArrayList(recipe.getMaxLeaves()));
         }
@@ -392,7 +393,7 @@ public class DeviceTreeExtractorBlockEntity extends DeviceBlockEntity implements
                 if (distManhattan(adj, x, y, z) <= LEAF_SEARCH_DIST && visited.add(adj)) {
                     BlockState state = level.getBlockState(cursor.set(adj));
                     boolean valid = false;
-                    for (Reference2ReferenceMap.Entry<TreeExtractorMapping,LongList> entry : leaves.reference2ReferenceEntrySet()) {
+                    for (Reference2ReferenceMap.Entry<TreeExtractorMapping, LongList> entry : leaves.reference2ReferenceEntrySet()) {
                         TreeExtractorMapping recipe = entry.getKey();
                         if (recipe.getLeaves().test(state)) {
                             LongList blocks = entry.getValue();
@@ -429,6 +430,7 @@ public class DeviceTreeExtractorBlockEntity extends DeviceBlockEntity implements
 
             this(recipe, logs.toArray(BlockPos[]::new), leaves.longStream().limit(recipe.getMaxLeaves()).mapToObj(BlockPos::of).toArray(BlockPos[]::new));
         }
+
     }
     // endregion
 
