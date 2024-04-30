@@ -321,6 +321,10 @@ public class DeviceTreeExtractorBlockEntity extends DeviceBlockEntity implements
         // Find recipes matching trunk
         TreeExtractorMapping[] recipes = TreeExtractorManager.instance().getRecipes()
                 .filter(recipe -> recipe.getTrunk().test(base))
+                .filter(recipe -> {
+                    Block sapling = recipe.getSapling();
+                    return sapling == null || sapling.defaultBlockState().canSurvive(level, basePos);
+                })
                 .toArray(TreeExtractorMapping[]::new);
         if (recipes.length <= 0) {
             return null;
@@ -333,14 +337,6 @@ public class DeviceTreeExtractorBlockEntity extends DeviceBlockEntity implements
 
     @Nullable
     protected TreeInfo detectTreeDirection(TreeExtractorMapping[] recipes, BlockPos base, Direction growth) {
-
-        recipes = Arrays.stream(recipes).filter(recipe -> {
-            Block sapling = recipe.getSapling();
-            return sapling == null || sapling.defaultBlockState().canSurvive(level, base);
-        }).toArray(TreeExtractorMapping[]::new);
-        if (recipes.length <= 0) {
-            return null;
-        }
 
         // Traverse tree to find logs
         int min = level.getMinBuildHeight();
