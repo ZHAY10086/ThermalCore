@@ -1,14 +1,14 @@
 {
   "type": "thermal:tree_extractor",
   "trunk": {
-    "block": "minecraft:spruce_log",
-    "properties": {
+    "Name": "minecraft:spruce_log",
+    "Properties": {
       "axis": "y"
     }
   },
   "leaves": {
-    "block": "minecraft:spruce_leaves",
-    "properties": {
+    "Name": "minecraft:spruce_leaves",
+    "Properties": {
       "persistent": "false"
     }
   },

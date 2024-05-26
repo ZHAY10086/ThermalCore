@@ -1,19 +1,19 @@
 {
   "type": "thermal:tree_extractor",
   "trunk": {
-    "block": "minecraft:jungle_log",
-    "properties": {
+    "Name": "minecraft:jungle_log",
+    "Properties": {
       "axis": "y"
     }
   },
   "leaves": {
-    "block": "minecraft:jungle_leaves",
-    "properties": {
+    "Name": "minecraft:jungle_leaves",
+    "Properties": {
       "persistent": "false"
     }
   },
   "sapling": "minecraft:jungle_sapling",
-  "min_height": 6,
+  "min_height": 5,
   "max_height": 16,
   "min_leaves": 16,
   "max_leaves": 24,

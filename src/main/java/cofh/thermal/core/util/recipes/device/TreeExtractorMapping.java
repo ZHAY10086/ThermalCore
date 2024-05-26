@@ -114,13 +114,13 @@ public class TreeExtractorMapping extends SerializableRecipe {
             int maxHeight = 3;
 
             if (json.has(TRUNK)) {
-                logs = parseBlockIngredient(json.get(TRUNK));
+                logs = getAsBlockIngredient(json, TRUNK);
             }
 
             if (json.has(LEAF)) {
-                leaves = parseBlockIngredient(json.get(LEAF));
+                leaves = getAsBlockIngredient(json, LEAF);
             } else if (json.has(LEAVES)) {
-                leaves = parseBlockIngredient(json.get(LEAVES));
+                leaves = getAsBlockIngredient(json, LEAVES);
             }
 
             if (json.has(SAPLING)) {
