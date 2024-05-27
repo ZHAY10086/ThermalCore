@@ -150,6 +150,11 @@ public class BrewerRecipeManager extends AbstractManager implements IRecipeManag
     public void refresh(RecipeManager recipeManager) {
 
         clear();
+        var recipes = recipeManager.byType(BREWER_RECIPE.get());
+        for (var entry : recipes.entrySet()) {
+            addRecipe(entry.getValue());
+        }
+
         if (defaultPotionRecipes) {
             // TODO: Solve this nonsense with Forge.
             ThermalCore.LOG.debug("Adding default Brewing Stand recipes to the Alchemical Imbuer...");
@@ -157,10 +162,6 @@ public class BrewerRecipeManager extends AbstractManager implements IRecipeManag
             for (ThermalRecipe recipe : getConvertedRecipes()) {
                 addRecipe(recipe);
             }
-        }
-        var recipes = recipeManager.byType(BREWER_RECIPE.get());
-        for (var entry : recipes.entrySet()) {
-            addRecipe(entry.getValue());
         }
     }
     // endregion

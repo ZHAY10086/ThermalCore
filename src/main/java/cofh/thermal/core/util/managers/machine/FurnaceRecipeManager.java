@@ -5,10 +5,8 @@ import cofh.thermal.core.util.recipes.machine.FurnaceRecipe;
 import cofh.thermal.lib.util.managers.SingleItemRecipeManager;
 import cofh.thermal.lib.util.recipes.ThermalRecipe;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 
@@ -97,8 +95,8 @@ public class FurnaceRecipeManager extends SingleItemRecipeManager {
 
     protected void createConvertedRecipes(RecipeManager recipeManager) {
 
-        for (Recipe<Container> recipe : recipeManager.byType(RecipeType.SMELTING).values()) {
-            createConvertedRecipe((AbstractCookingRecipe) recipe);
+        for (AbstractCookingRecipe recipe : recipeManager.byType(RecipeType.SMELTING).values()) {
+            createConvertedRecipe(recipe);
         }
     }
 

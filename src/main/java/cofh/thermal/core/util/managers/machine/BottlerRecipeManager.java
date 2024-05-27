@@ -202,6 +202,11 @@ public class BottlerRecipeManager extends AbstractManager implements IRecipeMana
     public void refresh(RecipeManager recipeManager) {
 
         clear();
+        var recipes = recipeManager.byType(BOTTLER_RECIPE.get());
+        for (var entry : recipes.entrySet()) {
+            addRecipe(entry.getValue());
+        }
+
         int energy = (int) (getDefaultEnergy() * getDefaultScale());
         if (defaultBucketRecipes) {
             ThermalCore.LOG.debug("Adding default Bucket recipes to the Fluid Encapsulator...");
@@ -226,6 +231,7 @@ public class BottlerRecipeManager extends AbstractManager implements IRecipeMana
                 }
             }
         }
+
         if (defaultFlorbRecipes) {
             ThermalCore.LOG.debug("Adding default Florb recipes to the Fluid Encapsulator...");
             Set<Fluid> florbFluids = new ObjectOpenHashSet<>(32);
@@ -253,13 +259,10 @@ public class BottlerRecipeManager extends AbstractManager implements IRecipeMana
                 }
             }
         }
+
         if (defaultPotionRecipes) {
             ThermalCore.LOG.debug("Adding default Potion recipes to the Fluid Encapsulator...");
             addRecipe(convert(energy, 0.0F, new ItemStack(Items.GLASS_BOTTLE), new FluidStack(POTION_FLUID.get(), BOTTLE_VOLUME), new ItemStack(Items.POTION)));
-        }
-        var recipes = recipeManager.byType(BOTTLER_RECIPE.get());
-        for (var entry : recipes.entrySet()) {
-            addRecipe(entry.getValue());
         }
     }
     // endregion
