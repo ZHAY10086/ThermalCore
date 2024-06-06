@@ -272,6 +272,7 @@ public abstract class AugmentableBlockEntity extends BlockEntityCoFH implements 
                     player.setItemInHand(hand, consumeItem(stack, 1));
                 }
                 player.level.playSound(null, player.blockPosition(), SOUND_TINKER.get(), SoundSource.PLAYERS, 0.1F, (MathHelper.RANDOM.nextFloat() - MathHelper.RANDOM.nextFloat()) * 0.35F + 0.9F);
+                player.level.sendBlockUpdated(pos, state, state, Block.UPDATE_CLIENTS);
             } else {
                 player.level.playSound(null, player.blockPosition(), SoundEvents.UI_BUTTON_CLICK.get(), SoundSource.PLAYERS, 0.1F, 0.25F);
             }
