@@ -411,7 +411,7 @@ public class DeviceTreeExtractorBlockEntity extends DeviceBlockEntity implements
         return leaves.reference2ReferenceEntrySet().stream()
                 .filter(entry -> entry.getValue().size() >= entry.getKey().getMinLeaves())
                 .max(Comparator.comparingInt(entry -> entry.getValue().size()))
-                .map(entry -> new TreeInfo(recipe, logs, entry.getValue()))
+                .map(entry -> new TreeInfo(entry.getKey(), logs, entry.getValue()))
                 .orElse(null);
     }
 

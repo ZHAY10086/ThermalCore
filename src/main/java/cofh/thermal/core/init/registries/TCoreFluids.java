@@ -2,6 +2,8 @@ package cofh.thermal.core.init.registries;
 
 import cofh.thermal.core.common.fluid.*;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FireBlock;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 
@@ -43,9 +45,8 @@ public class TCoreFluids {
 
         BOTTLE_FILL_MAP.put(fluid -> fluid.getFluid().equals(SYRUP_FLUID.get()), fluid -> new ItemStack(ITEMS.get("syrup_bottle")));
 
-        // TODO: Flammability
-        //        FireBlock fire = (FireBlock) Blocks.FIRE;
-        //        fire.setFlammable(CrudeOilFluid.instance().block().get(), 5, 10);
+        FireBlock fire = (FireBlock) Blocks.FIRE;
+        fire.setFlammable(CrudeOilFluid.instance().block().get(), 5, 10);
     }
 
     public static Supplier<ForgeFlowingFluid> REDSTONE_FLUID;
