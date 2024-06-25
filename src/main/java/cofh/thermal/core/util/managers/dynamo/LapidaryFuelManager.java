@@ -22,12 +22,6 @@ public class LapidaryFuelManager extends SingleItemFuelManager {
         super(DEFAULT_ENERGY);
     }
 
-    public int getEnergy(ItemStack stack) {
-
-        IDynamoFuel fuel = getFuel(stack);
-        return fuel != null ? fuel.getEnergy() : 0;
-    }
-
     // region IManager
     @Override
     public void refresh(RecipeManager recipeManager) {

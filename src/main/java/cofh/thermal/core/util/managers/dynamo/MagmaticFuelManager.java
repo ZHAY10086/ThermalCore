@@ -1,9 +1,7 @@
 package cofh.thermal.core.util.managers.dynamo;
 
 import cofh.thermal.lib.util.managers.SingleFluidFuelManager;
-import cofh.thermal.lib.util.recipes.internal.IDynamoFuel;
 import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraftforge.fluids.FluidStack;
 
 import static cofh.thermal.core.init.registries.TCoreRecipeTypes.MAGMATIC_FUEL;
 
@@ -20,12 +18,6 @@ public class MagmaticFuelManager extends SingleFluidFuelManager {
     private MagmaticFuelManager() {
 
         super(DEFAULT_ENERGY);
-    }
-
-    public int getEnergy(FluidStack stack) {
-
-        IDynamoFuel fuel = getFuel(stack);
-        return fuel != null ? fuel.getEnergy() : 0;
     }
 
     // region IManager

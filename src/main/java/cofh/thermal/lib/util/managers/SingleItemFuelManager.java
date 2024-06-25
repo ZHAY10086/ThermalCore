@@ -42,6 +42,12 @@ public abstract class SingleItemFuelManager extends AbstractManager implements I
         return getFuel(input) != null;
     }
 
+    public int getEnergy(ItemStack stack) {
+
+        IDynamoFuel fuel = getFuel(stack);
+        return fuel != null ? fuel.getEnergy() : 0;
+    }
+
     protected void clear() {
 
         fuelMap.clear();

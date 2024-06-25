@@ -47,6 +47,12 @@ public abstract class SingleFluidFuelManager extends AbstractManager implements 
         return getFuel(input) != null;
     }
 
+    public int getEnergy(FluidStack stack) {
+
+        IDynamoFuel fuel = getFuel(stack);
+        return fuel != null ? fuel.getEnergy() : 0;
+    }
+
     protected void clear() {
 
         fuelMap.clear();
