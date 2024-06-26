@@ -54,7 +54,7 @@ public class TinkerBenchMenu extends BlockEntityCoFHMenu {
                 itemInventory.clearContent();
                 // TODO: Revisit sound.
                 //                if (AugmentableHelper.isAugmentableItem(stack)) {
-                //                    ProxyUtils.playSimpleSound(SOUND_TINKER, 0.2F, 1.0F);
+                //                    ProxyUtils.playSimpleSound(SOUND_TINKER.get(), 0.2F, 1.0F);
                 //                }
                 super.onTake(thePlayer, stack);
             }
@@ -67,7 +67,7 @@ public class TinkerBenchMenu extends BlockEntityCoFHMenu {
                     return;
                 }
                 ItemStack curStack = tinkerSlot.getItem();
-                if (!curStack.isEmpty() && !curStack.equals(stack)) {
+                if (!curStack.isEmpty()) {
                     writeAugmentsToItem(curStack);
                 }
                 super.set(stack);
