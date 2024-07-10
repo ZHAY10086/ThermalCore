@@ -6,7 +6,7 @@ import cofh.thermal.core.common.block.entity.device.*;
 import cofh.thermal.core.common.block.entity.storage.EnergyCellBlockEntity;
 import cofh.thermal.core.common.block.entity.storage.FluidCellBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.RegistryObject;
 
 import static cofh.thermal.core.ThermalCore.BLOCKS;
 import static cofh.thermal.core.ThermalCore.BLOCK_ENTITIES;

@@ -5,7 +5,7 @@ import cofh.thermal.core.ThermalCore;
 import cofh.thermal.core.common.item.SatchelItem;
 import cofh.thermal.lib.util.ThermalEnergyHelper;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,7 +23,7 @@ import static cofh.thermal.lib.util.ThermalIDs.ID_SATCHEL;
 public class ThermalCoreConfig implements IBaseConfig {
 
     @Override
-    public void apply(ForgeConfigSpec.Builder builder) {
+    public void apply(ModConfigSpec.Builder builder) {
 
         builder.push("Global Options");
 

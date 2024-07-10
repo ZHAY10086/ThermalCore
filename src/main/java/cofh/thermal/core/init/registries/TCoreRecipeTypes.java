@@ -4,7 +4,7 @@ import cofh.lib.util.recipes.SerializableRecipeType;
 import cofh.thermal.core.util.recipes.device.*;
 import cofh.thermal.core.util.recipes.dynamo.*;
 import cofh.thermal.core.util.recipes.machine.*;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.RegistryObject;
 
 import static cofh.lib.util.constants.ModIds.ID_THERMAL;
 import static cofh.thermal.core.ThermalCore.RECIPE_TYPES;

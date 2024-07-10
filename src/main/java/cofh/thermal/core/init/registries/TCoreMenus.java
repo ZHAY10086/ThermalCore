@@ -7,8 +7,8 @@ import cofh.thermal.core.common.inventory.storage.EnergyCellMenu;
 import cofh.thermal.core.common.inventory.storage.FluidCellMenu;
 import cofh.thermal.core.common.inventory.storage.SatchelMenu;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraftforge.common.extensions.IForgeMenuType;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.common.extensions.IForgeMenuType;
+import net.neoforged.neoforge.registries.RegistryObject;
 
 import static cofh.core.util.ProxyUtils.getClientPlayer;
 import static cofh.core.util.ProxyUtils.getClientWorld;

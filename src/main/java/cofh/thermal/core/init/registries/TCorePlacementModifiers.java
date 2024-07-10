@@ -2,7 +2,7 @@ package cofh.thermal.core.init.registries;
 
 import cofh.thermal.core.common.world.ConfigPlacementFilter;
 import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.RegistryObject;
 
 import static cofh.thermal.core.ThermalCore.PLACEMENT_MODIFIERS;
 

@@ -10,8 +10,8 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 
@@ -154,7 +154,7 @@ public class TreeExtractorMapping extends SerializableRecipe {
 
             BlockIngredient logs = BlockIngredient.fromNetwork(buffer);
             BlockIngredient leaves = BlockIngredient.fromNetwork(buffer);
-            Block sapling = ForgeRegistries.BLOCKS.getValue(buffer.readResourceLocation());
+            Block sapling = BuiltInRegistries.BLOCK.getValue(buffer.readResourceLocation());
             FluidStack fluid = buffer.readFluidStack();
             int minHeight = buffer.readInt();
             int maxHeight = buffer.readInt();

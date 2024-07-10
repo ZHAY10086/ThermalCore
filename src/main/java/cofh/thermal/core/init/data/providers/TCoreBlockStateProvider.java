@@ -4,7 +4,7 @@ import cofh.lib.init.data.BlockStateProviderCoFH;
 import cofh.lib.util.DeferredRegisterCoFH;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import static cofh.lib.util.constants.ModIds.ID_THERMAL;
 import static cofh.thermal.core.ThermalCore.BLOCKS;

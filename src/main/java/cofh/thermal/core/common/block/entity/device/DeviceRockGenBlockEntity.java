@@ -22,9 +22,9 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.client.model.data.ModelData;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.client.model.data.ModelData;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -232,8 +232,8 @@ public class DeviceRockGenBlockEntity extends DeviceBlockEntity implements ITick
         buffer.writeInt(process);
         buffer.writeInt(adjLava);
 
-        buffer.writeUtf(ForgeRegistries.BLOCKS.getKey(below).toString());
-        buffer.writeUtf(ForgeRegistries.BLOCKS.getKey(adjacent).toString());
+        buffer.writeUtf(BuiltInRegistries.BLOCK.getKey(below).toString());
+        buffer.writeUtf(BuiltInRegistries.BLOCK.getKey(adjacent).toString());
 
         return buffer;
     }
@@ -246,8 +246,8 @@ public class DeviceRockGenBlockEntity extends DeviceBlockEntity implements ITick
         process = buffer.readInt();
         adjLava = buffer.readInt();
 
-        below = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(buffer.readUtf()));
-        adjacent = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(buffer.readUtf()));
+        below = BuiltInRegistries.BLOCK.getValue(new ResourceLocation(buffer.readUtf()));
+        adjacent = BuiltInRegistries.BLOCK.getValue(new ResourceLocation(buffer.readUtf()));
     }
     // endregion
 
@@ -261,8 +261,8 @@ public class DeviceRockGenBlockEntity extends DeviceBlockEntity implements ITick
         processMax = nbt.getInt(TAG_PROCESS_MAX);
         adjLava = nbt.getInt("Lava");
 
-        below = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(nbt.getString("Below")));
-        adjacent = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(nbt.getString("Adjacent")));
+        below = BuiltInRegistries.BLOCK.getValue(new ResourceLocation(nbt.getString("Below")));
+        adjacent = BuiltInRegistries.BLOCK.getValue(new ResourceLocation(nbt.getString("Adjacent")));
     }
 
     @Override
@@ -274,8 +274,8 @@ public class DeviceRockGenBlockEntity extends DeviceBlockEntity implements ITick
         nbt.putInt(TAG_PROCESS_MAX, processMax);
         nbt.putInt("Lava", adjLava);
 
-        nbt.putString("Below", ForgeRegistries.BLOCKS.getKey(below).toString());
-        nbt.putString("Adjacent", ForgeRegistries.BLOCKS.getKey(adjacent).toString());
+        nbt.putString("Below", BuiltInRegistries.BLOCK.getKey(below).toString());
+        nbt.putString("Adjacent", BuiltInRegistries.BLOCK.getKey(adjacent).toString());
     }
     // endregion
 

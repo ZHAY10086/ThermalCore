@@ -8,7 +8,7 @@ import cofh.thermal.core.util.recipes.machine.*;
 import cofh.thermal.lib.util.recipes.DynamoFuelSerializer;
 import cofh.thermal.lib.util.recipes.MachineCatalystSerializer;
 import cofh.thermal.lib.util.recipes.MachineRecipeSerializer;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.RegistryObject;
 
 import static cofh.thermal.core.ThermalCore.RECIPE_SERIALIZERS;
 import static cofh.thermal.core.init.registries.TCoreRecipeTypes.*;

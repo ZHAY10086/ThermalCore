@@ -9,8 +9,8 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 
@@ -89,7 +89,7 @@ public class HiveExtractorMapping extends SerializableRecipe {
         @Override
         public HiveExtractorMapping fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
 
-            Block hive = ForgeRegistries.BLOCKS.getValue(buffer.readResourceLocation());
+            Block hive = BuiltInRegistries.BLOCK.getValue(buffer.readResourceLocation());
             ItemStack item = buffer.readItem();
             FluidStack fluid = buffer.readFluidStack();
 

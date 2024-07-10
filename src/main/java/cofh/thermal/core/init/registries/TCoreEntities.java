@@ -11,7 +11,7 @@ import cofh.thermal.core.common.entity.projectile.ThrownFlorb;
 import cofh.thermal.lib.common.entity.AugmentableMinecart;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.RegistryObject;
 
 import static cofh.thermal.core.ThermalCore.ENTITIES;
 import static cofh.thermal.core.init.registries.ThermalCreativeTabs.toolsTab;

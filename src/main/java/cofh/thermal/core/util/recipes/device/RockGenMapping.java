@@ -10,7 +10,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 
@@ -112,8 +112,8 @@ public class RockGenMapping extends SerializableRecipe {
         public RockGenMapping fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
 
             int time = buffer.readInt();
-            Block trunk = ForgeRegistries.BLOCKS.getValue(buffer.readResourceLocation());
-            Block leaves = ForgeRegistries.BLOCKS.getValue(buffer.readResourceLocation());
+            Block trunk = BuiltInRegistries.BLOCK.getValue(buffer.readResourceLocation());
+            Block leaves = BuiltInRegistries.BLOCK.getValue(buffer.readResourceLocation());
             ItemStack result = buffer.readItem();
 
             return new RockGenMapping(recipeId, time, trunk, leaves, result);
