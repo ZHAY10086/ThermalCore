@@ -19,7 +19,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.model.data.ModelData;
-import net.neoforged.neoforge.common.util.LazyOptional;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 
 import javax.annotation.Nonnull;
@@ -173,16 +172,6 @@ public class EnergyCellBlockEntity extends StorageCellBlockEntity implements ITi
         return new EnergyCellMenu(i, level, worldPosition, inventory, player);
     }
 
-    // TODO: Does this need to exist?
-    @Override
-    public void setRemoved() {
-
-        super.setRemoved();
-
-        inputEnergyCap.invalidate();
-        outputEnergyCap.invalidate();
-    }
-
     @Nonnull
     @Override
     public ModelData getModelData() {
@@ -226,39 +215,27 @@ public class EnergyCellBlockEntity extends StorageCellBlockEntity implements ITi
     // endregion
 
     // region CAPABILITIES
-    protected LazyOptional<?> inputEnergyCap = LazyOptional.empty();
-    protected LazyOptional<?> outputEnergyCap = LazyOptional.empty();
+    protected IEnergyStorage inputEnergyCap = null;
+    protected IEnergyStorage outputEnergyCap = null;
 
     @Override
     protected void updateHandlers() {
 
-        // Optimization to prevent callback logic as contents may change rapidly.
-        LazyOptional<?> prevEnergyCap = energyCap;
-        LazyOptional<?> prevEnergyInputCap = inputEnergyCap;
-        LazyOptional<?> prevEnergyOutputCap = outputEnergyCap;
-
-        IEnergyStorage inputHandler = new EnergyHandlerRestrictionWrapper(energyStorage, true, false);
-        IEnergyStorage outputHandler = new EnergyHandlerRestrictionWrapper(energyStorage, false, true);
-
-        energyCap = LazyOptional.of(() -> energyStorage);
-        inputEnergyCap = LazyOptional.of(() -> inputHandler);
-        outputEnergyCap = LazyOptional.of(() -> outputHandler);
-
-        prevEnergyCap.invalidate();
-        prevEnergyInputCap.invalidate();
-        prevEnergyOutputCap.invalidate();
+        energyCap = energyStorage;
+        inputEnergyCap = new EnergyHandlerRestrictionWrapper(energyStorage, true, false);
+        outputEnergyCap = new EnergyHandlerRestrictionWrapper(energyStorage, false, true);
     }
 
     @Override
-    protected <T> LazyOptional<T> getEnergyCapability(@Nullable Direction side) {
+    public IEnergyStorage getEnergyCapability(@Nullable Direction side) {
 
         if (side == null) {
-            return super.getEnergyCapability(side);
+            return energyCap;
         }
         return switch (reconfigControl.getSideConfig(side)) {
-            case SIDE_NONE -> LazyOptional.empty();
-            case SIDE_INPUT -> inputEnergyCap.cast();
-            case SIDE_OUTPUT -> outputEnergyCap.cast();
+            case SIDE_NONE -> null;
+            case SIDE_INPUT -> inputEnergyCap;
+            case SIDE_OUTPUT -> outputEnergyCap;
             default -> super.getEnergyCapability(side);
         };
     }

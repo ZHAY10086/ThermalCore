@@ -21,7 +21,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import net.neoforged.neoforge.common.capabilities.ForgeCapabilities;
-import net.neoforged.neoforge.common.util.LazyOptional;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
@@ -177,16 +176,6 @@ public class FluidCellBlockEntity extends StorageCellBlockEntity implements ITic
         return new FluidCellMenu(i, level, worldPosition, inventory, player);
     }
 
-    // TODO: Does this need to exist?
-    @Override
-    public void setRemoved() {
-
-        super.setRemoved();
-
-        inputFluidCap.invalidate();
-        outputFluidCap.invalidate();
-    }
-
     @Nonnull
     @Override
     public ModelData getModelData() {
@@ -233,39 +222,27 @@ public class FluidCellBlockEntity extends StorageCellBlockEntity implements ITic
     // endregion
 
     // region CAPABILITIES
-    protected LazyOptional<?> inputFluidCap = LazyOptional.empty();
-    protected LazyOptional<?> outputFluidCap = LazyOptional.empty();
+    protected IFluidHandler inputFluidCap = null;
+    protected IFluidHandler outputFluidCap = null;
 
     @Override
     protected void updateHandlers() {
 
-        // Optimization to prevent callback logic as contents may change rapidly.
-        LazyOptional<?> prevFluidCap = fluidCap;
-        LazyOptional<?> prevFluidInputCap = inputFluidCap;
-        LazyOptional<?> prevFluidOutputCap = outputFluidCap;
-
-        IFluidHandler inputHandler = new FluidHandlerRestrictionWrapper(fluidStorage, true, false);
-        IFluidHandler outputHandler = new FluidHandlerRestrictionWrapper(fluidStorage, false, true);
-
-        fluidCap = LazyOptional.of(() -> fluidStorage);
-        inputFluidCap = LazyOptional.of(() -> inputHandler);
-        outputFluidCap = LazyOptional.of(() -> outputHandler);
-
-        prevFluidCap.invalidate();
-        prevFluidInputCap.invalidate();
-        prevFluidOutputCap.invalidate();
+        fluidCap = fluidStorage;
+        inputFluidCap = new FluidHandlerRestrictionWrapper(fluidStorage, true, false);
+        outputFluidCap = new FluidHandlerRestrictionWrapper(fluidStorage, false, true);
     }
 
     @Override
-    protected <T> LazyOptional<T> getFluidHandlerCapability(@Nullable Direction side) {
+    public IFluidHandler getFluidHandlerCapability(@Nullable Direction side) {
 
         if (side == null) {
-            return super.getFluidHandlerCapability(side);
+            return fluidCap;
         }
         return switch (reconfigControl.getSideConfig(side)) {
-            case SIDE_NONE -> LazyOptional.empty();
-            case SIDE_INPUT -> inputFluidCap.cast();
-            case SIDE_OUTPUT -> outputFluidCap.cast();
+            case SIDE_NONE -> null;
+            case SIDE_INPUT -> inputFluidCap;
+            case SIDE_OUTPUT -> outputFluidCap;
             default -> super.getFluidHandlerCapability(side);
         };
     }

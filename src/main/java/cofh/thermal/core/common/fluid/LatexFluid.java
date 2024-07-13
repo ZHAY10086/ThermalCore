@@ -7,9 +7,8 @@ import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.common.SoundActions;
+import net.neoforged.neoforge.fluids.BaseFlowingFluid;
 import net.neoforged.neoforge.fluids.FluidType;
-import net.neoforged.neoforge.fluids.ForgeFlowingFluid;
-import net.neoforged.neoforge.registries.RegistryObject;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -39,9 +38,9 @@ public class LatexFluid extends FluidCoFH {
     }
 
     @Override
-    protected ForgeFlowingFluid.Properties fluidProperties() {
+    protected BaseFlowingFluid.Properties fluidProperties() {
 
-        return new ForgeFlowingFluid.Properties(type(), stillFluid, flowingFluid).bucket(bucket);
+        return new BaseFlowingFluid.Properties(type(), stillFluid, flowingFluid).bucket(bucket);
     }
 
     @Override
@@ -50,7 +49,7 @@ public class LatexFluid extends FluidCoFH {
         return TYPE;
     }
 
-    public static final RegistryObject<FluidType> TYPE = FLUID_TYPES.register(ID_FLUID_LATEX, () -> new FluidType(FluidType.Properties.create()
+    public static final Supplier<FluidType> TYPE = FLUID_TYPES.register(ID_FLUID_LATEX, () -> new FluidType(FluidType.Properties.create()
             .density(950)
             .viscosity(2500)
             .sound(SoundActions.BUCKET_FILL, SoundEvents.BUCKET_FILL)

@@ -29,7 +29,7 @@ import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
-import net.neoforged.neoforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.util.List;
 import java.util.function.BiPredicate;
@@ -49,22 +49,22 @@ public final class RegistrationHelper {
     }
 
     // region BLOCKS
-    public static RegistryObject<Item> registerBlock(String name, Supplier<Block> sup) {
+    public static DeferredHolder<Item, Item> registerBlock(String name, Supplier<Block> sup) {
 
         return registerBlock(name, sup, ID_THERMAL);
     }
 
-    public static RegistryObject<Item> registerBlock(String name, Supplier<Block> sup, Rarity rarity) {
+    public static DeferredHolder<Item, Item> registerBlock(String name, Supplier<Block> sup, Rarity rarity) {
 
         return registerBlock(name, sup, rarity, ID_THERMAL);
     }
 
-    public static RegistryObject<Item> registerBlock(String name, Supplier<Block> sup, String modId) {
+    public static DeferredHolder<Item, Item> registerBlock(String name, Supplier<Block> sup, String modId) {
 
         return registerBlock(name, sup, Rarity.COMMON, modId);
     }
 
-    public static RegistryObject<Item> registerBlock(String name, Supplier<Block> sup, Rarity rarity, String modId) {
+    public static DeferredHolder<Item, Item> registerBlock(String name, Supplier<Block> sup, Rarity rarity, String modId) {
 
         return registerBlock(name, sup, () -> new BlockItemCoFH(BLOCKS.get(name), itemProperties().rarity(rarity)).setModId(modId));
     }
@@ -74,7 +74,7 @@ public final class RegistrationHelper {
         BLOCKS.register(name, sup);
     }
 
-    public static RegistryObject<Item> registerBlock(String name, Supplier<Block> blockSup, Supplier<Item> itemSup) {
+    public static DeferredHolder<Item, Item> registerBlock(String name, Supplier<Block> blockSup, Supplier<Item> itemSup) {
 
         BLOCKS.register(name, blockSup);
         return registerItem(name, itemSup);
@@ -82,17 +82,17 @@ public final class RegistrationHelper {
     // endregion
 
     // region AUGMENTABLE BLOCKS
-    public static RegistryObject<Item> registerAugmentableBlock(String name, Supplier<Block> sup, IntSupplier numSlots, BiPredicate<ItemStack, List<ItemStack>> validAugment) {
+    public static DeferredHolder<Item, Item> registerAugmentableBlock(String name, Supplier<Block> sup, IntSupplier numSlots, BiPredicate<ItemStack, List<ItemStack>> validAugment) {
 
         return registerAugmentableBlock(name, sup, numSlots, validAugment, ID_THERMAL);
     }
 
-    public static RegistryObject<Item> registerAugmentableBlock(String name, Supplier<Block> sup, IntSupplier numSlots, BiPredicate<ItemStack, List<ItemStack>> validAugment, String modId) {
+    public static DeferredHolder<Item, Item> registerAugmentableBlock(String name, Supplier<Block> sup, IntSupplier numSlots, BiPredicate<ItemStack, List<ItemStack>> validAugment, String modId) {
 
         return registerAugmentableBlock(name, sup, numSlots, validAugment, Rarity.COMMON, modId);
     }
 
-    public static RegistryObject<Item> registerAugmentableBlock(String name, Supplier<Block> sup, IntSupplier numSlots, BiPredicate<ItemStack, List<ItemStack>> validAugment, Rarity rarity, String modId) {
+    public static DeferredHolder<Item, Item> registerAugmentableBlock(String name, Supplier<Block> sup, IntSupplier numSlots, BiPredicate<ItemStack, List<ItemStack>> validAugment, Rarity rarity, String modId) {
 
         BLOCKS.register(name, sup);
         return registerItem(name, () -> new BlockItemAugmentable(BLOCKS.get(name), itemProperties().rarity(rarity)).setNumSlots(numSlots).setAugValidator(validAugment).setModId(modId));
@@ -115,17 +115,17 @@ public final class RegistrationHelper {
     // endregion
 
     // region ITEMS
-    public static RegistryObject<Item> registerItem(String name, Supplier<Item> sup) {
+    public static DeferredHolder<Item, Item> registerItem(String name, Supplier<Item> sup) {
 
         return ITEMS.register(name, sup);
     }
 
-    public static RegistryObject<Item> registerItem(String name) {
+    public static DeferredHolder<Item, Item> registerItem(String name) {
 
         return registerItem(name, Rarity.COMMON);
     }
 
-    public static RegistryObject<Item> registerItem(String name, Rarity rarity) {
+    public static DeferredHolder<Item, Item> registerItem(String name, Rarity rarity) {
 
         return registerItem(name, () -> new ItemCoFH(itemProperties().rarity(rarity)));
     }
@@ -282,7 +282,7 @@ public final class RegistrationHelper {
     // endregion
 
     // region EXPLOSIVES
-    public static RegistryObject<Item> registerGrenade(String id, IDetonatable.IDetonateAction action) {
+    public static DeferredHolder<Item, Item> registerGrenade(String id, IDetonatable.IDetonateAction action) {
 
         RegistryObject<EntityType<? extends AbstractGrenade>> entity = ENTITIES.register(id, () -> EntityType.Builder.<Grenade>of((type, world) -> new Grenade(type, world, action), MobCategory.MISC).sized(0.25F, 0.25F).build(id));
         DetonateUtils.GRENADES.add(entity);
@@ -303,7 +303,7 @@ public final class RegistrationHelper {
         }, itemProperties().stacksTo(16)));
     }
 
-    public static RegistryObject<Item> registerTNT(String id, IDetonatable.IDetonateAction action) {
+    public static DeferredHolder<Item, Item> registerTNT(String id, IDetonatable.IDetonateAction action) {
 
         RegistryObject<EntityType<? extends PrimedTntCoFH>> tntEntity = ENTITIES.register(id, () -> EntityType.Builder.<ThermalTNTEntity>of((type, world) -> new ThermalTNTEntity(type, world, action), MobCategory.MISC).fireImmune().sized(0.98F, 0.98F).build(id));
         registerBlockOnly(id, () -> new TntBlockCoFH((world, x, y, z, igniter) -> new ThermalTNTEntity(tntEntity.get(), world, action, x, y, z, igniter), of().mapColor(MapColor.COLOR_YELLOW).strength(0.0F).sound(SoundType.GRASS)));
@@ -312,7 +312,7 @@ public final class RegistrationHelper {
 
     }
 
-    public static RegistryObject<Item> registerTNTMinecart(String id, String tntId, IDetonatable.IDetonateAction action) {
+    public static DeferredHolder<Item, Item> registerTNTMinecart(String id, String tntId, IDetonatable.IDetonateAction action) {
 
         RegistryObject<EntityType<? extends AbstractTNTMinecart>> entity = ENTITIES.register(id, () -> EntityType.Builder.<ThermalTNTMinecart>of((type, world) -> new ThermalTNTMinecart(type, world, action, BLOCKS.get(tntId)), MobCategory.MISC).sized(0.98F, 0.7F).build(id));
         DetonateUtils.CARTS.add(entity);

@@ -20,7 +20,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.common.util.LazyOptional;
 import net.neoforged.neoforge.items.IItemHandler;
 import org.jetbrains.annotations.Nullable;
 
@@ -232,20 +231,17 @@ public class DeviceComposterBlockEntity extends DeviceBlockEntity implements ITi
     @Override
     protected void updateHandlers() {
 
-        LazyOptional<?> prevItemCap = itemCap;
-        IItemHandler invHandler = inventory.getHandler(INPUT_OUTPUT);
-        itemCap = inventory.hasAccessibleSlots() ? LazyOptional.of(() -> invHandler) : LazyOptional.empty();
-        prevItemCap.invalidate();
+        itemCap = inventory.hasAccessibleSlots() ? inventory.getHandler(INPUT_OUTPUT) : null;
+        invalidateCapabilities();
     }
 
     @Override
-    protected <T> LazyOptional<T> getItemHandlerCapability(@javax.annotation.Nullable Direction side) {
+    public IItemHandler getItemHandlerCapability(@javax.annotation.Nullable Direction side) {
 
-        if (!itemCap.isPresent() && inventory.hasAccessibleSlots()) {
-            IItemHandler handler = inventory.getHandler(INPUT_OUTPUT);
-            itemCap = LazyOptional.of(() -> handler);
+        if (itemCap == null && inventory.hasAccessibleSlots()) {
+            itemCap = inventory.getHandler(INPUT_OUTPUT);
         }
-        return itemCap.cast();
+        return itemCap;
     }
     // endregion
 }

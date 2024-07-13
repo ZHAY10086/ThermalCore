@@ -19,7 +19,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.common.util.LazyOptional;
+import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.items.IItemHandler;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -346,28 +348,28 @@ public abstract class DynamoBlockEntity extends AugmentableBlockEntity implement
 
     // region CAPABILITIES
     @Override
-    protected <T> LazyOptional<T> getEnergyCapability(@Nullable Direction side) {
+    public IEnergyStorage getEnergyCapability(@Nullable Direction side) {
 
         if (side == null || side.equals(getFacing())) {
             return super.getEnergyCapability(side);
         }
-        return LazyOptional.empty();
+        return null;
     }
 
     @Override
-    protected <T> LazyOptional<T> getItemHandlerCapability(@Nullable Direction side) {
+    public IItemHandler getItemHandlerCapability(@Nullable Direction side) {
 
         if (side != null && side.equals(getFacing())) {
-            return LazyOptional.empty();
+            return null;
         }
         return super.getItemHandlerCapability(side);
     }
 
     @Override
-    protected <T> LazyOptional<T> getFluidHandlerCapability(@Nullable Direction side) {
+    public IFluidHandler getFluidHandlerCapability(@Nullable Direction side) {
 
         if (side != null && side.equals(getFacing())) {
-            return LazyOptional.empty();
+            return null;
         }
         return super.getFluidHandlerCapability(side);
     }

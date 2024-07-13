@@ -28,7 +28,7 @@ import static cofh.lib.api.ContainerType.FLUID;
 import static cofh.lib.util.constants.NBTTags.*;
 import static cofh.lib.util.helpers.StringHelper.*;
 import static net.minecraft.nbt.Tag.TAG_COMPOUND;
-import static net.minecraftforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE;
+import static net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE;
 
 public class FluidCellBlockItem extends BlockItemAugmentable implements IFluidContainerItem {
 

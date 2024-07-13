@@ -218,7 +218,7 @@ public class DeviceSoilInfuserBlockEntity extends AugmentableBlockEntity impleme
     public AABB getArea() {
 
         if (area == null) {
-            area = new AABB(worldPosition.offset(-radius, -1, -radius), worldPosition.offset(1 + radius, 1, 1 + radius));
+            area = AABB.encapsulatingFullBlocks(worldPosition.offset(-radius, -1, -radius), worldPosition.offset(1 + radius, 1, 1 + radius));
         }
         return area;
     }

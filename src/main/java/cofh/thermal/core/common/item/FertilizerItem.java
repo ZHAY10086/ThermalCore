@@ -3,9 +3,9 @@ package cofh.thermal.core.common.item;
 import cofh.core.common.item.ItemCoFH;
 import cofh.lib.util.Utils;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.BlockSource;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
 import net.minecraft.core.particles.ParticleTypes;
@@ -24,7 +24,7 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.IPlantable;
-import net.neoforged.neoforge.event.ForgeEventFactory;
+import net.neoforged.neoforge.event.EventHooks;
 
 import javax.annotation.Nullable;
 
@@ -67,7 +67,7 @@ public class FertilizerItem extends ItemCoFH {
         BlockState state = world.getBlockState(pos);
         Player player = context.getPlayer();
         if (player != null) {
-            int hook = ForgeEventFactory.onApplyBonemeal(player, world, pos, state, stack);
+            int hook = EventHooks.onApplyBonemeal(player, world, pos, state, stack);
             if (hook != 0) {
                 return hook > 0;
             }
@@ -85,7 +85,7 @@ public class FertilizerItem extends ItemCoFH {
 
         if (state.getBlock() instanceof BonemealableBlock growable) {
             boolean used = false;
-            if (growable.isValidBonemealTarget(worldIn, pos, state, worldIn.isClientSide)) {
+            if (growable.isValidBonemealTarget(worldIn, pos, state)) {
                 if (worldIn instanceof ServerLevel) {
                     boolean canUse = false;
                     for (int i = 0; i < strength; ++i) {
@@ -184,8 +184,8 @@ public class FertilizerItem extends ItemCoFH {
         public ItemStack execute(BlockSource source, ItemStack stack) {
 
             FertilizerItem fertilizerItem = ((FertilizerItem) stack.getItem());
-            Level level = source.getLevel();
-            BlockPos pos = source.getPos().relative(source.getBlockState().getValue(DispenserBlock.FACING));
+            Level level = source.level();
+            BlockPos pos = source.pos().relative(source.state().getValue(DispenserBlock.FACING));
             BlockState state = level.getBlockState(pos);
             boolean used = growPlant(level, pos, state, fertilizerItem.strength) || growWaterPlant(level, pos, null);
             this.setSuccess(used);

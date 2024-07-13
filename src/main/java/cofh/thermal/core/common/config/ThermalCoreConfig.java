@@ -3,7 +3,6 @@ package cofh.thermal.core.common.config;
 import cofh.core.common.config.IBaseConfig;
 import cofh.thermal.core.ThermalCore;
 import cofh.thermal.core.common.item.SatchelItem;
-import cofh.thermal.lib.util.ThermalEnergyHelper;
 import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
@@ -15,6 +14,7 @@ import java.util.function.Supplier;
 
 import static cofh.lib.util.Constants.FALSE;
 import static cofh.lib.util.Constants.TRUE;
+import static cofh.lib.util.FlagManager.setFlag;
 import static cofh.lib.util.Utils.getRegistryName;
 import static cofh.lib.util.constants.ModIds.ID_THERMAL;
 import static cofh.thermal.lib.util.ThermalFlags.*;
@@ -26,10 +26,6 @@ public class ThermalCoreConfig implements IBaseConfig {
     public void apply(ModConfigSpec.Builder builder) {
 
         builder.push("Global Options");
-
-        boolStandaloneRedstoneFlux = builder
-                .comment("If TRUE, Redstone Flux will act as its own energy system and will NOT be interoperable with 'Forge Energy' - only enable this if you absolutely know what you are doing and want the Thermal Series to use a unique energy system.")
-                .define("Standalone Redstone Flux", boolStandaloneRedstoneFlux);
 
         keepEnergy = builder
                 .comment("If TRUE, most Thermal Blocks will retain Energy when dropped.\nThis setting does not control ALL blocks.")
@@ -138,8 +134,6 @@ public class ThermalCoreConfig implements IBaseConfig {
     @Override
     public void refresh() {
 
-        ThermalEnergyHelper.standaloneRedstoneFlux = boolStandaloneRedstoneFlux.get();
-
         setFlag(FLAG_MOB_BASALZ, boolMobBasalz.get());
         setFlag(FLAG_MOB_BLITZ, boolMobBlitz.get());
         setFlag(FLAG_MOB_BLIZZ, boolMobBlizz.get());
@@ -183,8 +177,6 @@ public class ThermalCoreConfig implements IBaseConfig {
     private Supplier<Boolean> boolMobBasalz = TRUE;
     private Supplier<Boolean> boolMobBlitz = TRUE;
     private Supplier<Boolean> boolMobBlizz = TRUE;
-
-    private Supplier<Boolean> boolStandaloneRedstoneFlux = FALSE;
 
     private Supplier<List<String>> listSatchelBans = Collections::emptyList;
     // endregion

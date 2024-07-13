@@ -5,13 +5,13 @@ import cofh.thermal.core.client.gui.device.DeviceRockGenScreen;
 import cofh.thermal.core.util.recipes.device.RockGenMapping;
 import cofh.thermal.lib.compat.jei.Drawables;
 import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;
 import mezz.jei.api.gui.drawable.IDrawableStatic;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.neoforge.NeoForgeTypes;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
@@ -90,7 +90,7 @@ public class RockGenCategory implements IRecipeCategory<RockGenMapping> {
     public void setRecipe(IRecipeLayoutBuilder builder, RockGenMapping recipe, IFocusGroup focuses) {
 
         builder.addSlot(RecipeIngredientRole.INPUT, 23, 13)
-                .addIngredients(ForgeTypes.FLUID_STACK, List.of(LAVA_FLUID))
+                .addIngredients(NeoForgeTypes.FLUID_STACK, List.of(LAVA_FLUID))
                 .setFluidRenderer(BUCKET_VOLUME, false, 16, 16);
 
         Block adjacent = recipe.getAdjacent();
@@ -101,7 +101,7 @@ public class RockGenCategory implements IRecipeCategory<RockGenMapping> {
 
         if (adjacent instanceof LiquidBlock liquidBlock) {
             builder.addSlot(RecipeIngredientRole.INPUT, 45, 13)
-                    .addIngredients(ForgeTypes.FLUID_STACK, List.of(new FluidStack(liquidBlock.getFluid(), BUCKET_VOLUME)))
+                    .addIngredients(NeoForgeTypes.FLUID_STACK, List.of(new FluidStack(liquidBlock.getFluid(), BUCKET_VOLUME)))
                     .setFluidRenderer(BUCKET_VOLUME, false, 16, 16);
         } else if (adjacent != Blocks.AIR) {
             builder.addSlot(RecipeIngredientRole.INPUT, 45, 13)
@@ -109,7 +109,7 @@ public class RockGenCategory implements IRecipeCategory<RockGenMapping> {
         }
         if (below instanceof LiquidBlock liquidBlock) {
             builder.addSlot(RecipeIngredientRole.INPUT, 34, 34)
-                    .addIngredients(ForgeTypes.FLUID_STACK, List.of(new FluidStack(liquidBlock.getFluid(), BUCKET_VOLUME)))
+                    .addIngredients(NeoForgeTypes.FLUID_STACK, List.of(new FluidStack(liquidBlock.getFluid(), BUCKET_VOLUME)))
                     .setFluidRenderer(BUCKET_VOLUME, false, 16, 16);
         } else if (below != Blocks.AIR) {
             builder.addSlot(RecipeIngredientRole.INPUT, 34, 34)

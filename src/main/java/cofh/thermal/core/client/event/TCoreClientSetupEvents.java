@@ -7,15 +7,16 @@ import cofh.thermal.core.common.config.ThermalClientConfig;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.Blaze;
 import net.minecraft.world.entity.monster.EnderMan;
 import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.ModelEvent.RegisterGeometryLoaders;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
 
 import static cofh.lib.util.constants.ModIds.ID_THERMAL;
 
@@ -34,16 +35,16 @@ public class TCoreClientSetupEvents {
             return;
         }
         var blaze = event.getRenderer(EntityType.BLAZE);
-        if (blaze instanceof LivingEntityRenderer<Blaze, ? extends EntityModel<Blaze>>) {
-            blaze.addLayer(new FestiveLayer<>(event.getContext(), (RenderLayerParent) blaze, -0.15F, 0.9F));
+        if (blaze instanceof LivingEntityRenderer<Blaze, ? extends EntityModel<Blaze>> livingEntityRenderer) {
+            livingEntityRenderer.addLayer(new FestiveLayer<>(event.getContext(), (RenderLayerParent) blaze, -0.15F, 0.9F));
         }
         //        var creeper = event.getRenderer(EntityType.CREEPER);
         //        if (creeper instanceof LivingEntityRenderer<Creeper, ? extends EntityModel<Creeper>>) {
         //            creeper.addLayer(new FestiveLayer<>(event.getContext(), (RenderLayerParent) creeper, 0.0F, 0.9F));
         //        }
         var enderman = event.getRenderer(EntityType.ENDERMAN);
-        if (enderman instanceof LivingEntityRenderer<EnderMan, ? extends EntityModel<EnderMan>>) {
-            enderman.addLayer(new FestiveLayer<>(event.getContext(), (RenderLayerParent) enderman, -1.15F, 0.9F));
+        if (enderman instanceof LivingEntityRenderer<EnderMan, ? extends EntityModel<EnderMan>> livingEntityRenderer) {
+            livingEntityRenderer.addLayer(new FestiveLayer<>(event.getContext(), (RenderLayerParent) enderman, -1.15F, 0.9F));
         }
         //        var ghast = event.getRenderer(EntityType.GHAST);
         //        if (ghast instanceof LivingEntityRenderer<Ghast, ? extends EntityModel<Ghast>>) {
@@ -62,12 +63,12 @@ public class TCoreClientSetupEvents {
     @SubscribeEvent
     public static void registerModels(final RegisterGeometryLoaders event) {
 
-        event.register("underlay", new SimpleModel.Loader(UnderlayBakedModel::new));
-        event.register("dynamo", new SimpleModel.Loader(DynamoBakedModel::new));
-        event.register("reconfigurable", new SimpleModel.Loader(ReconfigurableBakedModel::new));
-        event.register("energy_cell", new SimpleModel.Loader(EnergyCellBakedModel::new));
-        event.register("fluid_cell", new SimpleModel.Loader(FluidCellBakedModel::new));
-        event.register("item_cell", new SimpleModel.Loader(ItemCellBakedModel::new));
+        event.register(new ResourceLocation(ID_THERMAL, "underlay"), new SimpleModel.Loader(UnderlayBakedModel::new));
+        event.register(new ResourceLocation(ID_THERMAL, "dynamo"), new SimpleModel.Loader(DynamoBakedModel::new));
+        event.register(new ResourceLocation(ID_THERMAL, "reconfigurable"), new SimpleModel.Loader(ReconfigurableBakedModel::new));
+        event.register(new ResourceLocation(ID_THERMAL, "energy_cell"), new SimpleModel.Loader(EnergyCellBakedModel::new));
+        event.register(new ResourceLocation(ID_THERMAL, "fluid_cell"), new SimpleModel.Loader(FluidCellBakedModel::new));
+        event.register(new ResourceLocation(ID_THERMAL, "item_cell"), new SimpleModel.Loader(ItemCellBakedModel::new));
     }
 
 }

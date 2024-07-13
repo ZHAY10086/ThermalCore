@@ -11,9 +11,9 @@ import cofh.thermal.core.util.recipes.device.TreeExtractorMapping;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.RecipeTypes;
-import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotTooltipCallback;
+import mezz.jei.api.neoforge.NeoForgeTypes;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.IGuiHandlerRegistration;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
@@ -29,13 +29,13 @@ import net.minecraft.world.item.crafting.RecipeManager;
 
 import static cofh.lib.util.Constants.BASE_CHANCE;
 import static cofh.lib.util.Constants.BUCKET_VOLUME;
+import static cofh.lib.util.FlagManager.getFlag;
 import static cofh.lib.util.constants.ModIds.ID_THERMAL;
 import static cofh.lib.util.helpers.StringHelper.getTextComponent;
 import static cofh.thermal.core.ThermalCore.BLOCKS;
 import static cofh.thermal.core.common.config.ThermalClientConfig.jeiBucketTanks;
 import static cofh.thermal.core.init.registries.TCoreRecipeTypes.ROCK_GEN_MAPPING;
 import static cofh.thermal.core.init.registries.TCoreRecipeTypes.TREE_EXTRACTOR_MAPPING;
-import static cofh.thermal.lib.util.ThermalFlags.getFlag;
 import static cofh.thermal.lib.util.ThermalIDs.*;
 
 @JeiPlugin
@@ -146,7 +146,7 @@ public class TCoreJeiPlugin implements IModPlugin {
 
     public static IRecipeSlotTooltipCallback defaultFluidTooltip() {
 
-        return (recipeSlotView, tooltip) -> recipeSlotView.getDisplayedIngredient(ForgeTypes.FLUID_STACK).ifPresent((ingredient) -> {
+        return (recipeSlotView, tooltip) -> recipeSlotView.getDisplayedIngredient(NeoForgeTypes.FLUID_STACK).ifPresent((ingredient) -> {
             if (FluidHelper.hasPotionTag(ingredient)) {
                 FluidHelper.addPotionTooltipStrings(ingredient, tooltip);
             }

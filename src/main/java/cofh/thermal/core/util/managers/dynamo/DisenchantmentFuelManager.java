@@ -4,6 +4,7 @@ import cofh.thermal.core.ThermalCore;
 import cofh.thermal.core.util.recipes.dynamo.DisenchantmentFuel;
 import cofh.thermal.lib.util.managers.SingleItemFuelManager;
 import cofh.thermal.lib.util.recipes.internal.IDynamoFuel;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.EnchantedBookItem;
 import net.minecraft.world.item.ItemStack;
@@ -13,7 +14,6 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.EnchantmentInstance;
 import net.neoforged.neoforge.common.capabilities.ForgeCapabilities;
-import net.neoforged.neoforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,7 +103,7 @@ public class DisenchantmentFuelManager extends SingleItemFuelManager {
     protected void createConvertedRecipes(RecipeManager recipeManager) {
 
         List<ItemStack> books = new ArrayList<>();
-        for (Enchantment enchant : ForgeRegistries.ENCHANTMENTS) {
+        for (Enchantment enchant : BuiltInRegistries.ENCHANTMENT) {
             books.add(EnchantedBookItem.createForEnchantment(new EnchantmentInstance(enchant, enchant.getMaxLevel())));
         }
         for (ItemStack book : books) {

@@ -4,8 +4,8 @@ import cofh.thermal.core.common.fluid.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FireBlock;
+import net.neoforged.neoforge.fluids.BaseFlowingFluid;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.ForgeFlowingFluid;
 
 import java.util.function.Supplier;
 
@@ -49,20 +49,20 @@ public class TCoreFluids {
         fire.setFlammable(CrudeOilFluid.instance().block().get(), 5, 10);
     }
 
-    public static Supplier<ForgeFlowingFluid> REDSTONE_FLUID;
-    public static Supplier<ForgeFlowingFluid> GLOWSTONE_FLUID;
-    public static Supplier<ForgeFlowingFluid> ENDER_FLUID;
+    public static Supplier<BaseFlowingFluid> REDSTONE_FLUID;
+    public static Supplier<BaseFlowingFluid> GLOWSTONE_FLUID;
+    public static Supplier<BaseFlowingFluid> ENDER_FLUID;
 
-    public static Supplier<ForgeFlowingFluid> SAP_FLUID;
-    public static Supplier<ForgeFlowingFluid> SYRUP_FLUID;
-    public static Supplier<ForgeFlowingFluid> RESIN_FLUID;
-    public static Supplier<ForgeFlowingFluid> TREE_OIL_FLUID;
-    public static Supplier<ForgeFlowingFluid> LATEX_FLUID;
+    public static Supplier<BaseFlowingFluid> SAP_FLUID;
+    public static Supplier<BaseFlowingFluid> SYRUP_FLUID;
+    public static Supplier<BaseFlowingFluid> RESIN_FLUID;
+    public static Supplier<BaseFlowingFluid> TREE_OIL_FLUID;
+    public static Supplier<BaseFlowingFluid> LATEX_FLUID;
 
-    public static Supplier<ForgeFlowingFluid> CREOSOTE_FLUID;
-    public static Supplier<ForgeFlowingFluid> CRUDE_OIL_FLUID;
-    public static Supplier<ForgeFlowingFluid> HEAVY_OIL_FLUID;
-    public static Supplier<ForgeFlowingFluid> LIGHT_OIL_FLUID;
-    public static Supplier<ForgeFlowingFluid> REFINED_FUEL_FLUID;
+    public static Supplier<BaseFlowingFluid> CREOSOTE_FLUID;
+    public static Supplier<BaseFlowingFluid> CRUDE_OIL_FLUID;
+    public static Supplier<BaseFlowingFluid> HEAVY_OIL_FLUID;
+    public static Supplier<BaseFlowingFluid> LIGHT_OIL_FLUID;
+    public static Supplier<BaseFlowingFluid> REFINED_FUEL_FLUID;
 
 }

@@ -12,8 +12,8 @@ import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.world.BiomeModifier;
-import net.neoforged.neoforge.common.world.ForgeBiomeModifiers;
-import net.neoforged.neoforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.common.world.BiomeModifiers;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 import java.util.List;
 
@@ -60,12 +60,12 @@ public class TCoreBiomeModifiers {
     // region HELPERS
     private static ResourceKey<BiomeModifier> createKey(String name) {
 
-        return ResourceKey.create(ForgeRegistries.Keys.BIOME_MODIFIERS, new ResourceLocation(ID_THERMAL, name));
+        return ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, new ResourceLocation(ID_THERMAL, name));
     }
 
     private static void registerMob(BootstapContext<BiomeModifier> context, ResourceKey<BiomeModifier> biomeMod, HolderSet<Biome> biomes, List<MobSpawnSettings.SpawnerData> spawners) {
 
-        context.register(biomeMod, new ForgeBiomeModifiers.AddSpawnsBiomeModifier(biomes, spawners));
+        context.register(biomeMod, new BiomeModifiers.AddSpawnsBiomeModifier(biomes, spawners));
     }
     // endregion
 

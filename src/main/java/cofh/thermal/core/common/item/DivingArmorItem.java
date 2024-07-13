@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import static cofh.lib.util.helpers.StringHelper.getTextComponent;
-import static net.minecraftforge.common.ForgeMod.SWIM_SPEED;
+import static net.neoforged.neoforge.common.NeoForgeMod.SWIM_SPEED;
 
 public class DivingArmorItem extends ArmorItemCoFH {
 
@@ -43,7 +43,7 @@ public class DivingArmorItem extends ArmorItemCoFH {
 
         ImmutableMultimap.Builder<Attribute, AttributeModifier> multimap = ImmutableMultimap.builder();
         multimap.putAll(super.getDefaultAttributeModifiers(getType().getSlot()));
-        multimap.put(SWIM_SPEED.get(), new AttributeModifier(UUID_SWIM_SPEED[getType().getSlot().getIndex()], "Swim Speed", SWIM_SPEED_BONUS[getType().getSlot().getIndex()], AttributeModifier.Operation.ADDITION));
+        multimap.put(SWIM_SPEED.value(), new AttributeModifier(UUID_SWIM_SPEED[getType().getSlot().getIndex()], "Swim Speed", SWIM_SPEED_BONUS[getType().getSlot().getIndex()], AttributeModifier.Operation.ADDITION));
         armorAttributes = multimap.build();
     }
 

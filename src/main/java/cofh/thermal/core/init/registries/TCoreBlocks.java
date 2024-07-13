@@ -29,6 +29,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.function.IntSupplier;
 
+import static cofh.lib.util.FlagManager.getFlag;
 import static cofh.lib.util.Utils.itemProperties;
 import static cofh.lib.util.constants.BlockStatePropertiesCoFH.ACTIVE;
 import static cofh.lib.util.helpers.BlockHelper.lightValue;
@@ -38,7 +39,6 @@ import static cofh.thermal.core.init.registries.ThermalCreativeTabs.*;
 import static cofh.thermal.core.util.RegistrationHelper.registerAugmentableBlock;
 import static cofh.thermal.core.util.RegistrationHelper.registerBlock;
 import static cofh.thermal.lib.util.ThermalAugmentRules.ENERGY_STORAGE_VALIDATOR;
-import static cofh.thermal.lib.util.ThermalFlags.getFlag;
 import static cofh.thermal.lib.util.ThermalIDs.*;
 import static net.minecraft.world.level.block.state.BlockBehaviour.Properties.of;
 import static net.minecraft.world.level.material.MapColor.*;

@@ -9,7 +9,6 @@ import cofh.lib.common.block.TntBlockCoFH;
 import cofh.lib.common.item.ArmorMaterialCoFH;
 import cofh.thermal.core.common.item.*;
 import cofh.thermal.lib.common.item.AugmentItem;
-import cofh.thermal.lib.util.ThermalEnergyHelper;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.food.Foods;
@@ -18,10 +17,9 @@ import net.minecraft.world.item.HoneyBottleItem;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Blocks;
-import net.neoforged.neoforge.common.capabilities.Capability;
-import net.neoforged.neoforge.energy.IEnergyStorage;
 
 import static cofh.lib.util.Constants.BUCKET_VOLUME;
+import static cofh.lib.util.FlagManager.getFlag;
 import static cofh.lib.util.Utils.itemProperties;
 import static cofh.lib.util.constants.NBTTags.*;
 import static cofh.thermal.core.ThermalCore.BLOCKS;
@@ -176,14 +174,7 @@ public class TCoreItems {
 
         toolsTab(registerItem(ID_WRENCH, () -> new WrenchItem(itemProperties().stacksTo(1))));
         toolsTab(registerItem(ID_REDPRINT, () -> new RedprintItem(itemProperties().stacksTo(1))));
-        toolsTab(registerItem(ID_RF_POTATO, () -> new EnergyContainerItem(itemProperties().stacksTo(1), 100000, 40) {
-
-            @Override
-            public Capability<? extends IEnergyStorage> getEnergyCapability() {
-
-                return ThermalEnergyHelper.getBaseEnergySystem();
-            }
-        }));
+        toolsTab(registerItem(ID_RF_POTATO, () -> new EnergyContainerItem(itemProperties().stacksTo(1), 100000, 40) {}));
         toolsTab(registerItem(ID_XP_CRYSTAL, () -> new XpCrystalItem(itemProperties().stacksTo(1), 10000)));
         toolsTab(registerItem(ID_LOCK, () -> new LockItem(itemProperties())));
         toolsTab(registerItem(ID_SATCHEL, () -> new SatchelItem(itemProperties().stacksTo(1), 9)));

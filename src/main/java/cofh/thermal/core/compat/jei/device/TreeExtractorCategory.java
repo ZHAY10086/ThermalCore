@@ -5,13 +5,13 @@ import cofh.thermal.core.client.gui.device.DeviceTreeExtractorScreen;
 import cofh.thermal.core.util.recipes.device.TreeExtractorMapping;
 import cofh.thermal.lib.compat.jei.Drawables;
 import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;
 import mezz.jei.api.gui.drawable.IDrawableStatic;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.neoforge.NeoForgeTypes;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
@@ -95,7 +95,7 @@ public class TreeExtractorCategory implements IRecipeCategory<TreeExtractorMappi
         builder.addSlot(RecipeIngredientRole.INPUT, 53, 14).addItemStacks(leaves);
 
         builder.addSlot(RecipeIngredientRole.OUTPUT, 116, 11)
-                .addIngredients(ForgeTypes.FLUID_STACK, List.of(recipe.getFluid()))
+                .addIngredients(NeoForgeTypes.FLUID_STACK, List.of(recipe.getFluid()))
                 .setFluidRenderer(tankSize(TANK_MEDIUM), false, 16, 40)
                 .setOverlay(tankOverlay, 0, 0)
                 .addTooltipCallback(defaultFluidTooltip());

@@ -1,11 +1,11 @@
 package cofh.thermal.core.init.data.providers;
 
+import cofh.lib.common.conditions.FlagSetCondition;
 import cofh.lib.init.data.RecipeProviderCoFH;
 import cofh.lib.init.tags.ItemTagsCoFH;
-import cofh.thermal.lib.util.ThermalFlags;
 import cofh.thermal.lib.util.references.ThermalTags;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.tags.ItemTags;
@@ -14,8 +14,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.Tags;
-
-import java.util.function.Consumer;
 
 import static cofh.lib.util.constants.ModIds.ID_THERMAL;
 import static cofh.thermal.core.ThermalCore.ITEMS;
@@ -28,71 +26,70 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
     public TCoreRecipeProvider(PackOutput output) {
 
         super(output, ID_THERMAL);
-        manager = ThermalFlags.manager();
     }
 
     @Override
-    protected void buildRecipes(Consumer<FinishedRecipe> consumer) {
+    protected void buildRecipes(RecipeOutput recipeOutput) {
 
         var reg = ITEMS;
 
-        generateStorageRecipes(consumer, reg.get(ID_CHARCOAL_BLOCK), Items.CHARCOAL);
-        // generateStorageRecipes(consumer, reg.get(ID_BAMBOO_BLOCK), Items.BAMBOO);
-        generateStorageRecipes(consumer, reg.get(ID_SUGAR_CANE_BLOCK), Items.SUGAR_CANE);
-        generateStorageRecipes(consumer, reg.get(ID_GUNPOWDER_BLOCK), Items.GUNPOWDER);
+        generateStorageRecipes(recipeOutput, reg.get(ID_CHARCOAL_BLOCK), Items.CHARCOAL);
+        // generateStorageRecipes(recipeOutput, reg.get(ID_BAMBOO_BLOCK), Items.BAMBOO);
+        generateStorageRecipes(recipeOutput, reg.get(ID_SUGAR_CANE_BLOCK), Items.SUGAR_CANE);
+        generateStorageRecipes(recipeOutput, reg.get(ID_GUNPOWDER_BLOCK), Items.GUNPOWDER);
 
-        generateStorageRecipes(consumer, reg.get(ID_APPLE_BLOCK), Items.APPLE);
-        generateStorageRecipes(consumer, reg.get(ID_BEETROOT_BLOCK), Items.BEETROOT);
-        generateStorageRecipes(consumer, reg.get(ID_CARROT_BLOCK), Items.CARROT);
-        generateStorageRecipes(consumer, reg.get(ID_POTATO_BLOCK), Items.POTATO);
+        generateStorageRecipes(recipeOutput, reg.get(ID_APPLE_BLOCK), Items.APPLE);
+        generateStorageRecipes(recipeOutput, reg.get(ID_BEETROOT_BLOCK), Items.BEETROOT);
+        generateStorageRecipes(recipeOutput, reg.get(ID_CARROT_BLOCK), Items.CARROT);
+        generateStorageRecipes(recipeOutput, reg.get(ID_POTATO_BLOCK), Items.POTATO);
 
-        generateStorageRecipes(consumer, reg.get(ID_APATITE_BLOCK), reg.get("apatite"), forgeTag("gems/apatite"));
-        generateStorageRecipes(consumer, reg.get(ID_CINNABAR_BLOCK), reg.get("cinnabar"), forgeTag("gems/cinnabar"));
-        generateStorageRecipes(consumer, reg.get(ID_NITER_BLOCK), reg.get("niter"), forgeTag("gems/niter"));
-        generateStorageRecipes(consumer, reg.get(ID_SULFUR_BLOCK), reg.get("sulfur"), forgeTag("gems/sulfur"));
+        generateStorageRecipes(recipeOutput, reg.get(ID_APATITE_BLOCK), reg.get("apatite"), forgeTag("gems/apatite"));
+        generateStorageRecipes(recipeOutput, reg.get(ID_CINNABAR_BLOCK), reg.get("cinnabar"), forgeTag("gems/cinnabar"));
+        generateStorageRecipes(recipeOutput, reg.get(ID_NITER_BLOCK), reg.get("niter"), forgeTag("gems/niter"));
+        generateStorageRecipes(recipeOutput, reg.get(ID_SULFUR_BLOCK), reg.get("sulfur"), forgeTag("gems/sulfur"));
 
-        generateGearRecipe(consumer, reg.get("copper_gear"), Items.COPPER_INGOT, forgeTag("ingots/copper"));
-        generateGearRecipe(consumer, reg.get("iron_gear"), Items.IRON_INGOT, forgeTag("ingots/iron"));
-        generateGearRecipe(consumer, reg.get("gold_gear"), Items.GOLD_INGOT, forgeTag("ingots/gold"));
-        generateGearRecipe(consumer, reg.get("netherite_gear"), Items.NETHERITE_INGOT, forgeTag("ingots/netherite"));
+        generateGearRecipe(recipeOutput, reg.get("copper_gear"), Items.COPPER_INGOT, forgeTag("ingots/copper"));
+        generateGearRecipe(recipeOutput, reg.get("iron_gear"), Items.IRON_INGOT, forgeTag("ingots/iron"));
+        generateGearRecipe(recipeOutput, reg.get("gold_gear"), Items.GOLD_INGOT, forgeTag("ingots/gold"));
+        generateGearRecipe(recipeOutput, reg.get("netherite_gear"), Items.NETHERITE_INGOT, forgeTag("ingots/netherite"));
 
-        generateGearRecipe(consumer, reg.get("diamond_gear"), Items.IRON_INGOT, forgeTag("gems/diamond"));
-        generateGearRecipe(consumer, reg.get("emerald_gear"), Items.IRON_INGOT, forgeTag("gems/emerald"));
-        generateGearRecipe(consumer, reg.get("quartz_gear"), Items.IRON_INGOT, forgeTag("gems/quartz"));
-        generateGearRecipe(consumer, reg.get("lapis_gear"), Items.IRON_INGOT, forgeTag("gems/lapis"));
+        generateGearRecipe(recipeOutput, reg.get("diamond_gear"), Items.IRON_INGOT, forgeTag("gems/diamond"));
+        generateGearRecipe(recipeOutput, reg.get("emerald_gear"), Items.IRON_INGOT, forgeTag("gems/emerald"));
+        generateGearRecipe(recipeOutput, reg.get("quartz_gear"), Items.IRON_INGOT, forgeTag("gems/quartz"));
+        generateGearRecipe(recipeOutput, reg.get("lapis_gear"), Items.IRON_INGOT, forgeTag("gems/lapis"));
 
-        generateStorageRecipes(consumer, reg.get(ID_SAWDUST_BLOCK), reg.get("sawdust"), ThermalTags.Items.SAWDUST);
-        generateStorageRecipes(consumer, reg.get(ID_COAL_COKE_BLOCK), reg.get("coal_coke"), ThermalTags.Items.COAL_COKE);
-        generateStorageRecipes(consumer, reg.get(ID_BITUMEN_BLOCK), reg.get("bitumen"), ThermalTags.Items.BITUMEN);
-        generateStorageRecipes(consumer, reg.get(ID_TAR_BLOCK), reg.get("tar"), ThermalTags.Items.TAR);
-        generateStorageRecipes(consumer, reg.get(ID_ROSIN_BLOCK), reg.get("rosin"), ThermalTags.Items.ROSIN);
+        generateStorageRecipes(recipeOutput, reg.get(ID_SAWDUST_BLOCK), reg.get("sawdust"), ThermalTags.Items.SAWDUST);
+        generateStorageRecipes(recipeOutput, reg.get(ID_COAL_COKE_BLOCK), reg.get("coal_coke"), ThermalTags.Items.COAL_COKE);
+        generateStorageRecipes(recipeOutput, reg.get(ID_BITUMEN_BLOCK), reg.get("bitumen"), ThermalTags.Items.BITUMEN);
+        generateStorageRecipes(recipeOutput, reg.get(ID_TAR_BLOCK), reg.get("tar"), ThermalTags.Items.TAR);
+        generateStorageRecipes(recipeOutput, reg.get(ID_ROSIN_BLOCK), reg.get("rosin"), ThermalTags.Items.ROSIN);
 
-        generateSmallStorageRecipes(consumer, reg.get(ID_RUBBER_BLOCK), reg.get("rubber"));
-        generateSmallStorageRecipes(consumer, reg.get(ID_CURED_RUBBER_BLOCK), reg.get("cured_rubber"));
-        generateSmallStorageRecipes(consumer, reg.get(ID_SLAG_BLOCK), reg.get("slag"));
-        generateSmallStorageRecipes(consumer, reg.get(ID_RICH_SLAG_BLOCK), reg.get("rich_slag"));
+        generateSmallStorageRecipes(recipeOutput, reg.get(ID_RUBBER_BLOCK), reg.get("rubber"));
+        generateSmallStorageRecipes(recipeOutput, reg.get(ID_CURED_RUBBER_BLOCK), reg.get("cured_rubber"));
+        generateSmallStorageRecipes(recipeOutput, reg.get(ID_SLAG_BLOCK), reg.get("slag"));
+        generateSmallStorageRecipes(recipeOutput, reg.get(ID_RICH_SLAG_BLOCK), reg.get("rich_slag"));
 
-        generateTypeRecipes(reg, consumer, "signalum");
-        generateTypeRecipes(reg, consumer, "lumium");
-        generateTypeRecipes(reg, consumer, "enderium");
+        generateTypeRecipes(reg, recipeOutput, "signalum");
+        generateTypeRecipes(reg, recipeOutput, "lumium");
+        generateTypeRecipes(reg, recipeOutput, "enderium");
 
-        generateSmeltingAndBlastingRecipes(reg, consumer, "signalum", 0);
-        generateSmeltingAndBlastingRecipes(reg, consumer, "lumium", 0);
-        generateSmeltingAndBlastingRecipes(reg, consumer, "enderium", 0);
+        generateSmeltingAndBlastingRecipes(reg, recipeOutput, "signalum", 0);
+        generateSmeltingAndBlastingRecipes(reg, recipeOutput, "lumium", 0);
+        generateSmeltingAndBlastingRecipes(reg, recipeOutput, "enderium", 0);
 
-        generateSmeltingAndBlastingRecipes(reg, consumer, reg.get("copper_dust"), Items.COPPER_INGOT, 0.0F, "smelting", "_dust");
-        generateSmeltingAndBlastingRecipes(reg, consumer, reg.get("iron_dust"), Items.IRON_INGOT, 0.0F, "smelting", "_dust");
-        generateSmeltingAndBlastingRecipes(reg, consumer, reg.get("gold_dust"), Items.GOLD_INGOT, 0.0F, "smelting", "_dust");
-        generateSmeltingAndBlastingRecipes(reg, consumer, reg.get("netherite_dust"), Items.NETHERITE_INGOT, 0.0F, "smelting", "_dust");
+        generateSmeltingAndBlastingRecipes(reg, recipeOutput, reg.get("copper_dust"), Items.COPPER_INGOT, 0.0F, "smelting", "_dust");
+        generateSmeltingAndBlastingRecipes(reg, recipeOutput, reg.get("iron_dust"), Items.IRON_INGOT, 0.0F, "smelting", "_dust");
+        generateSmeltingAndBlastingRecipes(reg, recipeOutput, reg.get("gold_dust"), Items.GOLD_INGOT, 0.0F, "smelting", "_dust");
+        generateSmeltingAndBlastingRecipes(reg, recipeOutput, reg.get("netherite_dust"), Items.NETHERITE_INGOT, 0.0F, "smelting", "_dust");
 
-        generatePackingRecipe(consumer, Items.COPPER_INGOT, reg.get("copper_nugget"), "_from_nuggets");
-        generatePackingRecipe(consumer, Items.NETHERITE_INGOT, reg.get("netherite_nugget"), "_from_nuggets");
+        generatePackingRecipe(recipeOutput, Items.COPPER_INGOT, reg.get("copper_nugget"), "_from_nuggets");
+        generatePackingRecipe(recipeOutput, Items.NETHERITE_INGOT, reg.get("netherite_nugget"), "_from_nuggets");
 
-        generateUnpackingRecipe(consumer, Items.COPPER_INGOT, reg.get("copper_nugget"), "_from_ingot");
-        generateUnpackingRecipe(consumer, Items.NETHERITE_INGOT, reg.get("netherite_nugget"), "_from_ingot");
+        generateUnpackingRecipe(recipeOutput, Items.COPPER_INGOT, reg.get("copper_nugget"), "_from_ingot");
+        generateUnpackingRecipe(recipeOutput, Items.NETHERITE_INGOT, reg.get("netherite_nugget"), "_from_ingot");
 
-        generateSmeltingRecipe(reg, consumer, Items.GRAVEL, reg.get("slag"), 0.1F, "smelting");
-        generateSmeltingRecipe(reg, consumer, reg.get("rubber"), reg.get("cured_rubber"), 0.2F, "smelting");
+        generateSmeltingRecipe(reg, recipeOutput, Items.GRAVEL, reg.get("slag"), 0.1F, "smelting");
+        generateSmeltingRecipe(reg, recipeOutput, reg.get("rubber"), reg.get("cured_rubber"), 0.2F, "smelting");
 
         ShapelessRecipeBuilder.shapeless(MISC, Items.GUNPOWDER, 4)
                 .requires(Items.CHARCOAL)
@@ -100,22 +97,22 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .requires(fromTags(ItemTagsCoFH.GEMS_NITER, ItemTagsCoFH.DUSTS_NITER))
                 .requires(fromTags(ItemTagsCoFH.GEMS_SULFUR, ItemTagsCoFH.DUSTS_SULFUR))
                 .unlockedBy("has_gunpowder", has(Tags.Items.GUNPOWDER))
-                .save(consumer, ID_THERMAL + ":gunpowder_4");
+                .save(recipeOutput, ID_THERMAL + ":gunpowder_4");
 
-        generateAlloyRecipes(consumer);
-        generateArmorRecipes(consumer);
-        generateAugmentRecipes(consumer);
-        generateBasicRecipes(consumer);
-        generateChargeRecipes(consumer);
-        generateComponentRecipes(consumer);
-        generateExplosiveRecipes(consumer);
-        generateRockwoolRecipes(consumer);
-        generateSlagRecipes(consumer);
-        generateTileRecipes(consumer);
+        generateAlloyRecipes(recipeOutput);
+        generateArmorRecipes(recipeOutput);
+        generateAugmentRecipes(recipeOutput);
+        generateBasicRecipes(recipeOutput);
+        generateChargeRecipes(recipeOutput);
+        generateComponentRecipes(recipeOutput);
+        generateExplosiveRecipes(recipeOutput);
+        generateRockwoolRecipes(recipeOutput);
+        generateSlagRecipes(recipeOutput);
+        generateTileRecipes(recipeOutput);
     }
 
     // region HELPERS
-    private void generateAlloyRecipes(Consumer<FinishedRecipe> consumer) {
+    private void generateAlloyRecipes(RecipeOutput consumer) {
 
         var reg = ITEMS;
 
@@ -222,7 +219,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .save(consumer, ID_THERMAL + ":fire_charge/enderium_glass_2");
     }
 
-    private void generateArmorRecipes(Consumer<FinishedRecipe> consumer) {
+    private void generateArmorRecipes(RecipeOutput recipeOutput) {
 
         var reg = ITEMS;
         String folder = "armor";
@@ -239,7 +236,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("SHS")
                 .pattern(" S ")
                 .unlockedBy("has_honeycomb", has(Items.HONEYCOMB))
-                .save(withConditions(consumer).flag(FLAG_BEEKEEPER_ARMOR));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_BEEKEEPER_ARMOR)));
 
         result = reg.get(ID_BEEKEEPER_HELMET);
         ShapedRecipeBuilder.shaped(COMBAT, result)
@@ -247,7 +244,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("XXX")
                 .pattern("X X")
                 .unlockedBy("has_fabric", has(beekeeperFabric))
-                .save(withConditions(consumer).flag(FLAG_BEEKEEPER_ARMOR), this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_BEEKEEPER_ARMOR)), this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get(ID_BEEKEEPER_CHESTPLATE);
         ShapedRecipeBuilder.shaped(COMBAT, result)
@@ -256,7 +253,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("XXX")
                 .pattern("XXX")
                 .unlockedBy("has_fabric", has(beekeeperFabric))
-                .save(withConditions(consumer).flag(FLAG_BEEKEEPER_ARMOR), this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_BEEKEEPER_ARMOR)), this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get(ID_BEEKEEPER_LEGGINGS);
         ShapedRecipeBuilder.shaped(COMBAT, result)
@@ -265,7 +262,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("X X")
                 .pattern("X X")
                 .unlockedBy("has_fabric", has(beekeeperFabric))
-                .save(withConditions(consumer).flag(FLAG_BEEKEEPER_ARMOR), this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_BEEKEEPER_ARMOR)), this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get(ID_BEEKEEPER_BOOTS);
         ShapedRecipeBuilder.shaped(COMBAT, result)
@@ -274,7 +271,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("X X")
                 .pattern("L L")
                 .unlockedBy("has_fabric", has(beekeeperFabric))
-                .save(withConditions(consumer).flag(FLAG_BEEKEEPER_ARMOR), this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_BEEKEEPER_ARMOR)), this.modid + ":" + folder + "/" + name(result));
 
         ShapedRecipeBuilder.shaped(MISC, divingFabric)
                 .define('S', Tags.Items.STRING)
@@ -283,7 +280,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("SHS")
                 .pattern(" S ")
                 .unlockedBy("has_prismarine", has(Tags.Items.GEMS_PRISMARINE))
-                .save(withConditions(consumer).flag(FLAG_DIVING_ARMOR));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_DIVING_ARMOR)));
 
         result = reg.get(ID_DIVING_HELMET);
         ShapedRecipeBuilder.shaped(COMBAT, result)
@@ -293,7 +290,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("XIX")
                 .pattern("IGI")
                 .unlockedBy("has_fabric", has(divingFabric))
-                .save(withConditions(consumer).flag(FLAG_DIVING_ARMOR), this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_DIVING_ARMOR)), this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get(ID_DIVING_CHESTPLATE);
         ShapedRecipeBuilder.shaped(COMBAT, result)
@@ -303,7 +300,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("IXI")
                 .pattern("XXX")
                 .unlockedBy("has_fabric", has(divingFabric))
-                .save(withConditions(consumer).flag(FLAG_DIVING_ARMOR), this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_DIVING_ARMOR)), this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get(ID_DIVING_LEGGINGS);
         ShapedRecipeBuilder.shaped(COMBAT, result)
@@ -313,7 +310,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("I I")
                 .pattern("X X")
                 .unlockedBy("has_fabric", has(divingFabric))
-                .save(withConditions(consumer).flag(FLAG_DIVING_ARMOR), this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_DIVING_ARMOR)), this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get(ID_DIVING_BOOTS);
         ShapedRecipeBuilder.shaped(COMBAT, result)
@@ -323,7 +320,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("X X")
                 .pattern("LIL")
                 .unlockedBy("has_fabric", has(divingFabric))
-                .save(withConditions(consumer).flag(FLAG_DIVING_ARMOR), this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_DIVING_ARMOR)), this.modid + ":" + folder + "/" + name(result));
 
         ShapedRecipeBuilder.shaped(MISC, hazmatFabric)
                 .define('S', Tags.Items.STRING)
@@ -332,7 +329,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("SHS")
                 .pattern(" S ")
                 .unlockedBy("has_cured_rubber", has(reg.get("cured_rubber")))
-                .save(withConditions(consumer).flag(FLAG_HAZMAT_ARMOR));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_HAZMAT_ARMOR)));
 
         result = reg.get(ID_HAZMAT_HELMET);
         ShapedRecipeBuilder.shaped(COMBAT, result)
@@ -342,7 +339,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("XIX")
                 .pattern("IGI")
                 .unlockedBy("has_fabric", has(hazmatFabric))
-                .save(withConditions(consumer).flag(FLAG_HAZMAT_ARMOR), this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_HAZMAT_ARMOR)), this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get(ID_HAZMAT_CHESTPLATE);
         ShapedRecipeBuilder.shaped(COMBAT, result)
@@ -352,7 +349,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("IXI")
                 .pattern("XXX")
                 .unlockedBy("has_fabric", has(hazmatFabric))
-                .save(withConditions(consumer).flag(FLAG_HAZMAT_ARMOR), this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_HAZMAT_ARMOR)), this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get(ID_HAZMAT_LEGGINGS);
         ShapedRecipeBuilder.shaped(COMBAT, result)
@@ -362,7 +359,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("I I")
                 .pattern("X X")
                 .unlockedBy("has_fabric", has(hazmatFabric))
-                .save(withConditions(consumer).flag(FLAG_HAZMAT_ARMOR), this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_HAZMAT_ARMOR)), this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get(ID_HAZMAT_BOOTS);
         ShapedRecipeBuilder.shaped(COMBAT, result)
@@ -372,10 +369,10 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("X X")
                 .pattern("LRL")
                 .unlockedBy("has_fabric", has(hazmatFabric))
-                .save(withConditions(consumer).flag(FLAG_HAZMAT_ARMOR), this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_HAZMAT_ARMOR)), this.modid + ":" + folder + "/" + name(result));
     }
 
-    private void generateAugmentRecipes(Consumer<FinishedRecipe> consumer) {
+    private void generateAugmentRecipes(RecipeOutput recipeOutput) {
 
         var reg = ITEMS;
         String folder = "augments";
@@ -393,7 +390,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("IXI")
                 .pattern(" G ")
                 .unlockedBy("has_redstone_servo", has(redstoneServo))
-                .save(withConditions(consumer).flag(FLAG_AREA_AUGMENTS), this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_AREA_AUGMENTS)), this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get("dynamo_output_augment");
         ShapedRecipeBuilder.shaped(MISC, result)
@@ -404,7 +401,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("SXS")
                 .pattern(" G ")
                 .unlockedBy("has_hardened_glass", has(ThermalTags.Items.HARDENED_GLASS))
-                .save(withConditions(consumer).flag(FLAG_DYNAMO_AUGMENTS), this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_DYNAMO_AUGMENTS)), this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get("dynamo_fuel_augment");
         ShapedRecipeBuilder.shaped(MISC, result)
@@ -415,7 +412,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("LXL")
                 .pattern(" G ")
                 .unlockedBy("has_hardened_glass", has(ThermalTags.Items.HARDENED_GLASS))
-                .save(withConditions(consumer).flag(FLAG_DYNAMO_AUGMENTS), this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_DYNAMO_AUGMENTS)), this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get("dynamo_throttle_augment");
         ShapedRecipeBuilder.shaped(MISC, result)
@@ -425,7 +422,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("lEl")
                 .pattern(" l ")
                 .unlockedBy("has_electrum_ingot", has(ItemTagsCoFH.INGOTS_ELECTRUM))
-                .save(withConditions(consumer).flag(FLAG_DYNAMO_AUGMENTS), this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_DYNAMO_AUGMENTS)), this.modid + ":" + folder + "/" + name(result));
 
         //        result = reg.get("dual_filter_augment");
         //        ShapedRecipeBuilder.shapedRecipe(result)
@@ -436,7 +433,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
         //                .patternLine("tSt")
         //                .patternLine(" c ")
         //                .addCriterion("has_signalum_ingot", hasItem(ItemTagsCoFH.INGOTS_SIGNALUM))
-        //                .build(withConditions(consumer).flag(FLAG_FILTER_AUGMENTS), this.modid + ":" + folder + "/" + name(result));
+        //                .build(withConditions(recipeOutput).flag(FLAG_FILTER_AUGMENTS)), this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get("fluid_filter_augment");
         ShapedRecipeBuilder.shaped(MISC, result)
@@ -446,7 +443,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("cSc")
                 .pattern(" c ")
                 .unlockedBy("has_signalum_ingot", has(ItemTagsCoFH.INGOTS_SIGNALUM))
-                .save(withConditions(consumer).flag(FLAG_FILTER_AUGMENTS), this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_FILTER_AUGMENTS)), this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get("item_filter_augment");
         ShapedRecipeBuilder.shaped(MISC, result)
@@ -456,7 +453,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("tSt")
                 .pattern(" t ")
                 .unlockedBy("has_signalum_ingot", has(ItemTagsCoFH.INGOTS_SIGNALUM))
-                .save(withConditions(consumer).flag(FLAG_FILTER_AUGMENTS), this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_FILTER_AUGMENTS)), this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get("machine_speed_augment");
         ShapedRecipeBuilder.shaped(MISC, result)
@@ -467,7 +464,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("EXE")
                 .pattern(" L ")
                 .unlockedBy("has_rf_coil", has(rfCoil))
-                .save(withConditions(consumer).flag(FLAG_MACHINE_AUGMENTS), this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_MACHINE_AUGMENTS)), this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get("machine_efficiency_augment");
         ShapedRecipeBuilder.shaped(MISC, result)
@@ -478,7 +475,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("LXL")
                 .pattern(" N ")
                 .unlockedBy("has_rf_coil", has(rfCoil))
-                .save(withConditions(consumer).flag(FLAG_MACHINE_AUGMENTS), this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_MACHINE_AUGMENTS)), this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get("machine_output_augment");
         ShapedRecipeBuilder.shaped(MISC, result)
@@ -489,7 +486,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("IXI")
                 .pattern(" B ")
                 .unlockedBy("has_redstone_servo", has(redstoneServo))
-                .save(withConditions(consumer).flag(FLAG_MACHINE_AUGMENTS), this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_MACHINE_AUGMENTS)), this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get("machine_catalyst_augment");
         ShapedRecipeBuilder.shaped(MISC, result)
@@ -500,7 +497,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("LXL")
                 .pattern(" C ")
                 .unlockedBy("has_redstone_servo", has(redstoneServo))
-                .save(withConditions(consumer).flag(FLAG_MACHINE_AUGMENTS), this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_MACHINE_AUGMENTS)), this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get("machine_cycle_augment");
         ShapedRecipeBuilder.shaped(MISC, result)
@@ -512,7 +509,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("CXC")
                 .pattern("SGS")
                 .unlockedBy("has_redstone_servo", has(redstoneServo))
-                .save(withConditions(consumer).flag(FLAG_MACHINE_AUGMENTS), this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_MACHINE_AUGMENTS)), this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get("machine_null_augment");
         ShapedRecipeBuilder.shaped(MISC, result)
@@ -522,7 +519,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("iCi")
                 .pattern(" i ")
                 .unlockedBy("has_cactus", has(Items.CACTUS))
-                .save(withConditions(consumer).flag(FLAG_MACHINE_AUGMENTS), this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_MACHINE_AUGMENTS)), this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get("potion_amplifier_augment");
         ShapedRecipeBuilder.shaped(MISC, result)
@@ -533,7 +530,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("IXI")
                 .pattern(" G ")
                 .unlockedBy("has_hardened_glass", has(ThermalTags.Items.HARDENED_GLASS))
-                .save(withConditions(consumer).flag(FLAG_POTION_AUGMENTS), this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_POTION_AUGMENTS)), this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get("potion_duration_augment");
         ShapedRecipeBuilder.shaped(MISC, result)
@@ -544,7 +541,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("IXI")
                 .pattern(" G ")
                 .unlockedBy("has_hardened_glass", has(ThermalTags.Items.HARDENED_GLASS))
-                .save(withConditions(consumer).flag(FLAG_POTION_AUGMENTS), this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_POTION_AUGMENTS)), this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get("rf_coil_augment");
         ShapedRecipeBuilder.shaped(MISC, result)
@@ -555,7 +552,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("SXS")
                 .pattern(" G ")
                 .unlockedBy("has_rf_coil", has(rfCoil))
-                .save(withConditions(consumer).flag(FLAG_STORAGE_AUGMENTS), this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_STORAGE_AUGMENTS)), this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get("rf_coil_storage_augment");
         ShapedRecipeBuilder.shaped(MISC, result)
@@ -566,7 +563,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("GXG")
                 .pattern(" G ")
                 .unlockedBy("has_rf_coil", has(rfCoil))
-                .save(withConditions(consumer).flag(FLAG_STORAGE_AUGMENTS), this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_STORAGE_AUGMENTS)), this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get("rf_coil_xfer_augment");
         ShapedRecipeBuilder.shaped(MISC, result)
@@ -577,7 +574,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("SXS")
                 .pattern(" G ")
                 .unlockedBy("has_rf_coil", has(rfCoil))
-                .save(withConditions(consumer).flag(FLAG_STORAGE_AUGMENTS), this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_STORAGE_AUGMENTS)), this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get("fluid_tank_augment");
         ShapedRecipeBuilder.shaped(MISC, result)
@@ -588,7 +585,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("IXI")
                 .pattern("RIR")
                 .unlockedBy("has_hardened_glass", has(ThermalTags.Items.HARDENED_GLASS))
-                .save(withConditions(consumer).flag(FLAG_STORAGE_AUGMENTS), this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_STORAGE_AUGMENTS)), this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get("upgrade_augment_1");
         ShapedRecipeBuilder.shaped(MISC, result)
@@ -600,7 +597,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("RXR")
                 .pattern("IGI")
                 .unlockedBy("has_invar_ingot", has(ItemTagsCoFH.INGOTS_INVAR))
-                .save(withConditions(consumer).flag(FLAG_UPGRADE_AUGMENTS), this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_UPGRADE_AUGMENTS)), this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get("upgrade_augment_2");
         ShapedRecipeBuilder.shaped(MISC, result)
@@ -612,7 +609,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("RXR")
                 .pattern("IGI")
                 .unlockedBy("has_electrum_ingot", has(ItemTagsCoFH.INGOTS_ELECTRUM))
-                .save(withConditions(consumer).flag(FLAG_UPGRADE_AUGMENTS), this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_UPGRADE_AUGMENTS)), this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get("upgrade_augment_3");
         ShapedRecipeBuilder.shaped(MISC, result)
@@ -624,7 +621,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("RXR")
                 .pattern("IGI")
                 .unlockedBy("has_enderium_ingot", has(ItemTagsCoFH.INGOTS_ENDERIUM))
-                .save(withConditions(consumer).flag(FLAG_UPGRADE_AUGMENTS), this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_UPGRADE_AUGMENTS)), this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get("rs_control_augment");
         ShapedRecipeBuilder.shaped(MISC, result)
@@ -634,7 +631,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("iri")
                 .pattern(" i ")
                 .unlockedBy("has_redstone_dust", has(Tags.Items.DUSTS_REDSTONE))
-                .save(consumer, this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput, this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get("side_config_augment");
         ShapedRecipeBuilder.shaped(MISC, result)
@@ -644,7 +641,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("iGi")
                 .pattern(" i ")
                 .unlockedBy("has_gold_ingot", has(Tags.Items.INGOTS_GOLD))
-                .save(consumer, this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput, this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get("xp_storage_augment");
         ShapedRecipeBuilder.shaped(MISC, result)
@@ -654,10 +651,10 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("iCi")
                 .pattern(" i ")
                 .unlockedBy("has_crystal", has(reg.get("xp_crystal")))
-                .save(consumer, this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput, this.modid + ":" + folder + "/" + name(result));
     }
 
-    private void generateBasicRecipes(Consumer<FinishedRecipe> consumer) {
+    private void generateBasicRecipes(RecipeOutput recipeOutput) {
 
         var reg = ITEMS;
         String folder = "tools";
@@ -671,7 +668,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern(" G ")
                 .pattern(" I ")
                 .unlockedBy("has_iron_ingot", has(Tags.Items.INGOTS_IRON))
-                .save(consumer, this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput, this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get(ID_REDPRINT);
         ShapelessRecipeBuilder.shapeless(BUILDING_BLOCKS, result)
@@ -680,7 +677,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .requires(Tags.Items.DUSTS_REDSTONE)
                 .requires(Tags.Items.DUSTS_REDSTONE)
                 .unlockedBy("has_redstone_dust", has(Tags.Items.DUSTS_REDSTONE))
-                .save(consumer, this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput, this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get(ID_LOCK);
         ShapedRecipeBuilder.shaped(TOOLS, result)
@@ -690,7 +687,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("iSi")
                 .pattern("iii")
                 .unlockedBy("has_signalum_ingot", has(ItemTagsCoFH.INGOTS_SIGNALUM))
-                .save(consumer, this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput, this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get(ID_SATCHEL);
         ShapedRecipeBuilder.shaped(TOOLS, result)
@@ -701,7 +698,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("WIW")
                 .pattern("LWL")
                 .unlockedBy("has_leather", has(Tags.Items.LEATHER))
-                .save(consumer, this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput, this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get(ID_DETONATOR);
         ShapedRecipeBuilder.shaped(TOOLS, result)
@@ -712,7 +709,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("IGI")
                 .pattern("III")
                 .unlockedBy("has_signalum_ingot", has(ItemTagsCoFH.INGOTS_SIGNALUM))
-                .save(consumer, this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput, this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get(ID_RF_POTATO);
         ShapedRecipeBuilder.shaped(TOOLS, result)
@@ -724,7 +721,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("RPR")
                 .pattern("DLD")
                 .unlockedBy("has_potato", has(Tags.Items.CROPS_POTATO))
-                .save(consumer, this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput, this.modid + ":" + folder + "/" + name(result));
 
         result = reg.get(ID_XP_CRYSTAL);
         ShapedRecipeBuilder.shaped(TOOLS, result)
@@ -735,14 +732,14 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("EBE")
                 .pattern(" L ")
                 .unlockedBy("has_experience_bottle", has(Items.EXPERIENCE_BOTTLE))
-                .save(consumer, this.modid + ":" + folder + "/" + name(result));
+                .save(recipeOutput, this.modid + ":" + folder + "/" + name(result));
 
         ShapelessRecipeBuilder.shapeless(MISC, reg.get(ID_FLORB), 8)
                 .requires(ThermalTags.Items.SAWDUST)
                 .requires(ThermalTags.Items.SLAG)
                 .requires(fromTags(ThermalTags.Items.ROSIN, Tags.Items.SLIMEBALLS))
                 .unlockedBy("has_slag", has(ThermalTags.Items.SLAG))
-                .save(consumer, ID_THERMAL + ":florb_8");
+                .save(recipeOutput, ID_THERMAL + ":florb_8");
 
         ShapelessRecipeBuilder.shapeless(MISC, reg.get("phytogro"), 8)
                 .requires(Tags.Items.SAND)
@@ -750,7 +747,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .requires(fromTags(ItemTagsCoFH.GEMS_APATITE, ItemTagsCoFH.DUSTS_APATITE))
                 .requires(fromTags(ItemTagsCoFH.GEMS_NITER, ItemTagsCoFH.DUSTS_NITER))
                 .unlockedBy("has_apatite", has(ItemTagsCoFH.GEMS_APATITE))
-                .save(consumer, ID_THERMAL + ":phytogro_8");
+                .save(recipeOutput, ID_THERMAL + ":phytogro_8");
 
         ShapelessRecipeBuilder.shapeless(MISC, reg.get("phytogro"), 4)
                 .requires(Tags.Items.SAND)
@@ -758,7 +755,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .requires(fromTags(ItemTagsCoFH.GEMS_APATITE, ItemTagsCoFH.DUSTS_APATITE))
                 .requires(fromTags(ItemTagsCoFH.GEMS_NITER, ItemTagsCoFH.DUSTS_NITER))
                 .unlockedBy("has_apatite", has(ItemTagsCoFH.GEMS_APATITE))
-                .save(consumer, ID_THERMAL + ":phytogro_4");
+                .save(recipeOutput, ID_THERMAL + ":phytogro_4");
 
         ShapelessRecipeBuilder.shapeless(MISC, reg.get("phytogro"), 2)
                 .requires(Tags.Items.SAND)
@@ -766,7 +763,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .requires(reg.get("rich_slag"))
                 .requires(fromTags(ItemTagsCoFH.GEMS_NITER, ItemTagsCoFH.DUSTS_NITER))
                 .unlockedBy("rich_slag", has(reg.get("rich_slag")))
-                .save(consumer, ID_THERMAL + ":phytogro_2");
+                .save(recipeOutput, ID_THERMAL + ":phytogro_2");
 
         ShapedRecipeBuilder.shaped(MISC, reg.get("junk_net"), 1)
                 .define('#', Tags.Items.STRING)
@@ -776,14 +773,14 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("#S#")
                 .pattern("n#n")
                 .unlockedBy("has_string", has(Tags.Items.STRING))
-                .save(withConditions(consumer).flag(ID_DEVICE_FISHER));
+                .save(recipeOutput.withConditions(new FlagSetCondition(ID_DEVICE_FISHER)));
 
         ShapelessRecipeBuilder.shapeless(MISC, reg.get("aquachow"), 4)
                 .requires(Items.WHEAT)
                 .requires(Items.WHEAT)
                 .requires(Items.SLIME_BALL)
                 .unlockedBy("has_wheat", has(Tags.Items.CROPS_WHEAT))
-                .save(withConditions(consumer).flag(ID_DEVICE_FISHER), ID_THERMAL + ":aquachow_4");
+                .save(recipeOutput.withConditions(new FlagSetCondition(ID_DEVICE_FISHER)), ID_THERMAL + ":aquachow_4");
 
         ShapelessRecipeBuilder.shapeless(MISC, reg.get("deep_aquachow"), 4)
                 .requires(Items.WHEAT)
@@ -791,32 +788,32 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .requires(Items.SLIME_BALL)
                 .requires(ItemTagsCoFH.NUGGETS_LEAD)
                 .unlockedBy("has_beetroot", has(Tags.Items.CROPS_BEETROOT))
-                .save(withConditions(consumer).flag(ID_DEVICE_FISHER), ID_THERMAL + ":deep_aquachow_4");
+                .save(recipeOutput.withConditions(new FlagSetCondition(ID_DEVICE_FISHER)), ID_THERMAL + ":deep_aquachow_4");
 
         ShapelessRecipeBuilder.shapeless(MISC, reg.get("basalz_powder"), 2)
                 .requires(reg.get("basalz_rod"))
                 .unlockedBy("has_basalz_rod", has(reg.get("basalz_rod")))
-                .save(consumer);
+                .save(recipeOutput);
 
         ShapelessRecipeBuilder.shapeless(MISC, reg.get("blitz_powder"), 2)
                 .requires(reg.get("blitz_rod"))
                 .unlockedBy("has_blitz_rod", has(reg.get("blitz_rod")))
-                .save(consumer);
+                .save(recipeOutput);
 
         ShapelessRecipeBuilder.shapeless(MISC, reg.get("blizz_powder"), 2)
                 .requires(reg.get("blizz_rod"))
                 .unlockedBy("has_blizz_rod", has(reg.get("blizz_rod")))
-                .save(consumer);
+                .save(recipeOutput);
 
         ShapelessRecipeBuilder.shapeless(MISC, Items.CYAN_DYE)
                 .requires(ItemTagsCoFH.GEMS_APATITE)
                 .unlockedBy("has_apatite", has(ItemTagsCoFH.GEMS_APATITE))
-                .save(consumer, ID_THERMAL + ":cyan_dye_from_apatite");
+                .save(recipeOutput, ID_THERMAL + ":cyan_dye_from_apatite");
 
         ShapelessRecipeBuilder.shapeless(MISC, reg.get("rubber"), 3)
                 .requires(reg.get("latex_bucket"))
                 .unlockedBy("latex_bucket", has(reg.get("latex_bucket")))
-                .save(consumer, ID_THERMAL + ":rubber_3");
+                .save(recipeOutput, ID_THERMAL + ":rubber_3");
 
         ShapedRecipeBuilder.shaped(MISC, reg.get("rubber"), 1)
                 .define('B', Items.WATER_BUCKET)
@@ -825,7 +822,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("#B#")
                 .pattern("###")
                 .unlockedBy("has_dandelion", has(Items.DANDELION))
-                .save(consumer, ID_THERMAL + ":rubber_from_dandelion");
+                .save(recipeOutput, ID_THERMAL + ":rubber_from_dandelion");
 
         ShapedRecipeBuilder.shaped(MISC, reg.get("rubber"), 1)
                 .define('B', Items.WATER_BUCKET)
@@ -834,14 +831,14 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("#B#")
                 .pattern("###")
                 .unlockedBy("has_vine", has(Items.VINE))
-                .save(consumer, ID_THERMAL + ":rubber_from_vine");
+                .save(recipeOutput, ID_THERMAL + ":rubber_from_vine");
 
         ShapelessRecipeBuilder.shapeless(BUILDING_BLOCKS, Blocks.DIRT)
                 .requires(reg.get("compost"))
                 .requires(Tags.Items.SAND)
                 .requires(ThermalTags.Items.SLAG)
                 .unlockedBy("has_compost", has(reg.get("compost")))
-                .save(consumer, ID_THERMAL + ":dirt_crafting");
+                .save(recipeOutput, ID_THERMAL + ":dirt_crafting");
 
         ShapelessRecipeBuilder.shapeless(BUILDING_BLOCKS, Blocks.PODZOL)
                 .requires(reg.get("compost"))
@@ -849,7 +846,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .requires(Tags.Items.SAND)
                 .requires(ThermalTags.Items.SLAG)
                 .unlockedBy("has_compost", has(reg.get("compost")))
-                .save(consumer, ID_THERMAL + ":podzol_crafting");
+                .save(recipeOutput, ID_THERMAL + ":podzol_crafting");
 
         ShapelessRecipeBuilder.shapeless(BUILDING_BLOCKS, Blocks.MYCELIUM)
                 .requires(reg.get("compost"))
@@ -857,10 +854,10 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .requires(Tags.Items.SAND)
                 .requires(ThermalTags.Items.SLAG)
                 .unlockedBy("has_compost", has(reg.get("compost")))
-                .save(consumer, ID_THERMAL + ":mycelium_crafting");
+                .save(recipeOutput, ID_THERMAL + ":mycelium_crafting");
     }
 
-    private void generateChargeRecipes(Consumer<FinishedRecipe> consumer) {
+    private void generateChargeRecipes(RecipeOutput consumer) {
 
         var reg = ITEMS;
 
@@ -992,7 +989,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
         // endregion
     }
 
-    private void generateComponentRecipes(Consumer<FinishedRecipe> consumer) {
+    private void generateComponentRecipes(RecipeOutput recipeOutput) {
 
         var reg = ITEMS;
 
@@ -1003,7 +1000,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern(" I ")
                 .pattern(" R ")
                 .unlockedBy("has_redstone_dust", has(Tags.Items.DUSTS_REDSTONE))
-                .save(consumer);
+                .save(recipeOutput);
 
         ShapedRecipeBuilder.shaped(MISC, reg.get("rf_coil"))
                 .define('I', Tags.Items.INGOTS_GOLD)
@@ -1012,7 +1009,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern(" I ")
                 .pattern("R  ")
                 .unlockedBy("has_redstone_dust", has(Tags.Items.DUSTS_REDSTONE))
-                .save(consumer);
+                .save(recipeOutput);
 
         ShapedRecipeBuilder.shaped(MISC, reg.get("drill_head"))
                 .define('C', Tags.Items.INGOTS_COPPER)
@@ -1021,7 +1018,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("ICI")
                 .pattern("III")
                 .unlockedBy("has_iron_ingot", has(Tags.Items.INGOTS_IRON))
-                .save(withConditions(consumer).flag(FLAG_TOOL_COMPONENTS));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_TOOL_COMPONENTS)));
 
         ShapedRecipeBuilder.shaped(MISC, reg.get("saw_blade"))
                 .define('C', Tags.Items.INGOTS_COPPER)
@@ -1030,7 +1027,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("ICI")
                 .pattern(" II")
                 .unlockedBy("has_iron_ingot", has(Tags.Items.INGOTS_IRON))
-                .save(withConditions(consumer).flag(FLAG_TOOL_COMPONENTS));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_TOOL_COMPONENTS)));
 
         ShapedRecipeBuilder.shaped(MISC, reg.get(ID_MACHINE_FRAME))
                 .define('G', Tags.Items.GLASS)
@@ -1040,7 +1037,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("GTG")
                 .pattern("IGI")
                 .unlockedBy("has_tin", has(ItemTagsCoFH.INGOTS_TIN))
-                .save(withConditions(consumer).flag(ID_MACHINE_FRAME));
+                .save(recipeOutput.withConditions(new FlagSetCondition(ID_MACHINE_FRAME)));
 
         ShapedRecipeBuilder.shaped(MISC, reg.get(ID_ENERGY_CELL_FRAME))
                 .define('G', Tags.Items.GLASS)
@@ -1050,7 +1047,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("GEG")
                 .pattern("IGI")
                 .unlockedBy("has_lead", has(ItemTagsCoFH.INGOTS_LEAD))
-                .save(withConditions(consumer).flag(ID_ENERGY_CELL_FRAME));
+                .save(recipeOutput.withConditions(new FlagSetCondition(ID_ENERGY_CELL_FRAME)));
 
         ShapedRecipeBuilder.shaped(MISC, reg.get(ID_FLUID_CELL_FRAME))
                 .define('G', Tags.Items.GLASS)
@@ -1060,7 +1057,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("GEG")
                 .pattern("IGI")
                 .unlockedBy("has_copper", has(Tags.Items.INGOTS_COPPER))
-                .save(withConditions(consumer).flag(ID_FLUID_CELL_FRAME));
+                .save(recipeOutput.withConditions(new FlagSetCondition(ID_FLUID_CELL_FRAME)));
 
         //        ShapedRecipeBuilder.shaped(reg.get(ID_ITEM_CELL_FRAME))
         //                .define('G', Tags.Items.GLASS)
@@ -1070,10 +1067,10 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
         //                .pattern("GEG")
         //                .pattern("IGI")
         //                .unlockedBy("has_copper", has(ItemTagsCoFH.INGOTS_TIN))
-        //                .save(withConditions(consumer).flag(ID_ITEM_CELL_FRAME));
+        //                .save(recipeOutput.withConditions(new FlagSetCondition(ID_ITEM_CELL_FRAME));
     }
 
-    private void generateExplosiveRecipes(Consumer<FinishedRecipe> consumer) {
+    private void generateExplosiveRecipes(RecipeOutput recipeOutput) {
 
         var reg = ITEMS;
 
@@ -1085,7 +1082,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("PIP")
                 .pattern("GPG")
                 .unlockedBy("has_gunpowder", has(Tags.Items.GUNPOWDER))
-                .save(consumer, ID_THERMAL + ":explosive_grenade_4");
+                .save(recipeOutput, ID_THERMAL + ":explosive_grenade_4");
 
         ShapedRecipeBuilder.shaped(TOOLS, reg.get(ID_SLIME_GRENADE), 4)
                 .define('G', Tags.Items.GUNPOWDER)
@@ -1095,7 +1092,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("PIP")
                 .pattern("GPG")
                 .unlockedBy("has_slimeball", has(Tags.Items.SLIMEBALLS))
-                .save(withConditions(consumer).flag(FLAG_BASIC_EXPLOSIVES), ID_THERMAL + ":slime_grenade_4");
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_BASIC_EXPLOSIVES)), ID_THERMAL + ":slime_grenade_4");
 
         ShapedRecipeBuilder.shaped(TOOLS, reg.get(ID_REDSTONE_GRENADE), 4)
                 .define('G', Tags.Items.GUNPOWDER)
@@ -1105,7 +1102,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("PIP")
                 .pattern("GPG")
                 .unlockedBy("has_redstone", has(Tags.Items.DUSTS_REDSTONE))
-                .save(withConditions(consumer).flag(FLAG_BASIC_EXPLOSIVES), ID_THERMAL + ":redstone_grenade_4");
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_BASIC_EXPLOSIVES)), ID_THERMAL + ":redstone_grenade_4");
 
         ShapedRecipeBuilder.shaped(TOOLS, reg.get(ID_GLOWSTONE_GRENADE), 4)
                 .define('G', Tags.Items.GUNPOWDER)
@@ -1115,7 +1112,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("PIP")
                 .pattern("GPG")
                 .unlockedBy("has_glowstone", has(Tags.Items.DUSTS_GLOWSTONE))
-                .save(withConditions(consumer).flag(FLAG_BASIC_EXPLOSIVES), ID_THERMAL + ":glowstone_grenade_4");
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_BASIC_EXPLOSIVES)), ID_THERMAL + ":glowstone_grenade_4");
 
         ShapedRecipeBuilder.shaped(TOOLS, reg.get(ID_ENDER_GRENADE), 4)
                 .define('G', Tags.Items.GUNPOWDER)
@@ -1125,7 +1122,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("PIP")
                 .pattern("GPG")
                 .unlockedBy("has_ender_pearl", has(Tags.Items.ENDER_PEARLS))
-                .save(withConditions(consumer).flag(FLAG_BASIC_EXPLOSIVES), ID_THERMAL + ":ender_grenade_4");
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_BASIC_EXPLOSIVES)), ID_THERMAL + ":ender_grenade_4");
 
         ShapedRecipeBuilder.shaped(TOOLS, reg.get(ID_PHYTO_GRENADE), 4)
                 .define('G', Tags.Items.GUNPOWDER)
@@ -1135,7 +1132,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("PIP")
                 .pattern("GPG")
                 .unlockedBy("has_phytogro", has(reg.get("phytogro")))
-                .save(withConditions(consumer).flag(FLAG_PHYTOGRO_EXPLOSIVES), ID_THERMAL + ":phyto_grenade_4");
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_PHYTOGRO_EXPLOSIVES)), ID_THERMAL + ":phyto_grenade_4");
 
         ShapedRecipeBuilder.shaped(TOOLS, reg.get(ID_EARTH_GRENADE), 4)
                 .define('G', Tags.Items.GUNPOWDER)
@@ -1145,7 +1142,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("PIP")
                 .pattern("GPG")
                 .unlockedBy("has_basalz_powder", has(reg.get("basalz_powder")))
-                .save(withConditions(consumer).flag(FLAG_ELEMENTAL_EXPLOSIVES), ID_THERMAL + ":earth_grenade_4");
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_ELEMENTAL_EXPLOSIVES)), ID_THERMAL + ":earth_grenade_4");
 
         ShapedRecipeBuilder.shaped(TOOLS, reg.get(ID_FIRE_GRENADE), 4)
                 .define('G', Tags.Items.GUNPOWDER)
@@ -1155,7 +1152,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("PIP")
                 .pattern("GPG")
                 .unlockedBy("has_blaze_powder", has(Items.BLAZE_POWDER))
-                .save(withConditions(consumer).flag(FLAG_ELEMENTAL_EXPLOSIVES), ID_THERMAL + ":fire_grenade_4");
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_ELEMENTAL_EXPLOSIVES)), ID_THERMAL + ":fire_grenade_4");
 
         ShapedRecipeBuilder.shaped(TOOLS, reg.get(ID_ICE_GRENADE), 4)
                 .define('G', Tags.Items.GUNPOWDER)
@@ -1165,7 +1162,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("PIP")
                 .pattern("GPG")
                 .unlockedBy("has_blizz_powder", has(reg.get("blizz_powder")))
-                .save(withConditions(consumer).flag(FLAG_ELEMENTAL_EXPLOSIVES), ID_THERMAL + ":ice_grenade_4");
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_ELEMENTAL_EXPLOSIVES)), ID_THERMAL + ":ice_grenade_4");
 
         ShapedRecipeBuilder.shaped(TOOLS, reg.get(ID_LIGHTNING_GRENADE), 4)
                 .define('G', Tags.Items.GUNPOWDER)
@@ -1175,7 +1172,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("PIP")
                 .pattern("GPG")
                 .unlockedBy("has_blitz_powder", has(reg.get("blitz_powder")))
-                .save(withConditions(consumer).flag(FLAG_ELEMENTAL_EXPLOSIVES), ID_THERMAL + ":lightning_grenade_4");
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_ELEMENTAL_EXPLOSIVES)), ID_THERMAL + ":lightning_grenade_4");
 
         ShapedRecipeBuilder.shaped(TOOLS, reg.get(ID_SLIME_TNT))
                 .define('G', Tags.Items.GUNPOWDER)
@@ -1184,7 +1181,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("PGP")
                 .pattern("GPG")
                 .unlockedBy("has_slimeball", has(Tags.Items.SLIMEBALLS))
-                .save(withConditions(consumer).flag(FLAG_BASIC_EXPLOSIVES));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_BASIC_EXPLOSIVES)));
 
         ShapedRecipeBuilder.shaped(TOOLS, reg.get(ID_REDSTONE_TNT))
                 .define('G', Tags.Items.GUNPOWDER)
@@ -1193,7 +1190,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("PGP")
                 .pattern("GPG")
                 .unlockedBy("has_redstone", has(Tags.Items.DUSTS_REDSTONE))
-                .save(withConditions(consumer).flag(FLAG_BASIC_EXPLOSIVES));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_BASIC_EXPLOSIVES)));
 
         ShapedRecipeBuilder.shaped(TOOLS, reg.get(ID_GLOWSTONE_TNT))
                 .define('G', Tags.Items.GUNPOWDER)
@@ -1202,7 +1199,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("PGP")
                 .pattern("GPG")
                 .unlockedBy("has_glowstone", has(Tags.Items.DUSTS_GLOWSTONE))
-                .save(withConditions(consumer).flag(FLAG_BASIC_EXPLOSIVES));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_BASIC_EXPLOSIVES)));
 
         ShapedRecipeBuilder.shaped(TOOLS, reg.get(ID_ENDER_TNT))
                 .define('G', Tags.Items.GUNPOWDER)
@@ -1211,7 +1208,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("PGP")
                 .pattern("GPG")
                 .unlockedBy("has_ender_pearl", has(Tags.Items.ENDER_PEARLS))
-                .save(withConditions(consumer).flag(FLAG_BASIC_EXPLOSIVES));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_BASIC_EXPLOSIVES)));
 
         ShapedRecipeBuilder.shaped(TOOLS, reg.get(ID_PHYTO_TNT))
                 .define('G', Tags.Items.GUNPOWDER)
@@ -1220,7 +1217,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("PGP")
                 .pattern("GPG")
                 .unlockedBy("has_phytogro", has(reg.get("phytogro")))
-                .save(withConditions(consumer).flag(FLAG_PHYTOGRO_EXPLOSIVES));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_PHYTOGRO_EXPLOSIVES)));
 
         ShapedRecipeBuilder.shaped(TOOLS, reg.get(ID_EARTH_TNT))
                 .define('G', Tags.Items.GUNPOWDER)
@@ -1229,7 +1226,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("PGP")
                 .pattern("GPG")
                 .unlockedBy("has_basalz_powder", has(reg.get("basalz_powder")))
-                .save(withConditions(consumer).flag(FLAG_ELEMENTAL_EXPLOSIVES));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_ELEMENTAL_EXPLOSIVES)));
 
         ShapedRecipeBuilder.shaped(TOOLS, reg.get(ID_FIRE_TNT))
                 .define('G', Tags.Items.GUNPOWDER)
@@ -1238,7 +1235,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("PGP")
                 .pattern("GPG")
                 .unlockedBy("has_blaze_powder", has(Items.BLAZE_POWDER))
-                .save(withConditions(consumer).flag(FLAG_ELEMENTAL_EXPLOSIVES));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_ELEMENTAL_EXPLOSIVES)));
 
         ShapedRecipeBuilder.shaped(TOOLS, reg.get(ID_ICE_TNT))
                 .define('G', Tags.Items.GUNPOWDER)
@@ -1247,7 +1244,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("PGP")
                 .pattern("GPG")
                 .unlockedBy("has_blizz_powder", has(reg.get("blizz_powder")))
-                .save(withConditions(consumer).flag(FLAG_ELEMENTAL_EXPLOSIVES));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_ELEMENTAL_EXPLOSIVES)));
 
         ShapedRecipeBuilder.shaped(TOOLS, reg.get(ID_LIGHTNING_TNT))
                 .define('G', Tags.Items.GUNPOWDER)
@@ -1256,10 +1253,10 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("PGP")
                 .pattern("GPG")
                 .unlockedBy("has_blitz_powder", has(reg.get("blitz_powder")))
-                .save(withConditions(consumer).flag(FLAG_ELEMENTAL_EXPLOSIVES));
+                .save(recipeOutput.withConditions(new FlagSetCondition(FLAG_ELEMENTAL_EXPLOSIVES)));
     }
 
-    private void generateRockwoolRecipes(Consumer<FinishedRecipe> consumer) {
+    private void generateRockwoolRecipes(RecipeOutput recipeOutput) {
 
         var reg = ITEMS;
 
@@ -1268,13 +1265,13 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
         String recipeId;
         Item result;
 
-        generateSmeltingAndBlastingRecipes(reg, consumer, reg.get("slag"), rockwool, 0.1F, "rockwool");
+        generateSmeltingAndBlastingRecipes(reg, recipeOutput, reg.get("slag"), rockwool, 0.1F, "rockwool");
 
         //        ShapelessRecipeBuilder.shapelessRecipe(reg.get(ID_WHITE_ROCKWOOL))
         //                .addIngredient(rockwool)
         //                .addIngredient(Tags.Items.DYES_WHITE)
         //                .addCriterion("has_" + path(rockwool), hasItem(rockwool))
-        //                .build(consumer);
+        //                .build(recipeOutput);
 
         result = reg.get(ID_ORANGE_ROCKWOOL);
         recipeId = this.modid + ":" + folder + "/" + name(result) + "_from_dye";
@@ -1282,7 +1279,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .requires(rockwool)
                 .requires(Tags.Items.DYES_ORANGE)
                 .unlockedBy("has_" + name(rockwool), has(rockwool))
-                .save(consumer, recipeId);
+                .save(recipeOutput, recipeId);
 
         result = reg.get(ID_MAGENTA_ROCKWOOL);
         recipeId = this.modid + ":" + folder + "/" + name(result) + "_from_dye";
@@ -1290,7 +1287,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .requires(rockwool)
                 .requires(Tags.Items.DYES_MAGENTA)
                 .unlockedBy("has_" + name(rockwool), has(rockwool))
-                .save(consumer, recipeId);
+                .save(recipeOutput, recipeId);
 
         result = reg.get(ID_LIGHT_BLUE_ROCKWOOL);
         recipeId = this.modid + ":" + folder + "/" + name(result) + "_from_dye";
@@ -1298,7 +1295,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .requires(rockwool)
                 .requires(Tags.Items.DYES_LIGHT_BLUE)
                 .unlockedBy("has_" + name(rockwool), has(rockwool))
-                .save(consumer, recipeId);
+                .save(recipeOutput, recipeId);
 
         result = reg.get(ID_YELLOW_ROCKWOOL);
         recipeId = this.modid + ":" + folder + "/" + name(result) + "_from_dye";
@@ -1306,7 +1303,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .requires(rockwool)
                 .requires(Tags.Items.DYES_YELLOW)
                 .unlockedBy("has_" + name(rockwool), has(rockwool))
-                .save(consumer, recipeId);
+                .save(recipeOutput, recipeId);
 
         result = reg.get(ID_LIME_ROCKWOOL);
         recipeId = this.modid + ":" + folder + "/" + name(result) + "_from_dye";
@@ -1314,7 +1311,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .requires(rockwool)
                 .requires(Tags.Items.DYES_LIME)
                 .unlockedBy("has_" + name(rockwool), has(rockwool))
-                .save(consumer, recipeId);
+                .save(recipeOutput, recipeId);
 
         result = reg.get(ID_PINK_ROCKWOOL);
         recipeId = this.modid + ":" + folder + "/" + name(result) + "_from_dye";
@@ -1322,7 +1319,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .requires(rockwool)
                 .requires(Tags.Items.DYES_PINK)
                 .unlockedBy("has_" + name(rockwool), has(rockwool))
-                .save(consumer, recipeId);
+                .save(recipeOutput, recipeId);
 
         result = reg.get(ID_GRAY_ROCKWOOL);
         recipeId = this.modid + ":" + folder + "/" + name(result) + "_from_dye";
@@ -1330,7 +1327,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .requires(rockwool)
                 .requires(Tags.Items.DYES_GRAY)
                 .unlockedBy("has_" + name(rockwool), has(rockwool))
-                .save(consumer, recipeId);
+                .save(recipeOutput, recipeId);
 
         result = reg.get(ID_LIGHT_GRAY_ROCKWOOL);
         recipeId = this.modid + ":" + folder + "/" + name(result) + "_from_dye";
@@ -1338,7 +1335,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .requires(rockwool)
                 .requires(Tags.Items.DYES_LIGHT_GRAY)
                 .unlockedBy("has_" + name(rockwool), has(rockwool))
-                .save(consumer, recipeId);
+                .save(recipeOutput, recipeId);
 
         result = reg.get(ID_CYAN_ROCKWOOL);
         recipeId = this.modid + ":" + folder + "/" + name(result) + "_from_dye";
@@ -1346,7 +1343,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .requires(rockwool)
                 .requires(Tags.Items.DYES_CYAN)
                 .unlockedBy("has_" + name(rockwool), has(rockwool))
-                .save(consumer, recipeId);
+                .save(recipeOutput, recipeId);
 
         result = reg.get(ID_PURPLE_ROCKWOOL);
         recipeId = this.modid + ":" + folder + "/" + name(result) + "_from_dye";
@@ -1354,7 +1351,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .requires(rockwool)
                 .requires(Tags.Items.DYES_PURPLE)
                 .unlockedBy("has_" + name(rockwool), has(rockwool))
-                .save(consumer, recipeId);
+                .save(recipeOutput, recipeId);
 
         result = reg.get(ID_BLUE_ROCKWOOL);
         recipeId = this.modid + ":" + folder + "/" + name(result) + "_from_dye";
@@ -1362,7 +1359,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .requires(rockwool)
                 .requires(Tags.Items.DYES_BLUE)
                 .unlockedBy("has_" + name(rockwool), has(rockwool))
-                .save(consumer, recipeId);
+                .save(recipeOutput, recipeId);
 
         result = reg.get(ID_BROWN_ROCKWOOL);
         recipeId = this.modid + ":" + folder + "/" + name(result) + "_from_dye";
@@ -1370,7 +1367,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .requires(rockwool)
                 .requires(Tags.Items.DYES_BROWN)
                 .unlockedBy("has_" + name(rockwool), has(rockwool))
-                .save(consumer, recipeId);
+                .save(recipeOutput, recipeId);
 
         result = reg.get(ID_GREEN_ROCKWOOL);
         recipeId = this.modid + ":" + folder + "/" + name(result) + "_from_dye";
@@ -1378,7 +1375,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .requires(rockwool)
                 .requires(Tags.Items.DYES_GREEN)
                 .unlockedBy("has_" + name(rockwool), has(rockwool))
-                .save(consumer, recipeId);
+                .save(recipeOutput, recipeId);
 
         result = reg.get(ID_RED_ROCKWOOL);
         recipeId = this.modid + ":" + folder + "/" + name(result) + "_from_dye";
@@ -1386,7 +1383,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .requires(rockwool)
                 .requires(Tags.Items.DYES_RED)
                 .unlockedBy("has_" + name(rockwool), has(rockwool))
-                .save(consumer, recipeId);
+                .save(recipeOutput, recipeId);
 
         result = reg.get(ID_BLACK_ROCKWOOL);
         recipeId = this.modid + ":" + folder + "/" + name(result) + "_from_dye";
@@ -1394,10 +1391,10 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .requires(rockwool)
                 .requires(Tags.Items.DYES_BLACK)
                 .unlockedBy("has_" + name(rockwool), has(rockwool))
-                .save(consumer, recipeId);
+                .save(recipeOutput, recipeId);
     }
 
-    private void generateSlagRecipes(Consumer<FinishedRecipe> consumer) {
+    private void generateSlagRecipes(RecipeOutput consumer) {
 
         var reg = ITEMS;
 
@@ -1425,7 +1422,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
         generateStonecuttingRecipe(reg, consumer, reg.get(ID_POLISHED_RICH_SLAG), reg.get(ID_CHISELED_RICH_SLAG), "stonecutting");
     }
 
-    private void generateTileRecipes(Consumer<FinishedRecipe> consumer) {
+    private void generateTileRecipes(RecipeOutput recipeOutput) {
 
         var reg = ITEMS;
 
@@ -1445,7 +1442,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("GCG")
                 .pattern("IPI")
                 .unlockedBy("has_redstone_servo", has(redstoneServo))
-                .save(withConditions(consumer).flag(ID_DEVICE_HIVE_EXTRACTOR));
+                .save(recipeOutput.withConditions(new FlagSetCondition(ID_DEVICE_HIVE_EXTRACTOR)));
 
         ShapedRecipeBuilder.shaped(MISC, reg.get(ID_DEVICE_TREE_EXTRACTOR))
                 .define('C', Items.BUCKET)
@@ -1457,7 +1454,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("GCG")
                 .pattern("IPI")
                 .unlockedBy("has_redstone_servo", has(redstoneServo))
-                .save(withConditions(consumer).flag(ID_DEVICE_TREE_EXTRACTOR));
+                .save(recipeOutput.withConditions(new FlagSetCondition(ID_DEVICE_TREE_EXTRACTOR)));
 
         ShapedRecipeBuilder.shaped(MISC, reg.get(ID_DEVICE_FISHER))
                 .define('C', Items.FISHING_ROD)
@@ -1469,7 +1466,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("GCG")
                 .pattern("IPI")
                 .unlockedBy("has_redstone_servo", has(redstoneServo))
-                .save(withConditions(consumer).flag(ID_DEVICE_FISHER));
+                .save(recipeOutput.withConditions(new FlagSetCondition(ID_DEVICE_FISHER)));
 
         ShapedRecipeBuilder.shaped(MISC, reg.get(ID_DEVICE_COMPOSTER))
                 .define('C', Blocks.COMPOSTER)
@@ -1481,7 +1478,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("GCG")
                 .pattern("IPI")
                 .unlockedBy("has_redstone_servo", has(redstoneServo))
-                .save(withConditions(consumer).flag(ID_DEVICE_COMPOSTER));
+                .save(recipeOutput.withConditions(new FlagSetCondition(ID_DEVICE_COMPOSTER)));
 
         ShapedRecipeBuilder.shaped(MISC, reg.get(ID_DEVICE_SOIL_INFUSER))
                 .define('C', reg.get("phytogro"))
@@ -1493,7 +1490,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("GCG")
                 .pattern("IPI")
                 .unlockedBy("has_rf_coil", has(rfCoil))
-                .save(withConditions(consumer).flag(ID_DEVICE_SOIL_INFUSER));
+                .save(recipeOutput.withConditions(new FlagSetCondition(ID_DEVICE_SOIL_INFUSER)));
 
         ShapedRecipeBuilder.shaped(MISC, reg.get(ID_DEVICE_ROCK_GEN))
                 .define('C', Items.PISTON)
@@ -1505,7 +1502,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("GCG")
                 .pattern("IPI")
                 .unlockedBy("has_redstone_servo", has(redstoneServo))
-                .save(withConditions(consumer).flag(ID_DEVICE_ROCK_GEN));
+                .save(recipeOutput.withConditions(new FlagSetCondition(ID_DEVICE_ROCK_GEN)));
 
         ShapedRecipeBuilder.shaped(MISC, reg.get(ID_DEVICE_WATER_GEN))
                 .define('C', Items.BUCKET)
@@ -1517,7 +1514,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("GCG")
                 .pattern("IPI")
                 .unlockedBy("has_redstone_servo", has(redstoneServo))
-                .save(withConditions(consumer).flag(ID_DEVICE_WATER_GEN));
+                .save(recipeOutput.withConditions(new FlagSetCondition(ID_DEVICE_WATER_GEN)));
 
         ShapedRecipeBuilder.shaped(MISC, reg.get(ID_DEVICE_COLLECTOR))
                 .define('C', Items.HOPPER)
@@ -1529,7 +1526,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("GCG")
                 .pattern("IPI")
                 .unlockedBy("has_redstone_servo", has(redstoneServo))
-                .save(withConditions(consumer).flag(ID_DEVICE_COLLECTOR));
+                .save(recipeOutput.withConditions(new FlagSetCondition(ID_DEVICE_COLLECTOR)));
 
         ShapedRecipeBuilder.shaped(MISC, reg.get(ID_DEVICE_XP_CONDENSER))
                 .define('C', reg.get("xp_crystal"))
@@ -1541,7 +1538,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("GCG")
                 .pattern("IPI")
                 .unlockedBy("has_redstone_servo", has(redstoneServo))
-                .save(withConditions(consumer).flag(ID_DEVICE_XP_CONDENSER));
+                .save(recipeOutput.withConditions(new FlagSetCondition(ID_DEVICE_XP_CONDENSER)));
 
         ShapedRecipeBuilder.shaped(MISC, reg.get(ID_DEVICE_NULLIFIER))
                 .define('C', Items.LAVA_BUCKET)
@@ -1553,7 +1550,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("GCG")
                 .pattern("IPI")
                 .unlockedBy("has_redstone_servo", has(redstoneServo))
-                .save(withConditions(consumer).flag(ID_DEVICE_NULLIFIER));
+                .save(recipeOutput.withConditions(new FlagSetCondition(ID_DEVICE_NULLIFIER)));
 
         ShapedRecipeBuilder.shaped(MISC, reg.get(ID_DEVICE_POTION_DIFFUSER))
                 .define('C', Items.GLASS_BOTTLE)
@@ -1565,7 +1562,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("GCG")
                 .pattern("IPI")
                 .unlockedBy("has_redstone_servo", has(redstoneServo))
-                .save(withConditions(consumer).flag(ID_DEVICE_POTION_DIFFUSER));
+                .save(recipeOutput.withConditions(new FlagSetCondition(ID_DEVICE_POTION_DIFFUSER)));
 
         ShapedRecipeBuilder.shaped(MISC, reg.get(ID_ENERGY_CELL))
                 .define('C', energyCellFrame)
@@ -1577,7 +1574,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("ICI")
                 .pattern("RPR")
                 .unlockedBy("has_energy_cell_frame", has(energyCellFrame))
-                .save(withConditions(consumer).flag(ID_ENERGY_CELL));
+                .save(recipeOutput.withConditions(new FlagSetCondition(ID_ENERGY_CELL)));
 
         ShapedRecipeBuilder.shaped(MISC, reg.get(ID_FLUID_CELL))
                 .define('C', fluidCellFrame)
@@ -1589,7 +1586,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("ICI")
                 .pattern("RPR")
                 .unlockedBy("has_fluid_cell_frame", has(fluidCellFrame))
-                .save(withConditions(consumer).flag(ID_FLUID_CELL));
+                .save(recipeOutput.withConditions(new FlagSetCondition(ID_FLUID_CELL)));
 
         //        ShapedRecipeBuilder.shaped(reg.get(ID_ITEM_CELL))
         //                .define('C', itemCellFrame)
@@ -1601,7 +1598,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
         //                .pattern("ICI")
         //                .pattern("RPR")
         //                .unlockedBy("has_item_cell_frame", has(itemCellFrame))
-        //                .save(withConditions(consumer).flag(ID_ITEM_CELL));
+        //                .save(recipeOutput.withConditions(new FlagSetCondition(ID_ITEM_CELL)));
 
         ShapedRecipeBuilder.shaped(MISC, reg.get(ID_TINKER_BENCH))
                 .define('C', Blocks.CRAFTING_TABLE)
@@ -1613,7 +1610,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("GCG")
                 .pattern("XPX")
                 .unlockedBy("has_rf_coil", has(rfCoil))
-                .save(withConditions(consumer).flag(ID_TINKER_BENCH));
+                .save(recipeOutput.withConditions(new FlagSetCondition(ID_TINKER_BENCH)));
 
         ShapedRecipeBuilder.shaped(MISC, reg.get(ID_CHARGE_BENCH))
                 .define('C', Tags.Items.STORAGE_BLOCKS_REDSTONE)
@@ -1624,7 +1621,7 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
                 .pattern("PCP")
                 .pattern("XPX")
                 .unlockedBy("has_rf_coil", has(rfCoil))
-                .save(withConditions(consumer).flag(ID_CHARGE_BENCH));
+                .save(recipeOutput.withConditions(new FlagSetCondition(ID_CHARGE_BENCH)));
     }
     // endregion
 }

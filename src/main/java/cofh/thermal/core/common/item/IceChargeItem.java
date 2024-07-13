@@ -5,9 +5,9 @@ import cofh.core.util.AreaUtils;
 import cofh.lib.util.helpers.MathHelper;
 import cofh.thermal.core.common.entity.projectile.BlizzProjectile;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.BlockSource;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Position;
+import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.sounds.SoundEvents;
@@ -104,12 +104,12 @@ public class IceChargeItem extends ItemCoFH {
         @Override
         public ItemStack execute(BlockSource source, ItemStack stack) {
 
-            Direction direction = source.getBlockState().getValue(DispenserBlock.FACING);
+            Direction direction = source.state().getValue(DispenserBlock.FACING);
             Position iposition = DispenserBlock.getDispensePosition(source);
             double d0 = iposition.x() + (double) ((float) direction.getStepX() * 0.3F);
             double d1 = iposition.y() + (double) ((float) direction.getStepY() * 0.3F);
             double d2 = iposition.z() + (double) ((float) direction.getStepZ() * 0.3F);
-            Level world = source.getLevel();
+            Level world = source.level();
             double d3 = world.random.nextGaussian() * 0.05D + (double) direction.getStepX();
             double d4 = world.random.nextGaussian() * 0.05D + (double) direction.getStepY();
             double d5 = world.random.nextGaussian() * 0.05D + (double) direction.getStepZ();
@@ -121,7 +121,7 @@ public class IceChargeItem extends ItemCoFH {
         @Override
         protected void playSound(BlockSource source) {
 
-            source.getLevel().levelEvent(1018, source.getPos(), 0);
+            source.level().levelEvent(1018, source.pos(), 0);
         }
     };
     // endregion

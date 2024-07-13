@@ -11,7 +11,7 @@ import cofh.thermal.core.common.entity.projectile.ThrownFlorb;
 import cofh.thermal.lib.common.entity.AugmentableMinecart;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.neoforged.neoforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 import static cofh.thermal.core.ThermalCore.ENTITIES;
 import static cofh.thermal.core.init.registries.ThermalCreativeTabs.toolsTab;
@@ -63,14 +63,14 @@ public class TCoreEntities {
         AugmentableMinecart.setup();
     }
 
-    public static final RegistryObject<EntityType<Basalz>> BASALZ = ENTITIES.register(ID_BASALZ, () -> EntityType.Builder.of(Basalz::new, MobCategory.MONSTER).sized(0.6F, 1.8F).fireImmune().build(ID_BASALZ));
-    public static final RegistryObject<EntityType<Blizz>> BLIZZ = ENTITIES.register(ID_BLIZZ, () -> EntityType.Builder.of(Blizz::new, MobCategory.MONSTER).sized(0.6F, 1.8F).build(ID_BLIZZ));
-    public static final RegistryObject<EntityType<Blitz>> BLITZ = ENTITIES.register(ID_BLITZ, () -> EntityType.Builder.of(Blitz::new, MobCategory.MONSTER).sized(0.6F, 1.8F).build(ID_BLITZ));
+    public static final DeferredHolder<EntityType<?>, EntityType<Basalz>> BASALZ = ENTITIES.register(ID_BASALZ, () -> EntityType.Builder.of(Basalz::new, MobCategory.MONSTER).sized(0.6F, 1.8F).fireImmune().build(ID_BASALZ));
+    public static final DeferredHolder<EntityType<?>, EntityType<Blizz>> BLIZZ = ENTITIES.register(ID_BLIZZ, () -> EntityType.Builder.of(Blizz::new, MobCategory.MONSTER).sized(0.6F, 1.8F).build(ID_BLIZZ));
+    public static final DeferredHolder<EntityType<?>, EntityType<Blitz>> BLITZ = ENTITIES.register(ID_BLITZ, () -> EntityType.Builder.of(Blitz::new, MobCategory.MONSTER).sized(0.6F, 1.8F).build(ID_BLITZ));
 
-    public static final RegistryObject<EntityType<BasalzProjectile>> BASALZ_PROJECTILE = ENTITIES.register(ID_BASALZ_PROJECTILE, () -> EntityType.Builder.<BasalzProjectile>of(BasalzProjectile::new, MobCategory.MISC).sized(0.3125F, 0.3125F).build(ID_BASALZ_PROJECTILE));
-    public static final RegistryObject<EntityType<BlizzProjectile>> BLIZZ_PROJECTILE = ENTITIES.register(ID_BLIZZ_PROJECTILE, () -> EntityType.Builder.<BlizzProjectile>of(BlizzProjectile::new, MobCategory.MISC).sized(0.3125F, 0.3125F).build(ID_BLIZZ_PROJECTILE));
-    public static final RegistryObject<EntityType<BlitzProjectile>> BLITZ_PROJECTILE = ENTITIES.register(ID_BLITZ_PROJECTILE, () -> EntityType.Builder.<BlitzProjectile>of(BlitzProjectile::new, MobCategory.MISC).sized(0.3125F, 0.3125F).build(ID_BLITZ_PROJECTILE));
+    public static final DeferredHolder<EntityType<?>, EntityType<BasalzProjectile>> BASALZ_PROJECTILE = ENTITIES.register(ID_BASALZ_PROJECTILE, () -> EntityType.Builder.<BasalzProjectile>of(BasalzProjectile::new, MobCategory.MISC).sized(0.3125F, 0.3125F).build(ID_BASALZ_PROJECTILE));
+    public static final DeferredHolder<EntityType<?>, EntityType<BlizzProjectile>> BLIZZ_PROJECTILE = ENTITIES.register(ID_BLIZZ_PROJECTILE, () -> EntityType.Builder.<BlizzProjectile>of(BlizzProjectile::new, MobCategory.MISC).sized(0.3125F, 0.3125F).build(ID_BLIZZ_PROJECTILE));
+    public static final DeferredHolder<EntityType<?>, EntityType<BlitzProjectile>> BLITZ_PROJECTILE = ENTITIES.register(ID_BLITZ_PROJECTILE, () -> EntityType.Builder.<BlitzProjectile>of(BlitzProjectile::new, MobCategory.MISC).sized(0.3125F, 0.3125F).build(ID_BLITZ_PROJECTILE));
 
-    public static final RegistryObject<EntityType<ThrownFlorb>> THROWN_FLORB = ENTITIES.register(ID_FLORB, () -> EntityType.Builder.<ThrownFlorb>of(ThrownFlorb::new, MobCategory.MISC).sized(0.25F, 0.25F).build(ID_FLORB));
+    public static final DeferredHolder<EntityType<?>, EntityType<ThrownFlorb>> THROWN_FLORB = ENTITIES.register(ID_FLORB, () -> EntityType.Builder.<ThrownFlorb>of(ThrownFlorb::new, MobCategory.MISC).sized(0.25F, 0.25F).build(ID_FLORB));
 
 }

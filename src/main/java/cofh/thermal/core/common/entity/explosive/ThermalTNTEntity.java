@@ -7,7 +7,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -17,7 +17,7 @@ import static cofh.thermal.core.ThermalCore.BLOCKS;
 
 public class ThermalTNTEntity extends PrimedTntCoFH {
 
-    public static Map<String, RegistryObject<EntityType<? extends PrimedTntCoFH>>> TNT = new HashMap<>();
+    public static Map<String, DeferredHolder<EntityType<?>, EntityType<? extends PrimedTntCoFH>>> TNT = new HashMap<>();
     protected Block block;
     protected IDetonateAction detonateAction;
 

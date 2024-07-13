@@ -45,7 +45,7 @@ import static cofh.lib.util.constants.BlockStatePropertiesCoFH.FACING_HORIZONTAL
 import static cofh.lib.util.constants.NBTTags.*;
 import static cofh.thermal.core.init.registries.TCoreBlockEntities.DEVICE_TREE_EXTRACTOR_TILE;
 import static cofh.thermal.lib.util.ThermalAugmentRules.createAllowValidator;
-import static net.minecraftforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE;
+import static net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE;
 
 public class DeviceTreeExtractorBlockEntity extends DeviceBlockEntity implements ITickableTile.IServerTickable {
 

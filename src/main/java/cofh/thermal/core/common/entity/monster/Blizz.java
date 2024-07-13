@@ -2,7 +2,6 @@ package cofh.thermal.core.common.entity.monster;
 
 import cofh.thermal.core.common.config.ThermalClientConfig;
 import cofh.thermal.core.common.entity.projectile.BlizzProjectile;
-import cofh.thermal.lib.util.ThermalFlags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -37,6 +36,7 @@ import java.util.EnumSet;
 
 import static cofh.core.init.CoreMobEffects.CHILLED;
 import static cofh.core.init.CoreParticles.FROST;
+import static cofh.lib.util.FlagManager.getFlag;
 import static cofh.thermal.core.ThermalCore.ITEMS;
 import static cofh.thermal.core.init.registries.TCoreSounds.*;
 import static cofh.thermal.lib.util.ThermalFlags.FLAG_MOB_BLIZZ;
@@ -47,7 +47,7 @@ public class Blizz extends Monster {
 
     public static boolean canSpawn(EntityType<Blizz> entityType, ServerLevelAccessor world, MobSpawnType reason, BlockPos pos, RandomSource rand) {
 
-        return ThermalFlags.getFlag(FLAG_MOB_BLIZZ).get() && Monster.checkMonsterSpawnRules(entityType, world, reason, pos, rand);
+        return getFlag(FLAG_MOB_BLIZZ).get() && Monster.checkMonsterSpawnRules(entityType, world, reason, pos, rand);
     }
 
     public Blizz(EntityType<? extends Blizz> type, Level world) {

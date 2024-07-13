@@ -38,7 +38,7 @@ import static cofh.lib.util.constants.NBTTags.*;
 import static cofh.thermal.core.init.registries.TCoreBlockEntities.DEVICE_WATER_GEN_TILE;
 import static cofh.thermal.core.init.registries.TCoreSounds.SOUND_DEVICE_WATER_GEN;
 import static cofh.thermal.lib.util.ThermalAugmentRules.createAllowValidator;
-import static net.minecraftforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE;
+import static net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE;
 
 public class DeviceWaterGenBlockEntity extends DeviceBlockEntity implements ITickableTile.IServerTickable {
 

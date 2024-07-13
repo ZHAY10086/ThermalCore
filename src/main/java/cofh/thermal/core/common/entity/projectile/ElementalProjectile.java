@@ -1,8 +1,6 @@
 package cofh.thermal.core.common.entity.projectile;
 
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
@@ -14,7 +12,7 @@ import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.network.NetworkHooks;
+import net.neoforged.neoforge.event.EventHooks;
 
 public abstract class ElementalProjectile extends AbstractHurtingProjectile {
 
@@ -49,7 +47,7 @@ public abstract class ElementalProjectile extends AbstractHurtingProjectile {
                 setSecondsOnFire(1);
             }
             HitResult entityResult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
-            if (entityResult.getType() != HitResult.Type.MISS && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, entityResult)) {
+            if (entityResult.getType() != HitResult.Type.MISS && !EventHooks.onProjectileImpact(this, entityResult)) {
                 onHit(entityResult);
             }
             checkInsideBlocks();
@@ -86,12 +84,6 @@ public abstract class ElementalProjectile extends AbstractHurtingProjectile {
     @Override
     protected void defineSynchedData() {
 
-    }
-
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-
-        return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @Override

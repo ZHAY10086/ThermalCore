@@ -1,9 +1,7 @@
 package cofh.thermal.lib.util;
 
-import cofh.lib.util.flags.FlagManager;
-
-import java.util.function.Supplier;
-
+import static cofh.lib.util.FlagManager.getFlag;
+import static cofh.lib.util.FlagManager.setFlag;
 import static cofh.lib.util.constants.ModIds.ID_THERMAL;
 
 public class ThermalFlags {
@@ -12,91 +10,67 @@ public class ThermalFlags {
 
     }
 
-    private static final FlagManager FLAG_MANAGER = new FlagManager(ID_THERMAL);
+    public static String FLAG_BEEKEEPER_ARMOR = ID_THERMAL + ":beekeeper_armor";
+    public static String FLAG_DIVING_ARMOR = ID_THERMAL + ":diving_armor";
+    public static String FLAG_HAZMAT_ARMOR = ID_THERMAL + ":hazmat_armor";
 
-    public static FlagManager manager() {
+    public static String FLAG_AREA_AUGMENTS = ID_THERMAL + ":area_augments";
+    public static String FLAG_CREATIVE_AUGMENTS = ID_THERMAL + ":creative_augments";
+    public static String FLAG_DYNAMO_AUGMENTS = ID_THERMAL + ":dynamo_augments";
+    public static String FLAG_FILTER_AUGMENTS = ID_THERMAL + ":filter_augments";
+    public static String FLAG_MACHINE_AUGMENTS = ID_THERMAL + ":machine_augments";
+    public static String FLAG_POTION_AUGMENTS = ID_THERMAL + ":potion_augments";
+    public static String FLAG_STORAGE_AUGMENTS = ID_THERMAL + ":storage_augments";
+    public static String FLAG_UPGRADE_AUGMENTS = ID_THERMAL + ":upgrade_augments";
 
-        return FLAG_MANAGER;
-    }
+    public static String FLAG_CREATIVE_STORAGE_AUGMENTS = ID_THERMAL + ":creative_storage_augments";
+    public static String FLAG_CREATIVE_MACHINE_AUGMENTS = ID_THERMAL + ":creative_machine_augments";
 
-    public static void setFlag(String flag, boolean enable) {
+    public static String FLAG_RS_CONTROL_AUGMENT = ID_THERMAL + ":rs_control_augment";
+    public static String FLAG_SIDE_CONFIG_AUGMENT = ID_THERMAL + ":side_config_augment";
+    public static String FLAG_XP_STORAGE_AUGMENT = ID_THERMAL + ":xp_storage_augment";
 
-        FLAG_MANAGER.setFlag(flag, enable);
-    }
+    public static String FLAG_TOOL_COMPONENTS = ID_THERMAL + ":tool_components";
 
-    public static void setFlag(String flag, Supplier<Boolean> condition) {
+    public static String FLAG_COINS = ID_THERMAL + ":coins";
+    public static String FLAG_PLATES = ID_THERMAL + ":plates";
 
-        FLAG_MANAGER.setFlag(flag, condition);
-    }
+    public static String FLAG_BASIC_EXPLOSIVES = ID_THERMAL + ":basic_explosives";
+    public static String FLAG_PHYTOGRO_EXPLOSIVES = ID_THERMAL + ":phytogro_explosives";
+    public static String FLAG_ELEMENTAL_EXPLOSIVES = ID_THERMAL + ":elemental_explosives";
+    public static String FLAG_NUCLEAR_EXPLOSIVES = ID_THERMAL + ":nuclear_explosives";
 
-    public static Supplier<Boolean> getFlag(String flag) {
+    public static String FLAG_RESOURCE_APATITE = ID_THERMAL + ":apatite";
+    public static String FLAG_RESOURCE_CINNABAR = ID_THERMAL + ":cinnabar";
+    public static String FLAG_RESOURCE_NITER = ID_THERMAL + ":niter";
+    public static String FLAG_RESOURCE_SULFUR = ID_THERMAL + ":sulfur";
 
-        return FLAG_MANAGER.getFlag(flag);
-    }
+    public static String FLAG_RESOURCE_TIN = ID_THERMAL + ":tin";
+    public static String FLAG_RESOURCE_LEAD = ID_THERMAL + ":lead";
+    public static String FLAG_RESOURCE_SILVER = ID_THERMAL + ":silver";
+    public static String FLAG_RESOURCE_NICKEL = ID_THERMAL + ":nickel";
 
-    // region SPECIFIC FEATURES
-    public static String FLAG_BEEKEEPER_ARMOR = "beekeeper_armor";
-    public static String FLAG_DIVING_ARMOR = "diving_armor";
-    public static String FLAG_HAZMAT_ARMOR = "hazmat_armor";
+    public static String FLAG_RESOURCE_ALUMINUM = ID_THERMAL + ":aluminum";
+    public static String FLAG_RESOURCE_URANIUM = ID_THERMAL + ":uranium";
 
-    public static String FLAG_AREA_AUGMENTS = "area_augments";
-    public static String FLAG_CREATIVE_AUGMENTS = "creative_augments";
-    public static String FLAG_DYNAMO_AUGMENTS = "dynamo_augments";
-    public static String FLAG_FILTER_AUGMENTS = "filter_augments";
-    public static String FLAG_MACHINE_AUGMENTS = "machine_augments";
-    public static String FLAG_POTION_AUGMENTS = "potion_augments";
-    public static String FLAG_STORAGE_AUGMENTS = "storage_augments";
-    public static String FLAG_UPGRADE_AUGMENTS = "upgrade_augments";
+    public static String FLAG_RESOURCE_RUBY = ID_THERMAL + ":ruby";
+    public static String FLAG_RESOURCE_SAPPHIRE = ID_THERMAL + ":sapphire";
 
-    public static String FLAG_CREATIVE_STORAGE_AUGMENTS = "creative_storage_augments";
-    public static String FLAG_CREATIVE_MACHINE_AUGMENTS = "creative_machine_augments";
+    public static String FLAG_RESOURCE_OIL = ID_THERMAL + ":oil";
 
-    public static String FLAG_RS_CONTROL_AUGMENT = "rs_control_augment";
-    public static String FLAG_SIDE_CONFIG_AUGMENT = "side_config_augment";
-    public static String FLAG_XP_STORAGE_AUGMENT = "xp_storage_augment";
+    public static String FLAG_RESOURCE_RUBBERWOOD = ID_THERMAL + ":rubberwood";
 
-    public static String FLAG_TOOL_COMPONENTS = "tool_components";
+    public static String FLAG_RESOURCE_BRONZE = ID_THERMAL + ":bronze";
+    public static String FLAG_RESOURCE_ELECTRUM = ID_THERMAL + ":electrum";
+    public static String FLAG_RESOURCE_INVAR = ID_THERMAL + ":invar";
+    public static String FLAG_RESOURCE_CONSTANTAN = ID_THERMAL + ":constantan";
 
-    public static String FLAG_COINS = "coins";
-    public static String FLAG_PLATES = "plates";
+    public static String FLAG_RESOURCE_STEEL = ID_THERMAL + ":steel";
+    public static String FLAG_RESOURCE_ROSE_GOLD = ID_THERMAL + ":rose_gold";
 
-    public static String FLAG_BASIC_EXPLOSIVES = "basic_explosives";
-    public static String FLAG_PHYTOGRO_EXPLOSIVES = "phytogro_explosives";
-    public static String FLAG_ELEMENTAL_EXPLOSIVES = "elemental_explosives";
-    public static String FLAG_NUCLEAR_EXPLOSIVES = "nuclear_explosives";
-
-    public static String FLAG_RESOURCE_APATITE = "apatite";
-    public static String FLAG_RESOURCE_CINNABAR = "cinnabar";
-    public static String FLAG_RESOURCE_NITER = "niter";
-    public static String FLAG_RESOURCE_SULFUR = "sulfur";
-
-    public static String FLAG_RESOURCE_TIN = "tin";
-    public static String FLAG_RESOURCE_LEAD = "lead";
-    public static String FLAG_RESOURCE_SILVER = "silver";
-    public static String FLAG_RESOURCE_NICKEL = "nickel";
-
-    public static String FLAG_RESOURCE_ALUMINUM = "aluminum";
-    public static String FLAG_RESOURCE_URANIUM = "uranium";
-
-    public static String FLAG_RESOURCE_RUBY = "ruby";
-    public static String FLAG_RESOURCE_SAPPHIRE = "sapphire";
-
-    public static String FLAG_RESOURCE_OIL = "oil";
-
-    public static String FLAG_RESOURCE_RUBBERWOOD = "rubberwood";
-
-    public static String FLAG_RESOURCE_BRONZE = "bronze";
-    public static String FLAG_RESOURCE_ELECTRUM = "electrum";
-    public static String FLAG_RESOURCE_INVAR = "invar";
-    public static String FLAG_RESOURCE_CONSTANTAN = "constantan";
-
-    public static String FLAG_RESOURCE_STEEL = "steel";
-    public static String FLAG_RESOURCE_ROSE_GOLD = "rose_gold";
-
-    public static String FLAG_MOB_BASALZ = "basalz";
-    public static String FLAG_MOB_BLITZ = "blitz";
-    public static String FLAG_MOB_BLIZZ = "blizz";
-    // endregion
+    public static String FLAG_MOB_BASALZ = ID_THERMAL + ":basalz";
+    public static String FLAG_MOB_BLITZ = ID_THERMAL + ":blitz";
+    public static String FLAG_MOB_BLIZZ = ID_THERMAL + ":blizz";
 
     static {
         setFlag(FLAG_RESOURCE_BRONZE, getFlag(FLAG_RESOURCE_TIN));
