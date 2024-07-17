@@ -1,12 +1,12 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
-  "conditions": [
+  "neoforge:conditions": [
     {
-      "type": "thermal:flag",
+      "type": "cofh_core:flag_set",
       "flag": "fluid_cell"
     }
   ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "C": {
       "item": "thermal:fluid_cell_frame"
@@ -31,6 +31,5 @@
   ],
   "result": {
     "item": "thermal:fluid_cell"
-  },
-  "show_notification": true
+  }
 }

@@ -13,14 +13,14 @@ java {
         languageVersion = JavaLanguageVersion.of(17)
     }
     withSourcesJar()
-    withJavadocJar()
+    // withJavadocJar()
 }
 
 sourceSets.main.resources.srcDirs += "src/main/generated"
 
 group = 'com.teamcofh'
 base {
-    archivesName = "${mod_id}"
+    archivesName = "${mod_id}_core"
 }
 
 def buildVersion = "${mod_version}." + (System.getenv("BUILD_NUMBER") ?: '0')
@@ -104,15 +104,14 @@ repositories {
 
 dependencies {
     implementation("net.neoforged:neoforge:${neo_version}")
-    implementation "com.teamcofh:cofh_core:1.20.1-${cofh_core_version}.+"
+    implementation "com.teamcofh:cofh_core:${mc_version}-${cofh_core_version}.+"
 
     implementation("mezz.jei:jei-${mc_version}-neoforge:${jei_version}") {
         transitive false
     }
-
-    compileOnly("vazkii.patchouli:Patchouli:${patchouli_version}:api")
-    runtimeOnly("vazkii.patchouli:Patchouli:${patchouli_version}")
-
+    implementation("vazkii.patchouli:Patchouli:${patchouli_version}") {
+        transitive false
+    }
     implementation("top.theillusivec4.curios:curios-neoforge:${curios_version}") {
         transitive false
     }

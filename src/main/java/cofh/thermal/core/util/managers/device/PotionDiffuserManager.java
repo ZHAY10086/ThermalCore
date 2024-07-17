@@ -69,7 +69,7 @@ public class PotionDiffuserManager extends AbstractManager {
         clear();
         var boosts = recipeManager.byType(POTION_DIFFUSER_BOOST.get());
         for (var entry : boosts.entrySet()) {
-            addBoost(entry.getValue());
+            addBoost(entry.getValue().value());
         }
     }
     // endregion

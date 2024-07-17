@@ -245,16 +245,19 @@
   "subtitles.thermal.entity.basalz.death": "Basalz dies",
   "subtitles.thermal.entity.basalz.hurt": "Basalz hurts",
   "subtitles.thermal.entity.basalz.shoot": "Basalz rocks out",
+  "subtitles.thermal.entity.basalz.roam": "Basalz roams",
 
   "subtitles.thermal.entity.blitz.ambient": "Blitz breathes",
   "subtitles.thermal.entity.blitz.death": "Blitz dies",
   "subtitles.thermal.entity.blitz.hurt": "Blitz hurts",
   "subtitles.thermal.entity.blitz.shoot": "Blitz shoots",
+  "subtitles.thermal.entity.blitz.roam": "Blitz roams",
 
   "subtitles.thermal.entity.blizz.ambient": "Blizz breathes",
   "subtitles.thermal.entity.blizz.death": "Blizz dies",
   "subtitles.thermal.entity.blizz.hurt": "Blizz hurts",
   "subtitles.thermal.entity.blizz.shoot": "Blizz shoots",
+  "subtitles.thermal.entity.blizz.roam": "Blizz roams",
 
   "subtitles.thermal.item.magnet": "Magnet yoinks",
 

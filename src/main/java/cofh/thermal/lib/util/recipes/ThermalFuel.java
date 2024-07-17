@@ -10,10 +10,10 @@ import java.util.List;
 
 public abstract class ThermalFuel extends SerializableRecipe {
 
-    protected final List<Ingredient> inputItems = new ArrayList<>();
-    protected final List<FluidIngredient> inputFluids = new ArrayList<>();
+    public final List<Ingredient> inputItems = new ArrayList<>();
+    public final List<FluidIngredient> inputFluids = new ArrayList<>();
 
-    protected int energy;
+    public int energy;
 
     protected ThermalFuel(int energy, List<Ingredient> inputItems, List<FluidIngredient> inputFluids) {
 

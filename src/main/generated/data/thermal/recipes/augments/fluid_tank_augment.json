@@ -1,12 +1,12 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
-  "conditions": [
+  "neoforge:conditions": [
     {
-      "type": "thermal:flag",
-      "flag": "storage_augments"
+      "type": "cofh_core:flag_set",
+      "flag": "thermal:storage_augments"
     }
   ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "I": {
       "tag": "forge:ingots/iron"
@@ -25,6 +25,5 @@
   ],
   "result": {
     "item": "thermal:fluid_tank_augment"
-  },
-  "show_notification": true
+  }
 }

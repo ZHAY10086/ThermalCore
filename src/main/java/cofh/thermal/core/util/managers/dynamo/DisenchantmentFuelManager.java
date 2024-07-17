@@ -5,7 +5,6 @@ import cofh.thermal.core.util.recipes.dynamo.DisenchantmentFuel;
 import cofh.thermal.lib.util.managers.SingleItemFuelManager;
 import cofh.thermal.lib.util.recipes.internal.IDynamoFuel;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.EnchantedBookItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -19,9 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static cofh.lib.util.Utils.getName;
 import static cofh.lib.util.Utils.getRegistryName;
-import static cofh.lib.util.constants.ModIds.ID_THERMAL;
 import static cofh.thermal.core.init.registries.TCoreRecipeTypes.DISENCHANTMENT_FUEL;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
@@ -119,7 +116,7 @@ public class DisenchantmentFuelManager extends SingleItemFuelManager {
 
     protected DisenchantmentFuel convert(ItemStack item, int energy) {
 
-        return new DisenchantmentFuel(new ResourceLocation(ID_THERMAL, "disenchantment_" + getName(item)), energy, singletonList(Ingredient.of(item)), emptyList());
+        return new DisenchantmentFuel(energy, singletonList(Ingredient.of(item)), emptyList());
     }
     // endregion
 }

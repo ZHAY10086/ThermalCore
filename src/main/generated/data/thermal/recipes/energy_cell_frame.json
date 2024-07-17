@@ -1,12 +1,12 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
-  "conditions": [
+  "neoforge:conditions": [
     {
-      "type": "thermal:flag",
+      "type": "cofh_core:flag_set",
       "flag": "energy_cell_frame"
     }
   ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "E": {
       "tag": "forge:gears/electrum"
@@ -25,6 +25,5 @@
   ],
   "result": {
     "item": "thermal:energy_cell_frame"
-  },
-  "show_notification": true
+  }
 }

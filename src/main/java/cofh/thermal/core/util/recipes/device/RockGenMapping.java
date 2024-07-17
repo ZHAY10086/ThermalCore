@@ -10,6 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 import javax.annotation.Nullable;
 
@@ -72,8 +73,8 @@ public class RockGenMapping extends SerializableRecipe {
 
         public static final Codec<RockGenMapping> CODEC = RecordCodecBuilder.create(builder -> builder.group(
                         Codec.INT.optionalFieldOf(TIME, RockGenManager.instance().getDefaultEnergy()).forGetter(recipe -> recipe.time),
-                        Block.CODEC.fieldOf(BELOW).forGetter(recipe -> recipe.below),
-                        Block.CODEC.fieldOf(ADJACENT).forGetter(recipe -> recipe.adjacent),
+                        BuiltInRegistries.BLOCK.byNameCodec().optionalFieldOf(BELOW, Blocks.AIR).forGetter(recipe -> recipe.below),
+                        BuiltInRegistries.BLOCK.byNameCodec().fieldOf(ADJACENT).forGetter(recipe -> recipe.adjacent),
                         ItemStack.ITEM_WITH_COUNT_CODEC.fieldOf(RESULT).forGetter(recipe -> recipe.result)
                 ).apply(builder, RockGenMapping::new)
         );

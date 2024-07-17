@@ -20,6 +20,5 @@
   "result": {
     "count": 4,
     "item": "thermal:explosive_grenade"
-  },
-  "show_notification": true
+  }
 }

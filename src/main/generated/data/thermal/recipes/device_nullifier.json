@@ -1,12 +1,12 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
-  "conditions": [
+  "neoforge:conditions": [
     {
-      "type": "thermal:flag",
+      "type": "cofh_core:flag_set",
       "flag": "device_nullifier"
     }
   ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "C": {
       "item": "minecraft:lava_bucket"
@@ -31,6 +31,5 @@
   ],
   "result": {
     "item": "thermal:device_nullifier"
-  },
-  "show_notification": true
+  }
 }

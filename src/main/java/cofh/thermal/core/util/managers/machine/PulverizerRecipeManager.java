@@ -6,7 +6,6 @@ import cofh.thermal.core.util.recipes.machine.PulverizerRecipe;
 import cofh.thermal.lib.util.managers.SingleItemRecipeManager;
 import cofh.thermal.lib.util.recipes.ThermalRecipe;
 import cofh.thermal.lib.util.recipes.internal.*;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -22,7 +21,6 @@ import javax.annotation.Nullable;
 import java.util.*;
 
 import static cofh.core.util.helpers.ItemHelper.cloneStack;
-import static cofh.lib.util.constants.ModIds.ID_THERMAL;
 import static cofh.thermal.core.init.registries.TCoreRecipeTypes.*;
 
 public class PulverizerRecipeManager extends SingleItemRecipeManager.Catalyzed {
@@ -218,7 +216,7 @@ public class PulverizerRecipeManager extends SingleItemRecipeManager.Catalyzed {
 
     protected PulverizerRecipe convertOre(Ingredient input, Ingredient dust) {
 
-        return new PulverizerRecipe( getDefaultEnergy(), 0.2F,
+        return new PulverizerRecipe(getDefaultEnergy(), 0.2F,
                 Collections.singletonList(input),
                 Collections.emptyList(), // no fluid input
                 Arrays.asList(cloneStack(dust.getItems()[0], 1), new ItemStack(Blocks.GRAVEL)),

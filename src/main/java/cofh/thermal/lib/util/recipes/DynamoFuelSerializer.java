@@ -2,11 +2,14 @@ package cofh.thermal.lib.util.recipes;
 
 import cofh.lib.common.fluid.FluidIngredient;
 import cofh.lib.util.helpers.MathHelper;
+import cofh.lib.util.recipes.JsonMapCodec;
 import cofh.thermal.core.ThermalCore;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 
@@ -32,7 +35,20 @@ public class DynamoFuelSerializer<T extends ThermalFuel> implements RecipeSerial
     }
 
     @Override
-    public T fromJson(ResourceLocation recipeId, JsonObject json) {
+    public Codec<T> codec() {
+
+        return JsonMapCodec.INSTANCE
+                .flatXmap(json -> {
+                    try {
+                        return DataResult.success(fromJson(json));
+                    } catch (JsonParseException e) {
+                        return DataResult.error(e::getMessage);
+                    }
+                }, recipe -> DataResult.success(toJson(recipe)))
+                .codec();
+    }
+
+    protected T fromJson(JsonObject json) {
 
         int energy = defaultEnergy;
 
@@ -59,12 +75,17 @@ public class DynamoFuelSerializer<T extends ThermalFuel> implements RecipeSerial
         }
         if (energy < minEnergy || energy > maxEnergy) {
             energy = MathHelper.clamp(energy, minEnergy, maxEnergy);
-            ThermalCore.LOG.warn("Energy value for " + recipeId + " was out of allowable range and has been clamped between + " + minEnergy + " and " + maxEnergy + ".");
+            ThermalCore.LOG.warn("Energy value for a Dynamo Fuel was out of allowable range and has been clamped between + " + minEnergy + " and " + maxEnergy + ".");
         }
         if (inputItems.isEmpty() && inputFluids.isEmpty()) {
-            throw new JsonSyntaxException("Invalid Thermal Series fuel: " + recipeId + "\nRefer to the fuel's ResourceLocation to find the mod responsible and let them know!");
+            throw new JsonSyntaxException("Invalid Thermal Series fuel! Please check your datapacks!");
         }
-        return factory.create(recipeId, energy, inputItems, inputFluids);
+        return factory.create(energy, inputItems, inputFluids);
+    }
+
+    protected JsonObject toJson(T recipe) {
+
+        return null;
     }
 
     @Nullable
@@ -84,7 +105,7 @@ public class DynamoFuelSerializer<T extends ThermalFuel> implements RecipeSerial
         for (int i = 0; i < numInputFluids; ++i) {
             inputFluids.add(FluidIngredient.fromNetwork(buffer));
         }
-        return factory.create(recipeId, energy, inputItems, inputFluids);
+        return factory.create(energy, inputItems, inputFluids);
     }
 
     @Override

@@ -2,7 +2,7 @@ package cofh.thermal.core.compat.patchouli;
 
 import cofh.thermal.core.util.recipes.machine.SmelterRecipe;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import org.apache.logging.log4j.LogManager;
 import vazkii.patchouli.api.IComponentProcessor;
@@ -23,9 +23,9 @@ public class SmelterProcessor implements IComponentProcessor {
         if (!variables.has("recipe"))
             return;
         ResourceLocation recipeId = new ResourceLocation(variables.get("recipe").asString());
-        Optional<? extends Recipe<?>> recipe = level.getRecipeManager().byKey(recipeId);
-        if (recipe.isPresent() && recipe.get() instanceof SmelterRecipe) {
-            this.recipe = (SmelterRecipe) recipe.get();
+        Optional<? extends RecipeHolder<?>> recipe = level.getRecipeManager().byKey(recipeId);
+        if (recipe.isPresent() && recipe.get().value() instanceof SmelterRecipe) {
+            this.recipe = (SmelterRecipe) recipe.get().value();
         } else {
             LogManager.getLogger().warn("Thermalpedia missing the smelter recipe: " + recipeId);
         }

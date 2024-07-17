@@ -4,7 +4,6 @@ import cofh.lib.common.block.BlockIngredient;
 import cofh.lib.util.Utils;
 import cofh.lib.util.recipes.SerializableRecipe;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -97,7 +96,7 @@ public class TreeExtractorMapping extends SerializableRecipe {
     // region SERIALIZER
     public static class Serializer implements RecipeSerializer<TreeExtractorMapping> {
 
-        public static final Codec<TreeExtractorMapping> CODEC = RecordCodecBuilder.create();
+        // public static final Codec<TreeExtractorMapping> CODEC = RecordCodecBuilder.create();
 
         @Override
         public Codec<TreeExtractorMapping> codec() {

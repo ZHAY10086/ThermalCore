@@ -1,12 +1,12 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
-  "conditions": [
+  "neoforge:conditions": [
     {
-      "type": "thermal:flag",
-      "flag": "diving_armor"
+      "type": "cofh_core:flag_set",
+      "flag": "thermal:diving_armor"
     }
   ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "H": {
       "tag": "forge:gems/prismarine"
@@ -22,6 +22,5 @@
   ],
   "result": {
     "item": "thermal:diving_fabric"
-  },
-  "show_notification": true
+  }
 }

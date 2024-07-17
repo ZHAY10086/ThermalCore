@@ -1,12 +1,12 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
-  "conditions": [
+  "neoforge:conditions": [
     {
-      "type": "thermal:flag",
-      "flag": "machine_augments"
+      "type": "cofh_core:flag_set",
+      "flag": "thermal:machine_augments"
     }
   ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "C": {
       "tag": "forge:gears/constantan"
@@ -25,6 +25,5 @@
   ],
   "result": {
     "item": "thermal:machine_catalyst_augment"
-  },
-  "show_notification": true
+  }
 }

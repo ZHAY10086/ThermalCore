@@ -1,12 +1,12 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "equipment",
-  "conditions": [
+  "neoforge:conditions": [
     {
-      "type": "thermal:flag",
-      "flag": "diving_armor"
+      "type": "cofh_core:flag_set",
+      "flag": "thermal:diving_armor"
     }
   ],
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
   "key": {
     "G": {
       "tag": "forge:glass_panes"
@@ -24,6 +24,5 @@
   ],
   "result": {
     "item": "thermal:diving_helmet"
-  },
-  "show_notification": true
+  }
 }

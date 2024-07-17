@@ -16,6 +16,5 @@
   ],
   "result": {
     "item": "thermal:redstone_servo"
-  },
-  "show_notification": true
+  }
 }

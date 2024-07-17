@@ -6,15 +6,12 @@ import cofh.thermal.core.client.gui.device.DeviceRockGenScreen;
 import cofh.thermal.core.client.gui.device.DeviceTreeExtractorScreen;
 import cofh.thermal.core.compat.jei.device.RockGenCategory;
 import cofh.thermal.core.compat.jei.device.TreeExtractorCategory;
-import cofh.thermal.core.util.recipes.device.RockGenMapping;
-import cofh.thermal.core.util.recipes.device.TreeExtractorMapping;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotTooltipCallback;
 import mezz.jei.api.neoforge.NeoForgeTypes;
-import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.IGuiHandlerRegistration;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
@@ -25,7 +22,6 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 
 import static cofh.lib.util.Constants.BASE_CHANCE;
@@ -35,6 +31,8 @@ import static cofh.lib.util.constants.ModIds.ID_THERMAL;
 import static cofh.lib.util.helpers.StringHelper.getTextComponent;
 import static cofh.thermal.core.ThermalCore.BLOCKS;
 import static cofh.thermal.core.common.config.ThermalClientConfig.jeiBucketTanks;
+import static cofh.thermal.core.compat.jei.JeiRecipeTypes.ROCK_GEN_TYPE;
+import static cofh.thermal.core.compat.jei.JeiRecipeTypes.TREE_EXTRACTOR_TYPE;
 import static cofh.thermal.core.init.registries.TCoreRecipeTypes.ROCK_GEN_MAPPING;
 import static cofh.thermal.core.init.registries.TCoreRecipeTypes.TREE_EXTRACTOR_MAPPING;
 import static cofh.thermal.lib.util.ThermalIDs.*;
@@ -174,10 +172,5 @@ public class TCoreJeiPlugin implements IModPlugin {
         double scale = Math.pow(10, places);
         return Math.round(value * scale) / scale;
     }
-    // endregion
-
-    // region RECIPE TYPES
-    public static final RecipeType<RecipeHolder<TreeExtractorMapping>> TREE_EXTRACTOR_TYPE = RecipeType.createFromVanilla(TREE_EXTRACTOR_MAPPING.value());
-    public static final RecipeType<RecipeHolder<RockGenMapping>> ROCK_GEN_TYPE = RecipeType.createFromVanilla(ROCK_GEN_MAPPING.value());
     // endregion
 }
