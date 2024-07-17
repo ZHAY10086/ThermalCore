@@ -28,7 +28,7 @@ public class CrucibleRecipeManager extends SingleItemRecipeManager {
         clear();
         var recipes = recipeManager.byType(CRUCIBLE_RECIPE.get());
         for (var entry : recipes.entrySet()) {
-            addRecipe(entry.getValue());
+            addRecipe(entry.getValue().value());
         }
     }
     // endregion

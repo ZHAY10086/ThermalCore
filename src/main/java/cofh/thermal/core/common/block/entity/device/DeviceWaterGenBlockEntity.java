@@ -18,8 +18,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.client.model.data.ModelData;
-import net.neoforged.neoforge.common.capabilities.ForgeCapabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
 
 import javax.annotation.Nonnull;
@@ -114,12 +114,11 @@ public class DeviceWaterGenBlockEntity extends DeviceBlockEntity implements ITic
     protected void fillFluid() {
 
         if (!fillSlot.isEmpty()) {
-            fillSlot.getItemStack()
-                    .getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM, null)
-                    .ifPresent(c -> {
-                        tank.drain(c.fill(new FluidStack(tank.getFluidStack(), (int) (BUCKET_VOLUME * baseMod)), EXECUTE), EXECUTE);
-                        fillSlot.setItemStack(c.getContainer());
-                    });
+            var handler = fillSlot.getItemStack().getCapability(Capabilities.FluidHandler.ITEM);
+            if (handler != null) {
+                tank.drain(handler.fill(new FluidStack(tank.getFluidStack(), (int) (BUCKET_VOLUME * baseMod)), EXECUTE), EXECUTE);
+                fillSlot.setItemStack(handler.getContainer());
+            }
         }
     }
 

@@ -69,7 +69,7 @@ public class DynamoFuelSerializer<T extends ThermalFuel> implements RecipeSerial
 
     @Nullable
     @Override
-    public T fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
+    public T fromNetwork(FriendlyByteBuf buffer) {
 
         int energy = buffer.readVarInt();
 
@@ -106,7 +106,7 @@ public class DynamoFuelSerializer<T extends ThermalFuel> implements RecipeSerial
 
     public interface IFactory<T extends ThermalFuel> {
 
-        T create(ResourceLocation recipeId, int energy, List<Ingredient> inputItems, List<FluidIngredient> inputFluids);
+        T create(int energy, List<Ingredient> inputItems, List<FluidIngredient> inputFluids);
 
     }
 

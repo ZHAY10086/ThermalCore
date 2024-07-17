@@ -105,12 +105,12 @@ public final class RegistrationHelper {
         blocksTab(150, registerBlock(woodName + "_planks", () -> new Block(of().mapColor(color).instrument(NoteBlockInstrument.BASS).strength(hardness, resistance).sound(soundType)), modId));
         blocksTab(150, registerBlock(woodName + "_slab", () -> new SlabBlock(of().mapColor(color).instrument(NoteBlockInstrument.BASS).strength(hardness, resistance).sound(soundType)), modId));
         blocksTab(150, registerBlock(woodName + "_stairs", () -> new StairBlock(() -> BLOCKS.get(woodName + "_planks").defaultBlockState(), of().mapColor(color).instrument(NoteBlockInstrument.BASS).strength(hardness, resistance).sound(soundType)), modId));
-        blocksTab(150, registerBlock(woodName + "_door", () -> new DoorBlock(of().mapColor(color).instrument(NoteBlockInstrument.BASS).strength(resistance).sound(soundType).noOcclusion(), type.setType()), modId));
-        blocksTab(150, registerBlock(woodName + "_trapdoor", () -> new TrapDoorBlock(of().mapColor(color).instrument(NoteBlockInstrument.BASS).strength(resistance).sound(soundType).noOcclusion().isValidSpawn((state, reader, pos, entityType) -> false), type.setType()), modId));
+        blocksTab(150, registerBlock(woodName + "_door", () -> new DoorBlock(type.setType(), of().mapColor(color).instrument(NoteBlockInstrument.BASS).strength(resistance).sound(soundType).noOcclusion()), modId));
+        blocksTab(150, registerBlock(woodName + "_trapdoor", () -> new TrapDoorBlock(type.setType(), of().mapColor(color).instrument(NoteBlockInstrument.BASS).strength(resistance).sound(soundType).noOcclusion().isValidSpawn((state, reader, pos, entityType) -> false)), modId));
         blocksTab(150, registerBlock(woodName + "_button", () -> Blocks.woodenButton(type.setType()), modId));
-        blocksTab(150, registerBlock(woodName + "_pressure_plate", () -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, of().mapColor(color).forceSolidOn().instrument(NoteBlockInstrument.BASS).noCollission().strength(0.5F).ignitedByLava().pushReaction(PushReaction.DESTROY), type.setType()), modId));
+        blocksTab(150, registerBlock(woodName + "_pressure_plate", () -> new PressurePlateBlock(type.setType(), of().mapColor(color).forceSolidOn().instrument(NoteBlockInstrument.BASS).noCollission().strength(0.5F).ignitedByLava().pushReaction(PushReaction.DESTROY)), modId));
         blocksTab(150, registerBlock(woodName + "_fence", () -> new FenceBlock(of().mapColor(color).instrument(NoteBlockInstrument.BASS).strength(hardness, resistance).sound(soundType)), modId));
-        blocksTab(150, registerBlock(woodName + "_fence_gate", () -> new FenceGateBlock(of().mapColor(color).forceSolidOn().instrument(NoteBlockInstrument.BASS).strength(hardness, resistance).ignitedByLava(), type), modId));
+        blocksTab(150, registerBlock(woodName + "_fence_gate", () -> new FenceGateBlock(type, of().mapColor(color).forceSolidOn().instrument(NoteBlockInstrument.BASS).strength(hardness, resistance).ignitedByLava()), modId));
     }
     // endregion
 
@@ -284,7 +284,7 @@ public final class RegistrationHelper {
     // region EXPLOSIVES
     public static DeferredHolder<Item, Item> registerGrenade(String id, IDetonatable.IDetonateAction action) {
 
-        RegistryObject<EntityType<? extends AbstractGrenade>> entity = ENTITIES.register(id, () -> EntityType.Builder.<Grenade>of((type, world) -> new Grenade(type, world, action), MobCategory.MISC).sized(0.25F, 0.25F).build(id));
+        Supplier<EntityType<? extends AbstractGrenade>> entity = ENTITIES.register(id, () -> EntityType.Builder.<Grenade>of((type, world) -> new Grenade(type, world, action), MobCategory.MISC).sized(0.25F, 0.25F).build(id));
         DetonateUtils.GRENADES.add(entity);
         return registerItem(id, () -> new GrenadeItem(new GrenadeItem.IGrenadeFactory<>() {
 
@@ -305,7 +305,7 @@ public final class RegistrationHelper {
 
     public static DeferredHolder<Item, Item> registerTNT(String id, IDetonatable.IDetonateAction action) {
 
-        RegistryObject<EntityType<? extends PrimedTntCoFH>> tntEntity = ENTITIES.register(id, () -> EntityType.Builder.<ThermalTNTEntity>of((type, world) -> new ThermalTNTEntity(type, world, action), MobCategory.MISC).fireImmune().sized(0.98F, 0.98F).build(id));
+        Supplier<EntityType<? extends PrimedTntCoFH>> tntEntity = ENTITIES.register(id, () -> EntityType.Builder.<ThermalTNTEntity>of((type, world) -> new ThermalTNTEntity(type, world, action), MobCategory.MISC).fireImmune().sized(0.98F, 0.98F).build(id));
         registerBlockOnly(id, () -> new TntBlockCoFH((world, x, y, z, igniter) -> new ThermalTNTEntity(tntEntity.get(), world, action, x, y, z, igniter), of().mapColor(MapColor.COLOR_YELLOW).strength(0.0F).sound(SoundType.GRASS)));
         DetonateUtils.TNT.add(tntEntity);
         return registerItem(id, () -> new BlockItemCoFH(BLOCKS.get(id), itemProperties()));
@@ -314,7 +314,7 @@ public final class RegistrationHelper {
 
     public static DeferredHolder<Item, Item> registerTNTMinecart(String id, String tntId, IDetonatable.IDetonateAction action) {
 
-        RegistryObject<EntityType<? extends AbstractTNTMinecart>> entity = ENTITIES.register(id, () -> EntityType.Builder.<ThermalTNTMinecart>of((type, world) -> new ThermalTNTMinecart(type, world, action, BLOCKS.get(tntId)), MobCategory.MISC).sized(0.98F, 0.7F).build(id));
+        Supplier<EntityType<? extends AbstractTNTMinecart>> entity = ENTITIES.register(id, () -> EntityType.Builder.<ThermalTNTMinecart>of((type, world) -> new ThermalTNTMinecart(type, world, action, BLOCKS.get(tntId)), MobCategory.MISC).sized(0.98F, 0.7F).build(id));
         DetonateUtils.CARTS.add(entity);
         return registerItem(id, () -> new MinecartItemCoFH((world, x, y, z) -> new ThermalTNTMinecart(entity.get(), world, action, BLOCKS.get(tntId), x, y, z), itemProperties()).setModId(ID_THERMAL_LOCOMOTION));
     }

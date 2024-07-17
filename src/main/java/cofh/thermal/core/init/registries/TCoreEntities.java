@@ -13,6 +13,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
+import static cofh.lib.util.FlagManager.getFlag;
 import static cofh.thermal.core.ThermalCore.ENTITIES;
 import static cofh.thermal.core.init.registries.ThermalCreativeTabs.toolsTab;
 import static cofh.thermal.core.util.RegistrationHelper.registerGrenade;
@@ -54,11 +55,6 @@ public class TCoreEntities {
     }
 
     public static void setup() {
-
-        // TODO: 11.1 Remove after confirming event working
-        //        SpawnPlacements.register(BASALZ.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Basalz::canSpawn);
-        //        SpawnPlacements.register(BLITZ.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Blitz::canSpawn);
-        //        SpawnPlacements.register(BLIZZ.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Blizz::canSpawn);
 
         AugmentableMinecart.setup();
     }

@@ -4,13 +4,10 @@ import cofh.core.client.model.SimpleModel;
 import cofh.thermal.core.client.renderer.entity.layers.FestiveLayer;
 import cofh.thermal.core.client.renderer.model.*;
 import cofh.thermal.core.common.config.ThermalClientConfig;
-import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.monster.Blaze;
-import net.minecraft.world.entity.monster.EnderMan;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
@@ -35,7 +32,7 @@ public class TCoreClientSetupEvents {
             return;
         }
         var blaze = event.getRenderer(EntityType.BLAZE);
-        if (blaze instanceof LivingEntityRenderer<Blaze, ? extends EntityModel<Blaze>> livingEntityRenderer) {
+        if (blaze instanceof LivingEntityRenderer livingEntityRenderer) {
             livingEntityRenderer.addLayer(new FestiveLayer<>(event.getContext(), (RenderLayerParent) blaze, -0.15F, 0.9F));
         }
         //        var creeper = event.getRenderer(EntityType.CREEPER);
@@ -43,7 +40,7 @@ public class TCoreClientSetupEvents {
         //            creeper.addLayer(new FestiveLayer<>(event.getContext(), (RenderLayerParent) creeper, 0.0F, 0.9F));
         //        }
         var enderman = event.getRenderer(EntityType.ENDERMAN);
-        if (enderman instanceof LivingEntityRenderer<EnderMan, ? extends EntityModel<EnderMan>> livingEntityRenderer) {
+        if (enderman instanceof LivingEntityRenderer livingEntityRenderer) {
             livingEntityRenderer.addLayer(new FestiveLayer<>(event.getContext(), (RenderLayerParent) enderman, -1.15F, 0.9F));
         }
         //        var ghast = event.getRenderer(EntityType.GHAST);

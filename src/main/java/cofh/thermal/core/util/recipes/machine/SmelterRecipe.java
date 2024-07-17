@@ -19,13 +19,13 @@ import static cofh.thermal.core.init.registries.TCoreRecipeTypes.SMELTER_RECIPE;
 
 public class SmelterRecipe extends ThermalRecipe {
 
-    public SmelterRecipe(ResourceLocation recipeId, int energy, float experience, List<Ingredient> inputItems, List<FluidIngredient> inputFluids, List<ItemStack> outputItems, List<Float> outputItemChances, List<FluidStack> outputFluids) {
+    public SmelterRecipe(int energy, float experience, List<Ingredient> inputItems, List<FluidIngredient> inputFluids, List<ItemStack> outputItems, List<Float> outputItemChances, List<FluidStack> outputFluids) {
 
-        super(recipeId, energy, experience, inputItems, inputFluids, outputItems, outputItemChances, outputFluids);
+        super(energy, experience, inputItems, inputFluids, outputItems, outputItemChances, outputFluids);
 
         if (this.energy <= 0) {
             int defaultEnergy = SmelterRecipeManager.instance().getDefaultEnergy();
-            ThermalCore.LOG.warn("Energy value for " + recipeId + " was out of allowable range and has been set to a default value of " + defaultEnergy + ".");
+            ThermalCore.LOG.warn("Energy value for an Induction Smelter recipe was out of allowable range and has been set to a default value of " + defaultEnergy + ".");
             this.energy = defaultEnergy;
         }
     }

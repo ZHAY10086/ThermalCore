@@ -21,11 +21,9 @@ import cofh.thermal.core.common.entity.monster.Blitz;
 import cofh.thermal.core.common.entity.monster.Blizz;
 import cofh.thermal.core.common.fluid.RedstoneFluid;
 import cofh.thermal.core.init.registries.*;
-import cofh.thermal.lib.util.ThermalFlags;
 import cofh.thermal.lib.util.ThermalProxy;
 import cofh.thermal.lib.util.ThermalProxyClient;
 import com.mojang.serialization.Codec;
-import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
@@ -54,16 +52,18 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.SpawnPlacementRegisterEvent;
 import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.neoforged.neoforge.registries.NewRegistryEvent;
-import net.neoforged.neoforge.registries.RegisterEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import static cofh.lib.util.FlagManager.getFlag;
+import static cofh.lib.util.FlagManager.setFlag;
 import static cofh.lib.util.constants.ModIds.ID_THERMAL;
 import static cofh.thermal.core.init.registries.TCoreEntities.*;
 import static cofh.thermal.core.init.registries.TCoreMenus.*;
@@ -113,9 +113,9 @@ public class ThermalCore {
         modEventBus.addListener(this::entityRendererSetup);
         modEventBus.addListener(this::spawnPlacementSetup);
         modEventBus.addListener(this::capSetup);
+        modEventBus.addListener(this::menuScreenSetup);
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::clientSetup);
-        modEventBus.addListener(this::registerLootData);
         modEventBus.addListener(this::registrySetup);
 
         BLOCKS.register(modEventBus);
@@ -183,13 +183,6 @@ public class ThermalCore {
     }
 
     // region INITIALIZATION
-    private void registerLootData(final RegisterEvent event) {
-
-        if (event.getRegistryKey() == BuiltInRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS) {
-            ThermalFlags.manager().setup();
-        }
-    }
-
     private void entityAttributeSetup(final EntityAttributeCreationEvent event) {
 
         event.put(BASALZ.get(), Basalz.registerAttributes().build());
@@ -241,6 +234,28 @@ public class ThermalCore {
 
     }
 
+    private void menuScreenSetup(final RegisterMenuScreensEvent event) {
+
+        event.register(DEVICE_HIVE_EXTRACTOR_CONTAINER.get(), DeviceHiveExtractorScreen::new);
+        event.register(DEVICE_TREE_EXTRACTOR_CONTAINER.get(), DeviceTreeExtractorScreen::new);
+        event.register(DEVICE_FISHER_CONTAINER.get(), DeviceFisherScreen::new);
+        event.register(DEVICE_COMPOSTER_CONTAINER.get(), DeviceComposterScreen::new);
+        event.register(DEVICE_SOIL_INFUSER_CONTAINER.get(), DeviceSoilInfuserScreen::new);
+        event.register(DEVICE_WATER_GEN_CONTAINER.get(), DeviceWaterGenScreen::new);
+        event.register(DEVICE_ROCK_GEN_CONTAINER.get(), DeviceRockGenScreen::new);
+        event.register(DEVICE_COLLECTOR_CONTAINER.get(), DeviceCollectorScreen::new);
+        event.register(DEVICE_XP_CONDENSER_CONTAINER.get(), DeviceXpCondenserScreen::new);
+        event.register(DEVICE_POTION_DIFFUSER_CONTAINER.get(), DevicePotionDiffuserScreen::new);
+        event.register(DEVICE_NULLIFIER_CONTAINER.get(), DeviceNullifierScreen::new);
+        event.register(TINKER_BENCH_CONTAINER.get(), TinkerBenchScreen::new);
+        event.register(CHARGE_BENCH_CONTAINER.get(), ChargeBenchScreen::new);
+        event.register(SATCHEL_CONTAINER.get(), SatchelScreen::new);
+        event.register(ENERGY_CELL_CONTAINER.get(), EnergyCellScreen::new);
+        event.register(FLUID_CELL_CONTAINER.get(), FluidCellScreen::new);
+
+        // event.register(ITEM_CELL_CONTAINER, ItemCellScreen::new);
+    }
+
     private void commonSetup(final FMLCommonSetupEvent event) {
 
         event.enqueueWork(TCoreBlocks::setup);
@@ -251,7 +266,6 @@ public class ThermalCore {
 
     private void clientSetup(final FMLClientSetupEvent event) {
 
-        event.enqueueWork(this::registerGuiFactories);
         event.enqueueWork(this::registerRenderLayers);
 
         event.enqueueWork(() -> CoreClientEvents.addNamespace(ID_THERMAL));
@@ -266,28 +280,6 @@ public class ThermalCore {
     // endregion
 
     // region HELPERS
-    private void registerGuiFactories() {
-
-        MenuScreens.register(DEVICE_HIVE_EXTRACTOR_CONTAINER.get(), DeviceHiveExtractorScreen::new);
-        MenuScreens.register(DEVICE_TREE_EXTRACTOR_CONTAINER.get(), DeviceTreeExtractorScreen::new);
-        MenuScreens.register(DEVICE_FISHER_CONTAINER.get(), DeviceFisherScreen::new);
-        MenuScreens.register(DEVICE_COMPOSTER_CONTAINER.get(), DeviceComposterScreen::new);
-        MenuScreens.register(DEVICE_SOIL_INFUSER_CONTAINER.get(), DeviceSoilInfuserScreen::new);
-        MenuScreens.register(DEVICE_WATER_GEN_CONTAINER.get(), DeviceWaterGenScreen::new);
-        MenuScreens.register(DEVICE_ROCK_GEN_CONTAINER.get(), DeviceRockGenScreen::new);
-        MenuScreens.register(DEVICE_COLLECTOR_CONTAINER.get(), DeviceCollectorScreen::new);
-        MenuScreens.register(DEVICE_XP_CONDENSER_CONTAINER.get(), DeviceXpCondenserScreen::new);
-        MenuScreens.register(DEVICE_POTION_DIFFUSER_CONTAINER.get(), DevicePotionDiffuserScreen::new);
-        MenuScreens.register(DEVICE_NULLIFIER_CONTAINER.get(), DeviceNullifierScreen::new);
-        MenuScreens.register(TINKER_BENCH_CONTAINER.get(), TinkerBenchScreen::new);
-        MenuScreens.register(CHARGE_BENCH_CONTAINER.get(), ChargeBenchScreen::new);
-        MenuScreens.register(SATCHEL_CONTAINER.get(), SatchelScreen::new);
-        MenuScreens.register(ENERGY_CELL_CONTAINER.get(), EnergyCellScreen::new);
-        MenuScreens.register(FLUID_CELL_CONTAINER.get(), FluidCellScreen::new);
-
-        // MenuScreens.register(ITEM_CELL_CONTAINER, ItemCellScreen::new);
-    }
-
     private void registerRenderLayers() {
 
         ItemBlockRenderTypes.setRenderLayer(RedstoneFluid.instance().still().get(), RenderType.translucent());

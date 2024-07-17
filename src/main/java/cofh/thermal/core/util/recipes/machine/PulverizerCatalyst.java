@@ -1,7 +1,6 @@
 package cofh.thermal.core.util.recipes.machine;
 
 import cofh.thermal.lib.util.recipes.ThermalCatalyst;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -13,9 +12,9 @@ import static cofh.thermal.core.init.registries.TCoreRecipeTypes.PULVERIZER_CATA
 
 public class PulverizerCatalyst extends ThermalCatalyst {
 
-    public PulverizerCatalyst(ResourceLocation recipeId, Ingredient ingredient, float primaryMod, float secondaryMod, float energyMod, float minChance, float useChance) {
+    public PulverizerCatalyst(Ingredient ingredient, float primaryMod, float secondaryMod, float energyMod, float minChance, float useChance) {
 
-        super(recipeId, ingredient, primaryMod, secondaryMod, energyMod, minChance, useChance);
+        super(ingredient, primaryMod, secondaryMod, energyMod, minChance, useChance);
     }
 
     @Nonnull

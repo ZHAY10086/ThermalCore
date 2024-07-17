@@ -27,7 +27,7 @@ public class NumismaticFuelManager extends SingleItemFuelManager {
         clear();
         var recipes = recipeManager.byType(NUMISMATIC_FUEL.get());
         for (var entry : recipes.entrySet()) {
-            addFuel(entry.getValue());
+            addFuel(entry.getValue().value());
         }
     }
     // endregion

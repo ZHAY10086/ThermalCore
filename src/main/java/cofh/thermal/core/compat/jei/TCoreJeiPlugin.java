@@ -25,6 +25,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 
 import static cofh.lib.util.Constants.BASE_CHANCE;
@@ -176,7 +177,7 @@ public class TCoreJeiPlugin implements IModPlugin {
     // endregion
 
     // region RECIPE TYPES
-    public static final RecipeType<TreeExtractorMapping> TREE_EXTRACTOR_TYPE = new RecipeType<>(TREE_EXTRACTOR_MAPPING.getId(), TreeExtractorMapping.class);
-    public static final RecipeType<RockGenMapping> ROCK_GEN_TYPE = new RecipeType<>(ROCK_GEN_MAPPING.getId(), RockGenMapping.class);
+    public static final RecipeType<RecipeHolder<TreeExtractorMapping>> TREE_EXTRACTOR_TYPE = RecipeType.createFromVanilla(TREE_EXTRACTOR_MAPPING.value());
+    public static final RecipeType<RecipeHolder<RockGenMapping>> ROCK_GEN_TYPE = RecipeType.createFromVanilla(ROCK_GEN_MAPPING.value());
     // endregion
 }

@@ -13,7 +13,7 @@ import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.EnchantmentInstance;
-import net.neoforged.neoforge.common.capabilities.ForgeCapabilities;
+import net.neoforged.neoforge.capabilities.Capabilities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +44,7 @@ public class DisenchantmentFuelManager extends SingleItemFuelManager {
     @Override
     public boolean validFuel(ItemStack input) {
 
-        if (input.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent()) {
+        if (input.getCapability(Capabilities.FluidHandler.ITEM) != null) {
             return false;
         }
         return getEnergy(input) > 0;
@@ -86,7 +86,7 @@ public class DisenchantmentFuelManager extends SingleItemFuelManager {
         clear();
         var recipes = recipeManager.byType(DISENCHANTMENT_FUEL.get());
         for (var entry : recipes.entrySet()) {
-            addFuel(entry.getValue());
+            addFuel(entry.getValue().value());
         }
         createConvertedRecipes(recipeManager);
     }

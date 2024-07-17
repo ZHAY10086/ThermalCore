@@ -166,7 +166,7 @@ public class PressRecipeManager extends AbstractManager implements IRecipeManage
         //        }
         var recipes = recipeManager.byType(PRESS_RECIPE.get());
         for (var entry : recipes.entrySet()) {
-            addRecipe(entry.getValue());
+            addRecipe(entry.getValue().value());
         }
     }
     // endregion

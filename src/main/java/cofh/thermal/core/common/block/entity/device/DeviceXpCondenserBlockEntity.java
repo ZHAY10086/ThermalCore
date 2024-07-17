@@ -161,7 +161,7 @@ public class DeviceXpCondenserBlockEntity extends DeviceBlockEntity implements I
     public AABB getArea() {
 
         if (area == null) {
-            area = new AABB(worldPosition.offset(-radius, -radius, -radius), worldPosition.offset(1 + radius, 1 + radius, 1 + radius));
+            area = AABB.encapsulatingFullBlocks(worldPosition.offset(-radius, -radius, -radius), worldPosition.offset(1 + radius, 1 + radius, 1 + radius));
         }
         return area;
     }

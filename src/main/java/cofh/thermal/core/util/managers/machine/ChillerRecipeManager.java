@@ -169,7 +169,7 @@ public class ChillerRecipeManager extends AbstractManager implements IRecipeMana
         clear();
         var recipes = recipeManager.byType(CHILLER_RECIPE.get());
         for (var entry : recipes.entrySet()) {
-            addRecipe(entry.getValue());
+            addRecipe(entry.getValue().value());
         }
     }
     // endregion

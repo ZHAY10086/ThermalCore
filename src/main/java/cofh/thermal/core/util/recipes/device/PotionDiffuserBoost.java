@@ -2,9 +2,9 @@ package cofh.thermal.core.util.recipes.device;
 
 import cofh.lib.util.recipes.SerializableRecipe;
 import cofh.thermal.core.util.managers.device.PotionDiffuserManager;
-import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -23,12 +23,9 @@ public class PotionDiffuserBoost extends SerializableRecipe {
     protected float durationMod;
     protected int cycles;
 
-    public PotionDiffuserBoost(ResourceLocation recipeId, Ingredient inputItem, int amplifier, float durationMod, int cycles) {
-
-        super(recipeId);
+    public PotionDiffuserBoost(Ingredient inputItem, int amplifier, float durationMod, int cycles) {
 
         this.ingredient = inputItem;
-
         this.amplifier = amplifier;
         this.durationMod = durationMod;
         this.cycles = cycles;
@@ -71,32 +68,46 @@ public class PotionDiffuserBoost extends SerializableRecipe {
     // region SERIALIZER
     public static class Serializer implements RecipeSerializer<PotionDiffuserBoost> {
 
+        public static final Codec<PotionDiffuserBoost> CODEC = RecordCodecBuilder.create(builder -> builder.group(
+                        Ingredient.CODEC_NONEMPTY.fieldOf(INGREDIENT).forGetter(recipe -> recipe.ingredient),
+                        Codec.INT.optionalFieldOf(AMPLIFIER, 0).forGetter(recipe -> recipe.amplifier),
+                        Codec.FLOAT.optionalFieldOf(DURATION_MOD, 0.0F).forGetter(recipe -> recipe.durationMod),
+                        Codec.INT.optionalFieldOf(CYCLES, PotionDiffuserManager.instance().getDefaultEnergy()).forGetter(recipe -> recipe.cycles)
+                ).apply(builder, PotionDiffuserBoost::new)
+        );
+
         @Override
-        public PotionDiffuserBoost fromJson(ResourceLocation recipeId, JsonObject json) {
+        public Codec<PotionDiffuserBoost> codec() {
 
-            Ingredient ingredient;
-            int amplifier = 0;
-            float durationMod = 0.0F;
-            int cycles = PotionDiffuserManager.instance().getDefaultEnergy();
-
-            /* INPUT */
-            ingredient = parseIngredient(json.get(INGREDIENT));
-
-            if (json.has(AMPLIFIER)) {
-                amplifier = json.get(AMPLIFIER).getAsInt();
-            }
-            if (json.has(DURATION_MOD)) {
-                durationMod = json.get(DURATION_MOD).getAsFloat();
-            }
-            if (json.has(CYCLES)) {
-                cycles = json.get(CYCLES).getAsInt();
-            }
-            return new PotionDiffuserBoost(recipeId, ingredient, amplifier, durationMod, cycles);
+            return CODEC;
         }
+
+        //        @Override
+        //        public PotionDiffuserBoost fromJson(ResourceLocation recipeId, JsonObject json) {
+        //
+        //            Ingredient ingredient;
+        //            int amplifier = 0;
+        //            float durationMod = 0.0F;
+        //            int cycles = PotionDiffuserManager.instance().getDefaultEnergy();
+        //
+        //            /* INPUT */
+        //            ingredient = parseIngredient(json.get(INGREDIENT));
+        //
+        //            if (json.has(AMPLIFIER)) {
+        //                amplifier = json.get(AMPLIFIER).getAsInt();
+        //            }
+        //            if (json.has(DURATION_MOD)) {
+        //                durationMod = json.get(DURATION_MOD).getAsFloat();
+        //            }
+        //            if (json.has(CYCLES)) {
+        //                cycles = json.get(CYCLES).getAsInt();
+        //            }
+        //            return new PotionDiffuserBoost(recipeId, ingredient, amplifier, durationMod, cycles);
+        //        }
 
         @Nullable
         @Override
-        public PotionDiffuserBoost fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
+        public PotionDiffuserBoost fromNetwork(FriendlyByteBuf buffer) {
 
             Ingredient ingredient = Ingredient.fromNetwork(buffer);
 
@@ -104,7 +115,7 @@ public class PotionDiffuserBoost extends SerializableRecipe {
             float durationMod = buffer.readFloat();
             int cycles = buffer.readInt();
 
-            return new PotionDiffuserBoost(recipeId, ingredient, amplifier, durationMod, cycles);
+            return new PotionDiffuserBoost(ingredient, amplifier, durationMod, cycles);
         }
 
         @Override

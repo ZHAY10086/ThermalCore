@@ -26,7 +26,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.common.capabilities.ForgeCapabilities;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.ArrayList;
@@ -69,7 +69,8 @@ public abstract class AugmentableMinecart extends AbstractMinecartCoFH implement
 
     protected boolean attemptFluidHandlerInteraction(Player player, InteractionHand hand) {
 
-        return getCapability(ForgeCapabilities.FLUID_HANDLER).map(handler -> FluidHelper.interactWithHandler(player.getItemInHand(hand), handler, player, hand)).orElse(false);
+        var handler = getCapability(Capabilities.FluidHandler.ENTITY, null);
+        return handler != null && FluidHelper.interactWithHandler(player.getItemInHand(hand), handler, player, hand);
     }
 
     @Override

@@ -19,9 +19,9 @@ import cofh.thermal.core.common.item.FluidCellBlockItem;
 import cofh.thermal.lib.common.block.StorageCellBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.ColorRGBA;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.*;
@@ -109,14 +109,8 @@ public class TCoreBlocks {
             }
         }, () -> new BlockItemCoFH(BLOCKS.get(ID_SULFUR_BLOCK), itemProperties()).setBurnTime(12000)));
 
-        blocksTab(registerBlock(ID_SAWDUST_BLOCK, () -> new FallingBlock(of().strength(1.0F, 1.0F).sound(SoundType.SAND)) {
-
-            @Override
-            public int getDustColor(BlockState state, BlockGetter reader, BlockPos pos) {
-
-                return 11507581;
-            }
-        }, () -> new BlockItemCoFH(BLOCKS.get(ID_SAWDUST_BLOCK), itemProperties()).setBurnTime(2400)));
+        blocksTab(registerBlock(ID_SAWDUST_BLOCK, () -> new ColoredFallingBlock(new ColorRGBA(11507581), of().strength(1.0F, 1.0F).sound(SoundType.SAND)),
+                () -> new BlockItemCoFH(BLOCKS.get(ID_SAWDUST_BLOCK), itemProperties()).setBurnTime(2400)));
 
         blocksTab(registerBlock(ID_COAL_COKE_BLOCK, () -> new Block(of().mapColor(COLOR_BLACK).strength(5.0F, 6.0F).requiresCorrectToolForDrops()),
                 () -> new BlockItemCoFH(BLOCKS.get(ID_COAL_COKE_BLOCK), itemProperties()).setBurnTime(32000)));

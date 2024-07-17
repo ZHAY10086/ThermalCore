@@ -53,7 +53,7 @@ public class MachineCatalystSerializer<T extends ThermalCatalyst> implements Rec
 
     @Nullable
     @Override
-    public T fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
+    public T fromNetwork(FriendlyByteBuf buffer) {
 
         Ingredient ingredient = Ingredient.fromNetwork(buffer);
 
@@ -63,7 +63,7 @@ public class MachineCatalystSerializer<T extends ThermalCatalyst> implements Rec
         float minChance = buffer.readFloat();
         float useChance = buffer.readFloat();
 
-        return factory.create(recipeId, ingredient, primaryMod, secondaryMod, energyMod, minChance, useChance);
+        return factory.create(ingredient, primaryMod, secondaryMod, energyMod, minChance, useChance);
     }
 
     @Override
@@ -80,7 +80,7 @@ public class MachineCatalystSerializer<T extends ThermalCatalyst> implements Rec
 
     public interface IFactory<T extends ThermalCatalyst> {
 
-        T create(ResourceLocation recipeId, Ingredient ingredient, float primaryMod, float secondaryMod, float energyMod, float minChance, float useChance);
+        T create(Ingredient ingredient, float primaryMod, float secondaryMod, float energyMod, float minChance, float useChance);
 
     }
 

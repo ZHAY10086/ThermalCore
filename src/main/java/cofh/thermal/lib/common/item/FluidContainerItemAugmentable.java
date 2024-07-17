@@ -19,7 +19,7 @@ import static cofh.lib.api.ContainerType.FLUID;
 import static cofh.lib.util.Constants.MAX_POTION_AMPLIFIER;
 import static cofh.lib.util.Constants.MAX_POTION_DURATION;
 import static cofh.lib.util.constants.NBTTags.*;
-import static net.minecraftforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE;
+import static net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE;
 
 public class FluidContainerItemAugmentable extends FluidContainerItem implements IAugmentableItem {
 

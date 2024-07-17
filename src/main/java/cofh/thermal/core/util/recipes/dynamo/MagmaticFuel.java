@@ -19,15 +19,15 @@ import static cofh.thermal.core.init.registries.TCoreRecipeTypes.MAGMATIC_FUEL;
 
 public class MagmaticFuel extends ThermalFuel {
 
-    public MagmaticFuel(ResourceLocation recipeId, int energy, @Nullable List<Ingredient> inputItems, @Nullable List<FluidIngredient> inputFluids) {
+    public MagmaticFuel(int energy, @Nullable List<Ingredient> inputItems, @Nullable List<FluidIngredient> inputFluids) {
 
-        super(recipeId, energy, inputItems, inputFluids);
+        super(energy, inputItems, inputFluids);
 
         int minEnergy = MagmaticFuelManager.MIN_ENERGY;
         int maxEnergy = MagmaticFuelManager.MAX_ENERGY;
 
         if (this.energy < minEnergy || this.energy > maxEnergy) {
-            ThermalCore.LOG.warn("Energy value for " + recipeId + " was out of allowable range and has been clamped between + " + minEnergy + " and " + maxEnergy + ".");
+            ThermalCore.LOG.warn("Energy value for a Magmatic fuel was out of allowable range and has been clamped between + " + minEnergy + " and " + maxEnergy + ".");
             this.energy = MathHelper.clamp(this.energy, minEnergy, maxEnergy);
         }
     }

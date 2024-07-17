@@ -19,13 +19,13 @@ import static cofh.thermal.core.init.registries.TCoreRecipeTypes.SAWMILL_RECIPE;
 
 public class SawmillRecipe extends ThermalRecipe {
 
-    public SawmillRecipe(ResourceLocation recipeId, int energy, float experience, List<Ingredient> inputItems, List<FluidIngredient> inputFluids, List<ItemStack> outputItems, List<Float> outputItemChances, List<FluidStack> outputFluids) {
+    public SawmillRecipe(int energy, float experience, List<Ingredient> inputItems, List<FluidIngredient> inputFluids, List<ItemStack> outputItems, List<Float> outputItemChances, List<FluidStack> outputFluids) {
 
-        super(recipeId, energy, experience, inputItems, inputFluids, outputItems, outputItemChances, outputFluids);
+        super(energy, experience, inputItems, inputFluids, outputItems, outputItemChances, outputFluids);
 
         if (this.energy <= 0) {
             int defaultEnergy = SawmillRecipeManager.instance().getDefaultEnergy();
-            ThermalCore.LOG.warn("Energy value for " + recipeId + " was out of allowable range and has been set to a default value of " + defaultEnergy + ".");
+            ThermalCore.LOG.warn("Energy value for a Sawmill recipe was out of allowable range and has been set to a default value of " + defaultEnergy + ".");
             this.energy = defaultEnergy;
         }
     }

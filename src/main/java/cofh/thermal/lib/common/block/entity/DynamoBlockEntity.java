@@ -1,12 +1,12 @@
 package cofh.thermal.lib.common.block.entity;
 
 import cofh.core.util.helpers.AugmentDataHelper;
+import cofh.core.util.helpers.EnergyHelper;
 import cofh.lib.api.block.entity.ITickableTile;
 import cofh.lib.common.energy.EnergyStorageCoFH;
 import cofh.lib.util.Utils;
 import cofh.lib.util.helpers.BlockHelper;
 import cofh.lib.util.helpers.MathHelper;
-import cofh.thermal.lib.util.ThermalEnergyHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -149,10 +149,11 @@ public abstract class DynamoBlockEntity extends AugmentableBlockEntity implement
 
         BlockEntity adjTile = BlockHelper.getAdjacentTileEntity(this, getFacing());
         if (adjTile != null) {
-            Direction opposite = getFacing().getOpposite();
-            int maxTransfer = Math.min(energyStorage.getMaxExtract(), energyStorage.getEnergyStored());
-            adjTile.getCapability(ThermalEnergyHelper.getBaseEnergySystem(), opposite)
-                    .ifPresent(e -> energyStorage.modify(-e.receiveEnergy(maxTransfer, false)));
+            var handler = EnergyHelper.getEnergyHandlerCap(adjTile, getFacing().getOpposite());
+            if (handler != null && handler.canReceive()) {
+                int maxTransfer = Math.min(energyStorage.getMaxExtract(), energyStorage.getEnergyStored());
+                energyStorage.modify(-handler.receiveEnergy(maxTransfer, false));
+            }
         }
     }
 

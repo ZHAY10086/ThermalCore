@@ -24,11 +24,11 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.registries.DeferredHolder;
 
 import javax.annotation.Nullable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Supplier;
 
 import static cofh.core.init.CoreMobEffects.SLIMED;
 import static cofh.core.init.CoreParticles.FROST;
@@ -37,9 +37,9 @@ import static net.minecraft.world.effect.MobEffects.WITHER;
 public class DetonateUtils {
 
     // region RENDERING REGISTRATION
-    public static List<DeferredHolder<EntityType<?>, EntityType<? extends AbstractGrenade>>> GRENADES = new LinkedList<>();
-    public static List<DeferredHolder<EntityType<?>, EntityType<? extends PrimedTntCoFH>>> TNT = new LinkedList<>();
-    public static List<DeferredHolder<EntityType<?>, EntityType<? extends AbstractTNTMinecart>>> CARTS = new LinkedList<>();
+    public static List<Supplier<EntityType<? extends AbstractGrenade>>> GRENADES = new LinkedList<>();
+    public static List<Supplier<EntityType<? extends PrimedTntCoFH>>> TNT = new LinkedList<>();
+    public static List<Supplier<EntityType<? extends AbstractTNTMinecart>>> CARTS = new LinkedList<>();
     // endregion
 
     // region HELPERS

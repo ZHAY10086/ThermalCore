@@ -78,14 +78,14 @@ public class MachineRecipeSerializer<T extends ThermalRecipe> implements RecipeS
             experience = json.get(XP).getAsFloat();
         }
         if (inputItems.isEmpty() && inputFluids.isEmpty() || outputItems.isEmpty() && outputFluids.isEmpty() || energy <= 0) {
-            throw new JsonSyntaxException("Invalid Thermal Series recipe: " + recipeId + "\nRefer to the recipe's ResourceLocation to find the mod responsible and let them know!");
+            throw new JsonSyntaxException("Invalid Thermal Series recipe! Please check your datapacks!");
         }
-        return factory.create(recipeId, energy, experience, inputItems, inputFluids, outputItems, outputItemChances, outputFluids);
+        return factory.create(energy, experience, inputItems, inputFluids, outputItems, outputItemChances, outputFluids);
     }
 
     @Nullable
     @Override
-    public T fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
+    public T fromNetwork(FriendlyByteBuf buffer) {
 
         int energy = buffer.readVarInt();
         float experience = buffer.readFloat();
@@ -116,9 +116,9 @@ public class MachineRecipeSerializer<T extends ThermalRecipe> implements RecipeS
             outputFluids.add(buffer.readFluidStack());
         }
         if (inputItems.isEmpty() && inputFluids.isEmpty() || outputItems.isEmpty() && outputFluids.isEmpty()) {
-            throw new JsonSyntaxException("Invalid Thermal Series recipe: " + recipeId + "\nRefer to the recipe's ResourceLocation to find the mod responsible and let them know!");
+            throw new JsonSyntaxException("Invalid Thermal Series recipe! Please check your datapacks!");
         }
-        return factory.create(recipeId, energy, experience, inputItems, inputFluids, outputItems, outputItemChances, outputFluids);
+        return factory.create(energy, experience, inputItems, inputFluids, outputItems, outputItemChances, outputFluids);
     }
 
     @Override
@@ -152,7 +152,7 @@ public class MachineRecipeSerializer<T extends ThermalRecipe> implements RecipeS
 
     public interface IFactory<T extends ThermalRecipe> {
 
-        T create(ResourceLocation recipeId, int energy, float experience, List<Ingredient> inputItems, List<FluidIngredient> inputFluids, List<ItemStack> outputItems, List<Float> chance, List<FluidStack> outputFluids);
+        T create(int energy, float experience, List<Ingredient> inputItems, List<FluidIngredient> inputFluids, List<ItemStack> outputItems, List<Float> chance, List<FluidStack> outputFluids);
 
     }
 

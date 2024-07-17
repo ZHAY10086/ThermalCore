@@ -125,7 +125,7 @@ public class RefineryRecipeManager extends AbstractManager implements IRecipeMan
         clear();
         var recipes = recipeManager.byType(REFINERY_RECIPE.get());
         for (var entry : recipes.entrySet()) {
-            addRecipe(entry.getValue());
+            addRecipe(entry.getValue().value());
         }
     }
     // endregion

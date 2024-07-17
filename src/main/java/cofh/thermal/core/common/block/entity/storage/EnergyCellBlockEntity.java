@@ -2,6 +2,7 @@ package cofh.thermal.core.common.block.entity.storage;
 
 import cofh.core.common.network.packet.client.TileStatePacket;
 import cofh.core.util.helpers.AugmentDataHelper;
+import cofh.core.util.helpers.EnergyHelper;
 import cofh.lib.api.block.entity.ITickableTile;
 import cofh.lib.common.energy.EnergyHandlerRestrictionWrapper;
 import cofh.lib.common.energy.EnergyStorageRestrictable;
@@ -9,7 +10,6 @@ import cofh.lib.util.Utils;
 import cofh.lib.util.helpers.BlockHelper;
 import cofh.thermal.core.common.inventory.storage.EnergyCellMenu;
 import cofh.thermal.lib.common.block.entity.StorageCellBlockEntity;
-import cofh.thermal.lib.util.ThermalEnergyHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Inventory;
@@ -125,14 +125,11 @@ public class EnergyCellBlockEntity extends StorageCellBlockEntity implements ITi
 
         BlockEntity adjTile = BlockHelper.getAdjacentTileEntity(this, side);
         if (adjTile != null) {
-            Direction opposite = side.getOpposite();
-            int maxTransfer = Math.min(amountInput, energyStorage.getSpace());
-            adjTile.getCapability(ThermalEnergyHelper.getBaseEnergySystem(), opposite)
-                    .ifPresent(e -> {
-                        if (e.canExtract()) {
-                            energyStorage.modify(e.extractEnergy(maxTransfer, false));
-                        }
-                    });
+            var handler = EnergyHelper.getEnergyHandlerCap(adjTile, side.getOpposite());
+            if (handler != null && handler.canExtract()) {
+                int maxTransfer = Math.min(amountInput, energyStorage.getSpace());
+                energyStorage.modify(handler.extractEnergy(maxTransfer, false));
+            }
         }
     }
 
@@ -140,10 +137,11 @@ public class EnergyCellBlockEntity extends StorageCellBlockEntity implements ITi
 
         BlockEntity adjTile = BlockHelper.getAdjacentTileEntity(this, side);
         if (adjTile != null) {
-            Direction opposite = side.getOpposite();
-            int maxTransfer = Math.min(amountOutput, energyStorage.getEnergyStored());
-            adjTile.getCapability(ThermalEnergyHelper.getBaseEnergySystem(), opposite)
-                    .ifPresent(e -> energyStorage.modify(-e.receiveEnergy(maxTransfer, false)));
+            var handler = EnergyHelper.getEnergyHandlerCap(adjTile, side.getOpposite());
+            if (handler != null && handler.canReceive()) {
+                int maxTransfer = Math.min(amountOutput, energyStorage.getEnergyStored());
+                energyStorage.modify(-handler.receiveEnergy(maxTransfer, false));
+            }
         }
     }
 

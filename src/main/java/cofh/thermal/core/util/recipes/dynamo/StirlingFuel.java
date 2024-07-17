@@ -19,15 +19,15 @@ import static cofh.thermal.core.init.registries.TCoreRecipeTypes.STIRLING_FUEL;
 
 public class StirlingFuel extends ThermalFuel {
 
-    public StirlingFuel(ResourceLocation recipeId, int energy, @Nullable List<Ingredient> inputItems, @Nullable List<FluidIngredient> inputFluids) {
+    public StirlingFuel(int energy, @Nullable List<Ingredient> inputItems, @Nullable List<FluidIngredient> inputFluids) {
 
-        super(recipeId, energy, inputItems, inputFluids);
+        super(energy, inputItems, inputFluids);
 
         int minEnergy = StirlingFuelManager.MIN_ENERGY;
         int maxEnergy = StirlingFuelManager.MAX_ENERGY;
 
         if (this.energy < minEnergy || this.energy > maxEnergy) {
-            ThermalCore.LOG.warn("Energy value for " + recipeId + " was out of allowable range and has been clamped between + " + minEnergy + " and " + maxEnergy + ".");
+            ThermalCore.LOG.warn("Energy value for a Stirling fuel was out of allowable range and has been clamped between + " + minEnergy + " and " + maxEnergy + ".");
             this.energy = MathHelper.clamp(this.energy, minEnergy, maxEnergy);
         }
     }

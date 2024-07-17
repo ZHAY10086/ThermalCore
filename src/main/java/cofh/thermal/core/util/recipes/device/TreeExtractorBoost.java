@@ -2,9 +2,9 @@ package cofh.thermal.core.util.recipes.device;
 
 import cofh.lib.util.recipes.SerializableRecipe;
 import cofh.thermal.core.util.managers.device.TreeExtractorManager;
-import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -22,12 +22,9 @@ public class TreeExtractorBoost extends SerializableRecipe {
     protected float outputMod;
     protected int cycles;
 
-    public TreeExtractorBoost(ResourceLocation recipeId, Ingredient inputItem, float outputMod, int cycles) {
-
-        super(recipeId);
+    public TreeExtractorBoost(Ingredient inputItem, float outputMod, int cycles) {
 
         this.ingredient = inputItem;
-
         this.outputMod = outputMod;
         this.cycles = cycles;
     }
@@ -64,37 +61,50 @@ public class TreeExtractorBoost extends SerializableRecipe {
     // region SERIALIZER
     public static class Serializer implements RecipeSerializer<TreeExtractorBoost> {
 
+        public static final Codec<TreeExtractorBoost> CODEC = RecordCodecBuilder.create(builder -> builder.group(
+                        Ingredient.CODEC_NONEMPTY.fieldOf(INGREDIENT).forGetter(recipe -> recipe.ingredient),
+                        Codec.FLOAT.optionalFieldOf(OUTPUT_MOD, 1.0F).forGetter(recipe -> recipe.outputMod),
+                        Codec.INT.optionalFieldOf(CYCLES, TreeExtractorManager.instance().getDefaultEnergy()).forGetter(recipe -> recipe.cycles)
+                ).apply(builder, TreeExtractorBoost::new)
+        );
+
         @Override
-        public TreeExtractorBoost fromJson(ResourceLocation recipeId, JsonObject json) {
+        public Codec<TreeExtractorBoost> codec() {
 
-            Ingredient ingredient;
-            float outputMod = 1.0F;
-            int cycles = TreeExtractorManager.instance().getDefaultEnergy();
-
-            /* INPUT */
-            ingredient = parseIngredient(json.get(INGREDIENT));
-
-            if (json.has(OUTPUT)) {
-                outputMod = json.get(OUTPUT).getAsFloat();
-            } else if (json.has(OUTPUT_MOD)) {
-                outputMod = json.get(OUTPUT_MOD).getAsFloat();
-            }
-            if (json.has(CYCLES)) {
-                cycles = json.get(CYCLES).getAsInt();
-            }
-            return new TreeExtractorBoost(recipeId, ingredient, outputMod, cycles);
+            return CODEC;
         }
+
+        //        @Override
+        //        public TreeExtractorBoost fromJson(ResourceLocation recipeId, JsonObject json) {
+        //
+        //            Ingredient ingredient;
+        //            float outputMod = 1.0F;
+        //            int cycles = TreeExtractorManager.instance().getDefaultEnergy();
+        //
+        //            /* INPUT */
+        //            ingredient = parseIngredient(json.get(INGREDIENT));
+        //
+        //            if (json.has(OUTPUT)) {
+        //                outputMod = json.get(OUTPUT).getAsFloat();
+        //            } else if (json.has(OUTPUT_MOD)) {
+        //                outputMod = json.get(OUTPUT_MOD).getAsFloat();
+        //            }
+        //            if (json.has(CYCLES)) {
+        //                cycles = json.get(CYCLES).getAsInt();
+        //            }
+        //            return new TreeExtractorBoost(recipeId, ingredient, outputMod, cycles);
+        //        }
 
         @Nullable
         @Override
-        public TreeExtractorBoost fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
+        public TreeExtractorBoost fromNetwork(FriendlyByteBuf buffer) {
 
             Ingredient ingredient = Ingredient.fromNetwork(buffer);
 
             float outputMod = buffer.readFloat();
             int cycles = buffer.readInt();
 
-            return new TreeExtractorBoost(recipeId, ingredient, outputMod, cycles);
+            return new TreeExtractorBoost(ingredient, outputMod, cycles);
         }
 
         @Override

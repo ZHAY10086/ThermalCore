@@ -1,5 +1,6 @@
 package cofh.thermal.core.util.managers.dynamo;
 
+import cofh.core.util.helpers.FluidHelper;
 import cofh.thermal.core.ThermalCore;
 import cofh.thermal.core.util.recipes.dynamo.StirlingFuel;
 import cofh.thermal.lib.util.managers.SingleItemFuelManager;
@@ -10,8 +11,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeManager;
-import net.neoforged.neoforge.common.ForgeHooks;
-import net.neoforged.neoforge.common.capabilities.ForgeCapabilities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +41,7 @@ public class StirlingFuelManager extends SingleItemFuelManager {
     @Override
     public boolean validFuel(ItemStack input) {
 
-        if (input.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent()) {
+        if (FluidHelper.hasFluidHandlerCap(input)) {
             return false;
         }
         return getEnergy(input) > 0;
@@ -69,7 +68,7 @@ public class StirlingFuelManager extends SingleItemFuelManager {
         if (stack.getItem().hasCraftingRemainingItem(stack)) {
             return 0;
         }
-        int energy = ForgeHooks.getBurnTime(stack, null) * RF_PER_FURNACE_UNIT;
+        int energy = stack.getBurnTime(null) * RF_PER_FURNACE_UNIT;
         return energy >= MIN_ENERGY ? energy : 0;
     }
 
@@ -80,7 +79,7 @@ public class StirlingFuelManager extends SingleItemFuelManager {
         clear();
         var recipes = recipeManager.byType(STIRLING_FUEL.get());
         for (var entry : recipes.entrySet()) {
-            addFuel(entry.getValue());
+            addFuel(entry.getValue().value());
         }
         createConvertedRecipes(recipeManager);
     }
@@ -111,7 +110,7 @@ public class StirlingFuelManager extends SingleItemFuelManager {
 
     protected StirlingFuel convert(ItemStack item, int energy) {
 
-        return new StirlingFuel(new ResourceLocation(ID_THERMAL, "stirling_" + getName(item)), energy, singletonList(Ingredient.of(item)), emptyList());
+        return new StirlingFuel(energy, singletonList(Ingredient.of(item)), emptyList());
     }
     // endregion
 }

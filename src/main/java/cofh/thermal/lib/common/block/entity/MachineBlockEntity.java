@@ -2,6 +2,7 @@ package cofh.thermal.lib.common.block.entity;
 
 import cofh.core.common.network.packet.client.TileStatePacket;
 import cofh.core.util.helpers.AugmentDataHelper;
+import cofh.core.util.helpers.EnergyHelper;
 import cofh.lib.api.block.entity.ITickableTile;
 import cofh.lib.common.energy.EnergyStorageCoFH;
 import cofh.lib.common.fluid.FluidStorageCoFH;
@@ -10,7 +11,6 @@ import cofh.lib.common.xp.XpStorage;
 import cofh.lib.util.TimeTracker;
 import cofh.lib.util.Utils;
 import cofh.lib.util.helpers.MathHelper;
-import cofh.thermal.lib.util.ThermalEnergyHelper;
 import cofh.thermal.lib.util.recipes.IMachineInventory;
 import cofh.thermal.lib.util.recipes.MachineProperties;
 import cofh.thermal.lib.util.recipes.internal.IMachineRecipe;
@@ -22,6 +22,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ import static cofh.thermal.lib.util.ThermalAugmentRules.MACHINE_VALIDATOR;
 
 public abstract class MachineBlockEntity extends Reconfigurable4WayBlockEntity implements ITickableTile.IServerTickable, IMachineInventory {
 
-    protected ItemStorageCoFH chargeSlot = new ItemStorageCoFH(1, ThermalEnergyHelper::hasEnergyHandlerCap);
+    protected ItemStorageCoFH chargeSlot = new ItemStorageCoFH(1, EnergyHelper::hasEnergyHandlerCap);
 
     protected IMachineRecipe curRecipe;
     protected IRecipeCatalyst curCatalyst;
@@ -187,9 +188,10 @@ public abstract class MachineBlockEntity extends Reconfigurable4WayBlockEntity i
     protected void chargeEnergy() {
 
         if (!chargeSlot.isEmpty()) {
-            chargeSlot.getItemStack()
-                    .getCapability(ThermalEnergyHelper.getBaseEnergySystem(), null)
-                    .ifPresent(c -> energyStorage.receiveEnergy(c.extractEnergy(Math.min(energyStorage.getMaxReceive(), energyStorage.getSpace()), false), false));
+            var handler = chargeSlot.getItemStack().getCapability(Capabilities.EnergyStorage.ITEM);
+            if (handler != null) {
+                energyStorage.receiveEnergy(handler.extractEnergy(Math.min(energyStorage.getMaxReceive(), energyStorage.getSpace()), false), false);
+            }
         }
     }
 

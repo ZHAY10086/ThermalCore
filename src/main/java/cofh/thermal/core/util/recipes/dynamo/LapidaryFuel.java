@@ -19,15 +19,15 @@ import static cofh.thermal.core.init.registries.TCoreRecipeTypes.LAPIDARY_FUEL;
 
 public class LapidaryFuel extends ThermalFuel {
 
-    public LapidaryFuel(ResourceLocation recipeId, int energy, @Nullable List<Ingredient> inputItems, @Nullable List<FluidIngredient> inputFluids) {
+    public LapidaryFuel(int energy, @Nullable List<Ingredient> inputItems, @Nullable List<FluidIngredient> inputFluids) {
 
-        super(recipeId, energy, inputItems, inputFluids);
+        super(energy, inputItems, inputFluids);
 
         int minEnergy = LapidaryFuelManager.MIN_ENERGY;
         int maxEnergy = LapidaryFuelManager.MAX_ENERGY;
 
         if (this.energy < minEnergy || this.energy > maxEnergy) {
-            ThermalCore.LOG.warn("Energy value for " + recipeId + " was out of allowable range and has been clamped between + " + minEnergy + " and " + maxEnergy + ".");
+            ThermalCore.LOG.warn("Energy value for a Lapidary fuel was out of allowable range and has been clamped between + " + minEnergy + " and " + maxEnergy + ".");
             this.energy = MathHelper.clamp(this.energy, minEnergy, maxEnergy);
         }
     }

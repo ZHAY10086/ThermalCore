@@ -20,7 +20,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.model.data.ModelData;
-import net.neoforged.neoforge.common.capabilities.ForgeCapabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
@@ -31,6 +30,7 @@ import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
 import static cofh.core.client.renderer.model.ModelUtils.*;
+import static cofh.core.util.helpers.FluidHelper.getFluidHandlerCap;
 import static cofh.lib.api.StorageGroup.ACCESSIBLE;
 import static cofh.lib.util.Constants.BUCKET_VOLUME;
 import static cofh.lib.util.Constants.TANK_MEDIUM;
@@ -38,7 +38,7 @@ import static cofh.lib.util.constants.NBTTags.*;
 import static cofh.thermal.core.common.config.ThermalCoreConfig.storageAugments;
 import static cofh.thermal.core.init.registries.TCoreBlockEntities.FLUID_CELL_TILE;
 import static cofh.thermal.lib.util.ThermalAugmentRules.createAllowValidator;
-import static net.minecraftforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE;
+import static net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE;
 
 public class FluidCellBlockEntity extends StorageCellBlockEntity implements ITickableTile.IServerTickable {
 
@@ -144,10 +144,10 @@ public class FluidCellBlockEntity extends StorageCellBlockEntity implements ITic
 
         BlockEntity adjTile = BlockHelper.getAdjacentTileEntity(this, side);
         if (adjTile != null) {
-            Direction opposite = side.getOpposite();
-            int maxTransfer = Math.min(amountOutput, fluidStorage.getAmount());
-            adjTile.getCapability(ForgeCapabilities.FLUID_HANDLER, opposite)
-                    .ifPresent(e -> fluidStorage.modify(-e.fill(new FluidStack(fluidStorage.getFluidStack(), maxTransfer), EXECUTE)));
+            var handler = getFluidHandlerCap(adjTile, side.getOpposite());
+            if (handler != null) {
+                fluidStorage.modify(-handler.fill(new FluidStack(fluidStorage.getFluidStack(), Math.min(amountOutput, fluidStorage.getAmount())), EXECUTE));
+            }
         }
     }
 

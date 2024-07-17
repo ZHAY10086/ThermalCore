@@ -152,7 +152,7 @@ public class BrewerRecipeManager extends AbstractManager implements IRecipeManag
         clear();
         var recipes = recipeManager.byType(BREWER_RECIPE.get());
         for (var entry : recipes.entrySet()) {
-            addRecipe(entry.getValue());
+            addRecipe(entry.getValue().value());
         }
 
         if (defaultPotionRecipes) {
@@ -177,7 +177,7 @@ public class BrewerRecipeManager extends AbstractManager implements IRecipeManag
     protected void createConvertedRecipes() {
 
         for (PotionBrewing.Mix<Potion> mix : PotionBrewing.POTION_MIXES) {
-            createConvertedRecipe(mix.from.get(), mix.ingredient, mix.to.get());
+            createConvertedRecipe(mix.from, mix.ingredient, mix.to);
         }
     }
 
@@ -192,7 +192,7 @@ public class BrewerRecipeManager extends AbstractManager implements IRecipeManag
 
     protected BrewerRecipe convert(Potion inputPotion, Ingredient reagent, Potion outputPotion) {
 
-        return new BrewerRecipe(new ResourceLocation(ID_THERMAL, "brewer_" + inputPotion.hashCode()), defaultEnergy, 0.0F,
+        return new BrewerRecipe(defaultEnergy, 0.0F,
                 Collections.singletonList(reagent),
                 Collections.singletonList(FluidIngredient.of(PotionFluid.getPotionAsFluid(defaultPotion, inputPotion))),
                 Collections.emptyList(), Collections.emptyList(),

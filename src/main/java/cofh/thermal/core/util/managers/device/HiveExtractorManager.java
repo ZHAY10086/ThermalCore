@@ -68,7 +68,7 @@ public class HiveExtractorManager extends AbstractManager {
         clear();
         var mappings = recipeManager.byType(HIVE_EXTRACTOR_MAPPING.get());
         for (var entry : mappings.entrySet()) {
-            addMapping(entry.getValue());
+            addMapping(entry.getValue().value());
         }
     }
     // endregion

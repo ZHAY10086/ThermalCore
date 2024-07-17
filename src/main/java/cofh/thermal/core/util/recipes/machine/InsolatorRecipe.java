@@ -25,13 +25,13 @@ import static cofh.thermal.core.init.registries.TCoreRecipeTypes.INSOLATOR_RECIP
 
 public class InsolatorRecipe extends ThermalRecipe {
 
-    public InsolatorRecipe(ResourceLocation recipeId, int energy, float experience, List<Ingredient> inputItems, List<FluidIngredient> inputFluids, List<ItemStack> outputItems, List<Float> outputItemChances, List<FluidStack> outputFluids) {
+    public InsolatorRecipe(int energy, float experience, List<Ingredient> inputItems, List<FluidIngredient> inputFluids, List<ItemStack> outputItems, List<Float> outputItemChances, List<FluidStack> outputFluids) {
 
-        super(recipeId, energy, experience, inputItems, inputFluids, outputItems, outputItemChances, outputFluids);
+        super(energy, experience, inputItems, inputFluids, outputItems, outputItemChances, outputFluids);
 
         if (this.energy <= 0) {
             int defaultEnergy = InsolatorRecipeManager.instance().getDefaultEnergy();
-            ThermalCore.LOG.warn("Energy value for " + recipeId + " was out of allowable range and has been set to a default value of " + defaultEnergy + ".");
+            ThermalCore.LOG.warn("Energy value for a Phytogenic Insolator recipe was out of allowable range and has been set to a default value of " + defaultEnergy + ".");
             this.energy = defaultEnergy;
         }
     }
@@ -118,9 +118,9 @@ public class InsolatorRecipe extends ThermalRecipe {
                 inputFluids.add(FluidIngredient.of(new FluidStack(Fluids.WATER, water)));
             }
             if (inputItems.isEmpty() || outputItems.isEmpty() && outputFluids.isEmpty()) {
-                throw new JsonSyntaxException("Invalid Thermal Series recipe: " + recipeId + "\nRefer to the recipe's ResourceLocation to find the mod responsible and let them know!");
+                throw new JsonSyntaxException("Invalid Thermal Series recipe! Please check your datapacks!");
             }
-            return factory.create(recipeId, energy, experience, inputItems, inputFluids, outputItems, outputItemChances, outputFluids);
+            return factory.create(energy, experience, inputItems, inputFluids, outputItems, outputItemChances, outputFluids);
         }
 
     }

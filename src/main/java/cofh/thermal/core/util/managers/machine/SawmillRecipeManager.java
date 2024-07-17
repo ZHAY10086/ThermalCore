@@ -5,11 +5,12 @@ import cofh.thermal.core.util.recipes.machine.SawmillRecipe;
 import cofh.thermal.lib.util.managers.SingleItemRecipeManager;
 import cofh.thermal.lib.util.recipes.ThermalRecipe;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.ShapelessRecipe;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,7 +18,6 @@ import java.util.Collections;
 import java.util.List;
 
 import static cofh.core.util.helpers.ItemHelper.cloneStack;
-import static cofh.lib.util.constants.ModIds.ID_THERMAL;
 import static cofh.thermal.core.ThermalCore.ITEMS;
 import static cofh.thermal.core.init.registries.TCoreRecipeTypes.SAWMILL_RECIPE;
 
@@ -57,7 +57,7 @@ public class SawmillRecipeManager extends SingleItemRecipeManager {
         clear();
         var recipes = recipeManager.byType(SAWMILL_RECIPE.get());
         for (var entry : recipes.entrySet()) {
-            addRecipe(entry.getValue());
+            addRecipe(entry.getValue().value());
         }
 
         if (defaultLogRecipes) {
@@ -80,8 +80,8 @@ public class SawmillRecipeManager extends SingleItemRecipeManager {
 
     protected void createConvertedRecipes(RecipeManager recipeManager) {
 
-        for (Recipe<CraftingContainer> recipe : recipeManager.byType(RecipeType.CRAFTING).values()) {
-            if (recipe instanceof ShapelessRecipe shapeless && recipe.getResultItem(RegistryAccess.EMPTY).is(ItemTags.PLANKS)) {
+        for (var recipe : recipeManager.byType(RecipeType.CRAFTING).values()) {
+            if (recipe.value() instanceof ShapelessRecipe shapeless && recipe.value().getResultItem(RegistryAccess.EMPTY).is(ItemTags.PLANKS)) {
                 createConvertedRecipe(shapeless);
             }
         }
@@ -109,7 +109,7 @@ public class SawmillRecipeManager extends SingleItemRecipeManager {
 
     protected SawmillRecipe convert(Ingredient log, ItemStack planks) {
 
-        return new SawmillRecipe(new ResourceLocation(ID_THERMAL, "sawmill_" + log.hashCode()), getDefaultEnergy() / 2, 0.15F,
+        return new SawmillRecipe(getDefaultEnergy() / 2, 0.15F,
                 Collections.singletonList(log),
                 Collections.emptyList(), // no fluid input
                 Arrays.asList(cloneStack(planks, (int) (planks.getCount() * 1.5F)), new ItemStack(ITEMS.get("sawdust"))),

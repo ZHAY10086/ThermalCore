@@ -19,13 +19,13 @@ import static cofh.thermal.core.init.registries.TCoreRecipeTypes.CRYSTALLIZER_RE
 
 public class CrystallizerRecipe extends ThermalRecipe {
 
-    public CrystallizerRecipe(ResourceLocation recipeId, int energy, float experience, List<Ingredient> inputItems, List<FluidIngredient> inputFluids, List<ItemStack> outputItems, List<Float> outputItemChances, List<FluidStack> outputFluids) {
+    public CrystallizerRecipe(int energy, float experience, List<Ingredient> inputItems, List<FluidIngredient> inputFluids, List<ItemStack> outputItems, List<Float> outputItemChances, List<FluidStack> outputFluids) {
 
-        super(recipeId, energy, experience, inputItems, inputFluids, outputItems, outputItemChances, outputFluids);
+        super(energy, experience, inputItems, inputFluids, outputItems, outputItemChances, outputFluids);
 
         if (this.energy <= 0) {
             int defaultEnergy = CrystallizerRecipeManager.instance().getDefaultEnergy();
-            ThermalCore.LOG.warn("Energy value for " + recipeId + " was out of allowable range and has been set to a default value of " + defaultEnergy + ".");
+            ThermalCore.LOG.warn("Energy value for a Crystallizer recipe was out of allowable range and has been set to a default value of " + defaultEnergy + ".");
             this.energy = defaultEnergy;
         }
     }
