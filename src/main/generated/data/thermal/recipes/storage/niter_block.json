@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "#": {
-      "tag": "forge:gems/niter"
+      "tag": "c:gems/niter"
     },
     "I": {
       "item": "thermal:niter"

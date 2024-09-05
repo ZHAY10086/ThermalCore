@@ -15,7 +15,7 @@
       "tag": "forge:glass"
     },
     "I": {
-      "tag": "forge:ingots/tin"
+      "tag": "c:ingots/tin"
     },
     "P": {
       "item": "thermal:redstone_servo"

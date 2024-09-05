@@ -16,10 +16,12 @@ import cofh.thermal.lib.util.recipes.internal.IMachineRecipe;
 import cofh.thermal.lib.util.recipes.internal.SimpleMachineRecipe;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionBrewing;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -27,6 +29,7 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import java.util.*;
 
 import static cofh.lib.util.Constants.BUCKET_VOLUME;
+import static cofh.lib.util.constants.ModIds.ID_THERMAL;
 import static cofh.thermal.core.init.registries.TCoreRecipeTypes.BREWER_RECIPE;
 import static java.util.Arrays.asList;
 
@@ -157,17 +160,17 @@ public class BrewerRecipeManager extends AbstractManager implements IRecipeManag
             // TODO: Solve this nonsense with Forge.
             ThermalCore.LOG.debug("Adding default Brewing Stand recipes to the Alchemical Imbuer...");
             createConvertedRecipes();
-            for (ThermalRecipe recipe : getConvertedRecipes()) {
-                addRecipe(recipe);
+            for (var recipe : getConvertedRecipes()) {
+                addRecipe(recipe.value());
             }
         }
     }
     // endregion
 
     // region CONVERSION
-    protected List<BrewerRecipe> convertedRecipes = new ArrayList<>();
+    protected List<RecipeHolder<BrewerRecipe>> convertedRecipes = new ArrayList<>();
 
-    public List<BrewerRecipe> getConvertedRecipes() {
+    public List<RecipeHolder<BrewerRecipe>> getConvertedRecipes() {
 
         return convertedRecipes;
     }
@@ -188,13 +191,14 @@ public class BrewerRecipeManager extends AbstractManager implements IRecipeManag
         return true;
     }
 
-    protected BrewerRecipe convert(Potion inputPotion, Ingredient reagent, Potion outputPotion) {
+    protected RecipeHolder<BrewerRecipe> convert(Potion inputPotion, Ingredient reagent, Potion outputPotion) {
 
-        return new BrewerRecipe(defaultEnergy, 0.0F,
-                Collections.singletonList(reagent),
-                Collections.singletonList(FluidIngredient.of(PotionFluid.getPotionAsFluid(defaultPotion, inputPotion))),
-                Collections.emptyList(), Collections.emptyList(),
-                Collections.singletonList(PotionFluid.getPotionAsFluid(defaultPotion, outputPotion)));
+        return new RecipeHolder<>(new ResourceLocation(ID_THERMAL, "brewer_" + inputPotion.hashCode()),
+                new BrewerRecipe(defaultEnergy, 0.0F,
+                        Collections.singletonList(reagent),
+                        Collections.singletonList(FluidIngredient.of(PotionFluid.getPotionAsFluid(defaultPotion, inputPotion))),
+                        Collections.emptyList(), Collections.emptyList(),
+                        Collections.singletonList(PotionFluid.getPotionAsFluid(defaultPotion, outputPotion))));
     }
     // endregion
 }

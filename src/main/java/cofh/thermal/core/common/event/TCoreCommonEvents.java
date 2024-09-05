@@ -1,5 +1,6 @@
 package cofh.thermal.core.common.event;
 
+import cofh.core.compat.curios.CuriosProxy;
 import cofh.core.util.filter.IFilterOptions;
 import cofh.thermal.core.common.inventory.storage.SatchelMenu;
 import cofh.thermal.core.common.item.DivingArmorItem;
@@ -67,18 +68,16 @@ public class TCoreCommonEvents {
                 cancel[0] |= SatchelItem.onItemPickup(event, stack);
             }
         }
-        // TODO: Fix
-        //        CuriosProxy.getAllWorn(player).ifPresent(c -> {
-        //            for (int i = 0; i < c.getSlots(); ++i) {
-        //                ItemStack stack = c.getStackInSlot(i);
-        //                if (stack.getItem() instanceof SatchelItem) {
-        //                    // TODO: Revisit if copy is *really* necessary - probably isn't.
-        //                    ItemStack satchelCopy = stack.copy();
-        //                    cancel[0] |= SatchelItem.onItemPickup(event, satchelCopy);
-        //                    c.setStackInSlot(i, satchelCopy);
-        //                }
-        //            }
-        //        });
+        CuriosProxy.getAllWorn(player).ifPresent(c -> {
+            for (int i = 0; i < c.getSlots(); ++i) {
+                ItemStack stack = c.getStackInSlot(i);
+                if (stack.getItem() instanceof SatchelItem) {
+                    ItemStack satchelCopy = stack.copy();
+                    cancel[0] |= SatchelItem.onItemPickup(event, satchelCopy);
+                    c.setStackInSlot(i, satchelCopy);
+                }
+            }
+        });
         event.setCanceled(cancel[0]);
     }
 

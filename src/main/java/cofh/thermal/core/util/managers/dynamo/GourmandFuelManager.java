@@ -7,18 +7,22 @@ import cofh.thermal.lib.util.managers.SingleItemFuelManager;
 import cofh.thermal.lib.util.recipes.internal.IDynamoFuel;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static cofh.lib.util.Utils.getName;
 import static cofh.lib.util.Utils.getRegistryName;
+import static cofh.lib.util.constants.ModIds.ID_THERMAL;
 import static cofh.thermal.core.init.registries.TCoreRecipeTypes.GOURMAND_FUEL;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
@@ -105,9 +109,9 @@ public class GourmandFuelManager extends SingleItemFuelManager {
     // endregion
 
     // region CONVERSION
-    protected List<GourmandFuel> convertedFuels = new ArrayList<>();
+    protected List<RecipeHolder<GourmandFuel>> convertedFuels = new ArrayList<>();
 
-    public List<GourmandFuel> getConvertedFuels() {
+    public List<RecipeHolder<GourmandFuel>> getConvertedFuels() {
 
         return convertedFuels;
     }
@@ -127,9 +131,9 @@ public class GourmandFuelManager extends SingleItemFuelManager {
         }
     }
 
-    protected GourmandFuel convert(ItemStack item, int energy) {
+    protected RecipeHolder<GourmandFuel> convert(ItemStack item, int energy) {
 
-        return new GourmandFuel(energy, singletonList(Ingredient.of(item)), emptyList());
+        return new RecipeHolder<>(new ResourceLocation(ID_THERMAL, "gourmand_" + getName(item)), new GourmandFuel(energy, singletonList(Ingredient.of(item)), emptyList()));
     }
     // endregion
 }

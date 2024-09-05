@@ -12,13 +12,13 @@
       "tag": "forge:storage_blocks/redstone"
     },
     "I": {
-      "tag": "forge:ingots/electrum"
+      "tag": "c:ingots/electrum"
     },
     "P": {
       "item": "thermal:rf_coil"
     },
     "X": {
-      "tag": "forge:ingots/lead"
+      "tag": "c:ingots/lead"
     }
   },
   "pattern": [

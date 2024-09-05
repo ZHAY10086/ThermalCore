@@ -3,7 +3,7 @@
   "category": "misc",
   "ingredients": [
     {
-      "tag": "forge:gems/apatite"
+      "tag": "c:gems/apatite"
     },
     {
       "item": "thermal:earth_charge"

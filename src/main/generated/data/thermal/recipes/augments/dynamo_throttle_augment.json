@@ -9,10 +9,10 @@
   "category": "misc",
   "key": {
     "E": {
-      "tag": "forge:ingots/electrum"
+      "tag": "c:ingots/electrum"
     },
     "l": {
-      "tag": "forge:nuggets/lead"
+      "tag": "c:nuggets/lead"
     }
   },
   "pattern": [

@@ -79,23 +79,23 @@ public class TCoreBlockLootTables extends BlockLootSubProviderCoFH {
         createSimpleDropTable(regBlocks.get(ID_RICH_SLAG_BRICKS));
         createSimpleDropTable(regBlocks.get(ID_CRACKED_RICH_SLAG_BRICKS));
 
-        //        createSyncDropTable(regBlocks.get(ID_DEVICE_HIVE_EXTRACTOR));
-        //        createSyncDropTable(regBlocks.get(ID_DEVICE_TREE_EXTRACTOR));
-        //        createSyncDropTable(regBlocks.get(ID_DEVICE_FISHER));
-        //        createSyncDropTable(regBlocks.get(ID_DEVICE_COMPOSTER));
-        //        createSyncDropTable(regBlocks.get(ID_DEVICE_SOIL_INFUSER));
-        //        createSyncDropTable(regBlocks.get(ID_DEVICE_WATER_GEN));
-        //        createSyncDropTable(regBlocks.get(ID_DEVICE_ROCK_GEN));
-        //        createSyncDropTable(regBlocks.get(ID_DEVICE_COLLECTOR));
-        //        createSyncDropTable(regBlocks.get(ID_DEVICE_XP_CONDENSER));
-        //        createSyncDropTable(regBlocks.get(ID_DEVICE_NULLIFIER));
-        //        createSyncDropTable(regBlocks.get(ID_DEVICE_POTION_DIFFUSER));
-        //
-        //        createSyncDropTable(regBlocks.get(ID_TINKER_BENCH));
-        //        createSyncDropTable(regBlocks.get(ID_CHARGE_BENCH));
-        //
-        //        createSyncDropTable(regBlocks.get(ID_ENERGY_CELL));
-        //        createSyncDropTable(regBlocks.get(ID_FLUID_CELL));
+        createSyncDropTable(regBlocks.get(ID_DEVICE_HIVE_EXTRACTOR));
+        createSyncDropTable(regBlocks.get(ID_DEVICE_TREE_EXTRACTOR));
+        createSyncDropTable(regBlocks.get(ID_DEVICE_FISHER));
+        createSyncDropTable(regBlocks.get(ID_DEVICE_COMPOSTER));
+        createSyncDropTable(regBlocks.get(ID_DEVICE_SOIL_INFUSER));
+        createSyncDropTable(regBlocks.get(ID_DEVICE_WATER_GEN));
+        createSyncDropTable(regBlocks.get(ID_DEVICE_ROCK_GEN));
+        createSyncDropTable(regBlocks.get(ID_DEVICE_COLLECTOR));
+        createSyncDropTable(regBlocks.get(ID_DEVICE_XP_CONDENSER));
+        createSyncDropTable(regBlocks.get(ID_DEVICE_NULLIFIER));
+        createSyncDropTable(regBlocks.get(ID_DEVICE_POTION_DIFFUSER));
+
+        createSyncDropTable(regBlocks.get(ID_TINKER_BENCH));
+        createSyncDropTable(regBlocks.get(ID_CHARGE_BENCH));
+
+        createSyncDropTable(regBlocks.get(ID_ENERGY_CELL));
+        createSyncDropTable(regBlocks.get(ID_FLUID_CELL));
     }
 
 }

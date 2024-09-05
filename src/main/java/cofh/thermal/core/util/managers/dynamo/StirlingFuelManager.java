@@ -6,16 +6,20 @@ import cofh.thermal.core.util.recipes.dynamo.StirlingFuel;
 import cofh.thermal.lib.util.managers.SingleItemFuelManager;
 import cofh.thermal.lib.util.recipes.internal.IDynamoFuel;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static cofh.lib.util.Constants.RF_PER_FURNACE_UNIT;
+import static cofh.lib.util.Utils.getName;
 import static cofh.lib.util.Utils.getRegistryName;
+import static cofh.lib.util.constants.ModIds.ID_THERMAL;
 import static cofh.thermal.core.init.registries.TCoreRecipeTypes.STIRLING_FUEL;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
@@ -83,9 +87,9 @@ public class StirlingFuelManager extends SingleItemFuelManager {
     // endregion
 
     // region CONVERSION
-    protected List<StirlingFuel> convertedFuels = new ArrayList<>();
+    protected List<RecipeHolder<StirlingFuel>> convertedFuels = new ArrayList<>();
 
-    public List<StirlingFuel> getConvertedFuels() {
+    public List<RecipeHolder<StirlingFuel>> getConvertedFuels() {
 
         return convertedFuels;
     }
@@ -105,9 +109,9 @@ public class StirlingFuelManager extends SingleItemFuelManager {
         }
     }
 
-    protected StirlingFuel convert(ItemStack item, int energy) {
+    protected RecipeHolder<StirlingFuel> convert(ItemStack item, int energy) {
 
-        return new StirlingFuel(energy, singletonList(Ingredient.of(item)), emptyList());
+        return new RecipeHolder<>(new ResourceLocation(ID_THERMAL, "stirling_" + getName(item)), new StirlingFuel(energy, singletonList(Ingredient.of(item)), emptyList()));
     }
     // endregion
 }

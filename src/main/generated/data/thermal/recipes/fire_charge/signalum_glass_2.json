@@ -10,10 +10,10 @@
     },
     [
       {
-        "tag": "forge:dusts/signalum"
+        "tag": "c:dusts/signalum"
       },
       {
-        "tag": "forge:ingots/signalum"
+        "tag": "c:ingots/signalum"
       }
     ],
     {

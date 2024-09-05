@@ -4,13 +4,10 @@ import cofh.lib.util.crafting.ComparableItemStack;
 import cofh.thermal.core.ThermalCore;
 import cofh.thermal.core.util.recipes.machine.PulverizerRecipe;
 import cofh.thermal.lib.util.managers.SingleItemRecipeManager;
-import cofh.thermal.lib.util.recipes.ThermalRecipe;
 import cofh.thermal.lib.util.recipes.internal.*;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.AbstractCookingRecipe;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -21,6 +18,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 
 import static cofh.core.util.helpers.ItemHelper.cloneStack;
+import static cofh.lib.util.constants.ModIds.ID_THERMAL;
 import static cofh.thermal.core.init.registries.TCoreRecipeTypes.*;
 
 public class PulverizerRecipeManager extends SingleItemRecipeManager.Catalyzed {
@@ -108,8 +106,8 @@ public class PulverizerRecipeManager extends SingleItemRecipeManager.Catalyzed {
         if (defaultFurnaceRecipes) {
             ThermalCore.LOG.debug("Adding default Furnace-Based processing recipes to the Pulverizer...");
             createConvertedRecipes(recipeManager);
-            for (ThermalRecipe recipe : getConvertedRecipes()) {
-                addRecipe(recipe, BaseMachineRecipe.RecipeType.CATALYZED);
+            for (var recipe : getConvertedRecipes()) {
+                addRecipe(recipe.value(), BaseMachineRecipe.RecipeType.CATALYZED);
             }
         }
     }
@@ -133,10 +131,10 @@ public class PulverizerRecipeManager extends SingleItemRecipeManager.Catalyzed {
     // endregion
 
     // region CONVERSION
-    protected List<PulverizerRecipe> convertedRecipes = new ArrayList<>();
+    protected List<RecipeHolder<PulverizerRecipe>> convertedRecipes = new ArrayList<>();
     protected Map<ComparableItemStack, MutableTriple<Ingredient, Ingredient, Ingredient>> conversionIngredients = new HashMap<>(); // stored as Dust, Ore, Raw
 
-    public List<PulverizerRecipe> getConvertedRecipes() {
+    public List<RecipeHolder<PulverizerRecipe>> getConvertedRecipes() {
 
         return convertedRecipes;
     }
@@ -204,34 +202,37 @@ public class PulverizerRecipeManager extends SingleItemRecipeManager.Catalyzed {
         return true;
     }
 
-    protected PulverizerRecipe convertIngot(Ingredient input, Ingredient dust) {
+    protected RecipeHolder<PulverizerRecipe> convertIngot(Ingredient input, Ingredient dust) {
 
-        return new PulverizerRecipe(getDefaultEnergy() / 2, 0.0F,
-                Collections.singletonList(input),
-                Collections.emptyList(), // no fluid input
-                Collections.singletonList(cloneStack(dust.getItems()[0], 1)),
-                List.of(-1.0F), // output chances
-                Collections.emptyList()); // no fluid output
+        return new RecipeHolder<>(new ResourceLocation(ID_THERMAL, "pulverizer_ingot_" + input.hashCode()),
+                new PulverizerRecipe(getDefaultEnergy() / 2, 0.0F,
+                        Collections.singletonList(input),
+                        Collections.emptyList(), // no fluid input
+                        Collections.singletonList(cloneStack(dust.getItems()[0], 1)),
+                        List.of(-1.0F), // output chances
+                        Collections.emptyList())); // no fluid output
     }
 
-    protected PulverizerRecipe convertOre(Ingredient input, Ingredient dust) {
+    protected RecipeHolder<PulverizerRecipe> convertOre(Ingredient input, Ingredient dust) {
 
-        return new PulverizerRecipe(getDefaultEnergy(), 0.2F,
-                Collections.singletonList(input),
-                Collections.emptyList(), // no fluid input
-                Arrays.asList(cloneStack(dust.getItems()[0], 1), new ItemStack(Blocks.GRAVEL)),
-                Arrays.asList(2.0F, 0.2F), // output chances
-                Collections.emptyList()); // no fluid output
+        return new RecipeHolder<>(new ResourceLocation(ID_THERMAL, "pulverizer_ore_" + input.hashCode()),
+                new PulverizerRecipe(getDefaultEnergy(), 0.2F,
+                        Collections.singletonList(input),
+                        Collections.emptyList(), // no fluid input
+                        Arrays.asList(cloneStack(dust.getItems()[0], 1), new ItemStack(Blocks.GRAVEL)),
+                        Arrays.asList(2.0F, 0.2F), // output chances
+                        Collections.emptyList())); // no fluid output
     }
 
-    protected PulverizerRecipe convertRaw(Ingredient input, Ingredient dust) {
+    protected RecipeHolder<PulverizerRecipe> convertRaw(Ingredient input, Ingredient dust) {
 
-        return new PulverizerRecipe(getDefaultEnergy(), 0.1F,
-                Collections.singletonList(input),
-                Collections.emptyList(), // no fluid input
-                Collections.singletonList(cloneStack(dust.getItems()[0], 1)),
-                List.of(1.25F), // output chances
-                Collections.emptyList()); // no fluid output
+        return new RecipeHolder<>(new ResourceLocation(ID_THERMAL, "pulverizer_raw_" + input.hashCode()),
+                new PulverizerRecipe(getDefaultEnergy(), 0.1F,
+                        Collections.singletonList(input),
+                        Collections.emptyList(), // no fluid input
+                        Collections.singletonList(cloneStack(dust.getItems()[0], 1)),
+                        List.of(1.25F), // output chances
+                        Collections.emptyList())); // no fluid output
     }
     // endregion
 }

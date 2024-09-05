@@ -3,14 +3,14 @@
   "category": "misc",
   "ingredients": [
     {
-      "tag": "forge:sawdust"
+      "tag": "c:sawdust"
     },
     {
-      "tag": "forge:slag"
+      "tag": "c:slag"
     },
     [
       {
-        "tag": "forge:rosin"
+        "tag": "c:rosin"
       },
       {
         "tag": "forge:slimeballs"

@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "#": {
-      "tag": "forge:nuggets/enderium"
+      "tag": "c:nuggets/enderium"
     },
     "I": {
       "item": "thermal:enderium_nugget"

@@ -9,7 +9,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 
-import static cofh.lib.util.constants.ModIds.ID_FORGE;
 import static cofh.lib.util.constants.ModIds.ID_THERMAL;
 
 public class ThermalTags {
@@ -22,7 +21,7 @@ public class ThermalTags {
 
         public static final TagKey<Block> TREE_EXTRACTOR_GROUND = thermalTag("devices/tree_extractor_ground");
 
-        public static final TagKey<Block> LOGS_RUBBERWOOD = forgeTag("rubberwood_logs");
+        public static final TagKey<Block> LOGS_RUBBERWOOD = commonTag("rubberwood_logs");
 
         public static final TagKey<Block> DUCTS = thermalTag("ducts");
         public static final TagKey<Block> DYNAMOS = thermalTag("dynamos");
@@ -30,10 +29,10 @@ public class ThermalTags {
         public static final TagKey<Block> HARDENED_GLASS = thermalTag("glass/hardened");
         public static final TagKey<Block> ROCKWOOL = thermalTag("rockwool");
 
-        public static final TagKey<Block> STORAGE_BLOCKS_APPLE = forgeTag("storage_blocks/apple");
-        public static final TagKey<Block> STORAGE_BLOCKS_CARROT = forgeTag("storage_blocks/carrot");
-        public static final TagKey<Block> STORAGE_BLOCKS_POTATO = forgeTag("storage_blocks/potato");
-        public static final TagKey<Block> STORAGE_BLOCKS_BEETROOT = forgeTag("storage_blocks/beetroot");
+        public static final TagKey<Block> STORAGE_BLOCKS_APPLE = commonTag("storage_blocks/apple");
+        public static final TagKey<Block> STORAGE_BLOCKS_CARROT = commonTag("storage_blocks/carrot");
+        public static final TagKey<Block> STORAGE_BLOCKS_POTATO = commonTag("storage_blocks/potato");
+        public static final TagKey<Block> STORAGE_BLOCKS_BEETROOT = commonTag("storage_blocks/beetroot");
 
         // region HELPERS
         private static TagKey<Block> thermalTag(String name) {
@@ -41,23 +40,23 @@ public class ThermalTags {
             return BlockTags.create(new ResourceLocation(ID_THERMAL, name));
         }
 
-        private static TagKey<Block> forgeTag(String name) {
+        private static TagKey<Block> commonTag(String name) {
 
-            return BlockTags.create(new ResourceLocation(ID_FORGE, name));
+            return BlockTags.create(new ResourceLocation("c", name));
         }
         // endregion
     }
 
     public static class Items {
 
-        public static final TagKey<Item> LOGS_RUBBERWOOD = forgeTag("rubberwood_logs");
+        public static final TagKey<Item> LOGS_RUBBERWOOD = commonTag("rubberwood_logs");
 
-        public static final TagKey<Item> BITUMEN = forgeTag("bitumen");
-        public static final TagKey<Item> COAL_COKE = forgeTag("coal_coke");
-        public static final TagKey<Item> ROSIN = forgeTag("rosin");
-        public static final TagKey<Item> SAWDUST = forgeTag("sawdust");
-        public static final TagKey<Item> SLAG = forgeTag("slag");
-        public static final TagKey<Item> TAR = forgeTag("tar");
+        public static final TagKey<Item> BITUMEN = commonTag("bitumen");
+        public static final TagKey<Item> COAL_COKE = commonTag("coal_coke");
+        public static final TagKey<Item> ROSIN = commonTag("rosin");
+        public static final TagKey<Item> SAWDUST = commonTag("sawdust");
+        public static final TagKey<Item> SLAG = commonTag("slag");
+        public static final TagKey<Item> TAR = commonTag("tar");
 
         public static final TagKey<Item> MACHINE_DIES = thermalTag("crafting/dies");
         public static final TagKey<Item> MACHINE_CASTS = thermalTag("crafting/casts");
@@ -68,10 +67,10 @@ public class ThermalTags {
         public static final TagKey<Item> HARDENED_GLASS = thermalTag("glass/hardened");
         public static final TagKey<Item> ROCKWOOL = thermalTag("rockwool");
 
-        public static final TagKey<Item> STORAGE_BLOCKS_APPLE = forgeTag("storage_blocks/apple");
-        public static final TagKey<Item> STORAGE_BLOCKS_CARROT = forgeTag("storage_blocks/carrot");
-        public static final TagKey<Item> STORAGE_BLOCKS_POTATO = forgeTag("storage_blocks/potato");
-        public static final TagKey<Item> STORAGE_BLOCKS_BEETROOT = forgeTag("storage_blocks/beetroot");
+        public static final TagKey<Item> STORAGE_BLOCKS_APPLE = commonTag("storage_blocks/apple");
+        public static final TagKey<Item> STORAGE_BLOCKS_CARROT = commonTag("storage_blocks/carrot");
+        public static final TagKey<Item> STORAGE_BLOCKS_POTATO = commonTag("storage_blocks/potato");
+        public static final TagKey<Item> STORAGE_BLOCKS_BEETROOT = commonTag("storage_blocks/beetroot");
 
         // region HELPERS
         private static TagKey<Item> thermalTag(String name) {
@@ -79,23 +78,23 @@ public class ThermalTags {
             return ItemTags.create(new ResourceLocation(ID_THERMAL, name));
         }
 
-        private static TagKey<Item> forgeTag(String name) {
+        private static TagKey<Item> commonTag(String name) {
 
-            return ItemTags.create(new ResourceLocation(ID_FORGE, name));
+            return ItemTags.create(new ResourceLocation("c", name));
         }
         // endregion
     }
 
     public static class Fluids {
 
-        public static final TagKey<Fluid> REDSTONE = forgeTag("redstone");
-        public static final TagKey<Fluid> GLOWSTONE = forgeTag("glowstone");
-        public static final TagKey<Fluid> ENDER = forgeTag("ender");
+        public static final TagKey<Fluid> REDSTONE = commonTag("redstone");
+        public static final TagKey<Fluid> GLOWSTONE = commonTag("glowstone");
+        public static final TagKey<Fluid> ENDER = commonTag("ender");
 
-        public static final TagKey<Fluid> LATEX = forgeTag("latex");
+        public static final TagKey<Fluid> LATEX = commonTag("latex");
 
-        public static final TagKey<Fluid> CREOSOTE = forgeTag("creosote");
-        public static final TagKey<Fluid> CRUDE_OIL = forgeTag("crude_oil");
+        public static final TagKey<Fluid> CREOSOTE = commonTag("creosote");
+        public static final TagKey<Fluid> CRUDE_OIL = commonTag("crude_oil");
 
         // region HELPERS
         private static TagKey<Fluid> thermalTag(String name) {
@@ -103,9 +102,9 @@ public class ThermalTags {
             return FluidTags.create(new ResourceLocation(ID_THERMAL, name));
         }
 
-        private static TagKey<Fluid> forgeTag(String name) {
+        private static TagKey<Fluid> commonTag(String name) {
 
-            return FluidTags.create(new ResourceLocation(ID_FORGE, name));
+            return FluidTags.create(new ResourceLocation("c", name));
         }
         // endregion
     }

@@ -21,7 +21,7 @@
       "item": "thermal:redstone_servo"
     },
     "X": {
-      "tag": "forge:gears/iron"
+      "tag": "c:gears/iron"
     }
   },
   "pattern": [

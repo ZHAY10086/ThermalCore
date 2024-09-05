@@ -9,10 +9,10 @@
   "category": "misc",
   "key": {
     "C": {
-      "tag": "forge:gears/constantan"
+      "tag": "c:gears/constantan"
     },
     "L": {
-      "tag": "forge:plates/lead"
+      "tag": "c:plates/lead"
     },
     "X": {
       "item": "thermal:redstone_servo"

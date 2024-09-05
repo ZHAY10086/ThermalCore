@@ -9,10 +9,10 @@
   "category": "misc",
   "key": {
     "L": {
-      "tag": "forge:plates/lumium"
+      "tag": "c:plates/lumium"
     },
     "N": {
-      "tag": "forge:gears/nickel"
+      "tag": "c:gears/nickel"
     },
     "X": {
       "item": "thermal:rf_coil"

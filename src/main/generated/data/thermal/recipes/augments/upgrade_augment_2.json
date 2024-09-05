@@ -12,10 +12,10 @@
       "tag": "forge:gems/quartz"
     },
     "I": {
-      "tag": "forge:ingots/electrum"
+      "tag": "c:ingots/electrum"
     },
     "R": {
-      "tag": "forge:gears/signalum"
+      "tag": "c:gears/signalum"
     },
     "X": {
       "item": "thermal:upgrade_augment_1"

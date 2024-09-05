@@ -9,10 +9,10 @@
   "category": "misc",
   "key": {
     "G": {
-      "tag": "forge:gears/silver"
+      "tag": "c:gears/silver"
     },
     "S": {
-      "tag": "forge:plates/signalum"
+      "tag": "c:plates/signalum"
     },
     "X": {
       "tag": "thermal:glass/hardened"

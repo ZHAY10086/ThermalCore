@@ -14,11 +14,9 @@ import cofh.thermal.lib.util.recipes.ThermalRecipe;
 import cofh.thermal.lib.util.recipes.internal.*;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.AbstractCookingRecipe;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.*;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.fluids.FluidStack;
 
@@ -26,6 +24,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 
 import static cofh.core.util.helpers.ItemHelper.cloneStack;
+import static cofh.lib.util.constants.ModIds.ID_THERMAL;
 import static cofh.thermal.core.ThermalCore.ITEMS;
 import static cofh.thermal.core.init.registries.TCoreRecipeTypes.*;
 import static java.util.Arrays.asList;
@@ -259,8 +258,8 @@ public class SmelterRecipeManager extends AbstractManager implements IRecipeMana
         if (defaultFurnaceRecipes) {
             ThermalCore.LOG.debug("Adding default Furnace-Based processing recipes to the Induction Smelter...");
             createConvertedRecipes(recipeManager);
-            for (ThermalRecipe recipe : getConvertedRecipes()) {
-                addRecipe(recipe, BaseMachineRecipe.RecipeType.CATALYZED);
+            for (var recipe : getConvertedRecipes()) {
+                addRecipe(recipe.value(), BaseMachineRecipe.RecipeType.CATALYZED);
             }
         }
     }
@@ -323,9 +322,9 @@ public class SmelterRecipeManager extends AbstractManager implements IRecipeMana
     // endregion
 
     // region CONVERSION
-    protected List<SmelterRecipe> convertedRecipes = new ArrayList<>();
+    protected List<RecipeHolder<SmelterRecipe>> convertedRecipes = new ArrayList<>();
 
-    public List<SmelterRecipe> getConvertedRecipes() {
+    public List<RecipeHolder<SmelterRecipe>> getConvertedRecipes() {
 
         return convertedRecipes;
     }
@@ -369,34 +368,37 @@ public class SmelterRecipeManager extends AbstractManager implements IRecipeMana
         return false;
     }
 
-    protected SmelterRecipe convertDust(Ingredient input, ItemStack ingot) {
+    protected RecipeHolder<SmelterRecipe> convertDust(Ingredient input, ItemStack ingot) {
 
-        return new SmelterRecipe(getDefaultEnergy() / 2, 0.0F,
-                Collections.singletonList(input),
-                Collections.emptyList(), // no fluid input
-                Collections.singletonList(cloneStack(ingot, 1)),
-                List.of(-1.0F), // output chances
-                Collections.emptyList()); // no fluid output
+        return new RecipeHolder<>(new ResourceLocation(ID_THERMAL, "smelter_dust_" + input.hashCode()),
+                new SmelterRecipe(getDefaultEnergy() / 2, 0.0F,
+                        Collections.singletonList(input),
+                        Collections.emptyList(), // no fluid input
+                        Collections.singletonList(cloneStack(ingot, 1)),
+                        List.of(-1.0F), // output chances
+                        Collections.emptyList())); // no fluid output
     }
 
-    protected SmelterRecipe convertOre(Ingredient input, ItemStack ingot) {
+    protected RecipeHolder<SmelterRecipe> convertOre(Ingredient input, ItemStack ingot) {
 
-        return new SmelterRecipe(getDefaultEnergy(), 0.5F,
-                Collections.singletonList(input),
-                Collections.emptyList(), // no fluid input
-                Arrays.asList(cloneStack(ingot, 1), new ItemStack(ITEMS.get("rich_slag"))),
-                Arrays.asList(1.0F, 0.2F), // output chances
-                Collections.emptyList()); // no fluid output
+        return new RecipeHolder<>(new ResourceLocation(ID_THERMAL, "smelter_ore_" + input.hashCode()),
+                new SmelterRecipe(getDefaultEnergy(), 0.5F,
+                        Collections.singletonList(input),
+                        Collections.emptyList(), // no fluid input
+                        Arrays.asList(cloneStack(ingot, 1), new ItemStack(ITEMS.get("rich_slag"))),
+                        Arrays.asList(1.0F, 0.2F), // output chances
+                        Collections.emptyList())); // no fluid output
     }
 
-    protected SmelterRecipe convertRaw(Ingredient input, ItemStack ingot) {
+    protected RecipeHolder<SmelterRecipe> convertRaw(Ingredient input, ItemStack ingot) {
 
-        return new SmelterRecipe(getDefaultEnergy(), 0.5F,
-                Collections.singletonList(input),
-                Collections.emptyList(), // no fluid input
-                Collections.singletonList(cloneStack(ingot, 1)),
-                List.of(-1.5F), // output chances
-                Collections.emptyList()); // no fluid output
+        return new RecipeHolder<>(new ResourceLocation(ID_THERMAL, "smelter_raw_" + input.hashCode()),
+                new SmelterRecipe(getDefaultEnergy(), 0.5F,
+                        Collections.singletonList(input),
+                        Collections.emptyList(), // no fluid input
+                        Collections.singletonList(cloneStack(ingot, 1)),
+                        List.of(-1.5F), // output chances
+                        Collections.emptyList())); // no fluid output
     }
     // endregion
 }

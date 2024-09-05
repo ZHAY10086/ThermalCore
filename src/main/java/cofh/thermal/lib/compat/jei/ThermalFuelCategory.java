@@ -13,6 +13,7 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.List;
 import static cofh.lib.util.helpers.StringHelper.getTextComponent;
 import static cofh.lib.util.helpers.StringHelper.localize;
 
-public abstract class ThermalFuelCategory<T extends ThermalFuel> implements IRecipeCategory<T> {
+public abstract class ThermalFuelCategory<T extends RecipeHolder<? extends ThermalFuel>> implements IRecipeCategory<T> {
 
     protected static final int DURATION_X = 70;
     protected static final int DURATION_Y = 24;
@@ -98,7 +99,7 @@ public abstract class ThermalFuelCategory<T extends ThermalFuel> implements IRec
         List<Component> tooltip = new ArrayList<>();
 
         if (energy != null && mouseX > ENERGY_X && mouseX < ENERGY_X + energy.getWidth() - 1 && mouseY > ENERGY_Y && mouseY < ENERGY_Y + energy.getHeight() - 1) {
-            tooltip.add(getTextComponent("info.cofh.energy").append(": " + StringHelper.format(recipe.getEnergy()) + " " + localize("info.cofh.unit_rf")));
+            tooltip.add(getTextComponent("info.cofh.energy").append(": " + StringHelper.format(recipe.value().getEnergy()) + " " + localize("info.cofh.unit_rf")));
         }
         return tooltip;
     }

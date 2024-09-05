@@ -3,7 +3,7 @@
   "category": "misc",
   "ingredients": [
     {
-      "tag": "forge:gems/sulfur"
+      "tag": "c:gems/sulfur"
     },
     {
       "item": "thermal:earth_charge"

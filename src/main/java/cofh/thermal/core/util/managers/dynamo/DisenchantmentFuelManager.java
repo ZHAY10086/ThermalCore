@@ -5,9 +5,11 @@ import cofh.thermal.core.util.recipes.dynamo.DisenchantmentFuel;
 import cofh.thermal.lib.util.managers.SingleItemFuelManager;
 import cofh.thermal.lib.util.recipes.internal.IDynamoFuel;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.EnchantedBookItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -18,7 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static cofh.lib.util.Utils.getName;
 import static cofh.lib.util.Utils.getRegistryName;
+import static cofh.lib.util.constants.ModIds.ID_THERMAL;
 import static cofh.thermal.core.init.registries.TCoreRecipeTypes.DISENCHANTMENT_FUEL;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
@@ -90,9 +94,9 @@ public class DisenchantmentFuelManager extends SingleItemFuelManager {
     // endregion
 
     // region CONVERSION
-    protected List<DisenchantmentFuel> convertedFuels = new ArrayList<>();
+    protected List<RecipeHolder<DisenchantmentFuel>> convertedFuels = new ArrayList<>();
 
-    public List<DisenchantmentFuel> getConvertedFuels() {
+    public List<RecipeHolder<DisenchantmentFuel>> getConvertedFuels() {
 
         return convertedFuels;
     }
@@ -114,9 +118,9 @@ public class DisenchantmentFuelManager extends SingleItemFuelManager {
         }
     }
 
-    protected DisenchantmentFuel convert(ItemStack item, int energy) {
+    protected RecipeHolder<DisenchantmentFuel> convert(ItemStack item, int energy) {
 
-        return new DisenchantmentFuel(energy, singletonList(Ingredient.of(item)), emptyList());
+        return new RecipeHolder<>(new ResourceLocation(ID_THERMAL, "disenchantment_" + getName(item)), new DisenchantmentFuel(energy, singletonList(Ingredient.of(item)), emptyList()));
     }
     // endregion
 }

@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "#": {
-      "tag": "forge:ingots/enderium"
+      "tag": "c:ingots/enderium"
     },
     "I": {
       "item": "thermal:enderium_ingot"

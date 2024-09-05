@@ -1,8 +1,8 @@
 {
   "values": [
-    "#forge:gems/apatite",
-    "#forge:gems/cinnabar",
-    "#forge:gems/niter",
-    "#forge:gems/sulfur"
+    "#c:gems/apatite",
+    "#c:gems/cinnabar",
+    "#c:gems/niter",
+    "#c:gems/sulfur"
   ]
 }

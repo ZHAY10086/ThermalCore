@@ -43,20 +43,20 @@ public class TCoreRecipeProvider extends RecipeProviderCoFH {
         generateStorageRecipes(recipeOutput, reg.get(ID_CARROT_BLOCK), Items.CARROT);
         generateStorageRecipes(recipeOutput, reg.get(ID_POTATO_BLOCK), Items.POTATO);
 
-        generateStorageRecipes(recipeOutput, reg.get(ID_APATITE_BLOCK), reg.get("apatite"), forgeTag("gems/apatite"));
-        generateStorageRecipes(recipeOutput, reg.get(ID_CINNABAR_BLOCK), reg.get("cinnabar"), forgeTag("gems/cinnabar"));
-        generateStorageRecipes(recipeOutput, reg.get(ID_NITER_BLOCK), reg.get("niter"), forgeTag("gems/niter"));
-        generateStorageRecipes(recipeOutput, reg.get(ID_SULFUR_BLOCK), reg.get("sulfur"), forgeTag("gems/sulfur"));
+        generateStorageRecipes(recipeOutput, reg.get(ID_APATITE_BLOCK), reg.get("apatite"), commonTag("gems/apatite"));
+        generateStorageRecipes(recipeOutput, reg.get(ID_CINNABAR_BLOCK), reg.get("cinnabar"), commonTag("gems/cinnabar"));
+        generateStorageRecipes(recipeOutput, reg.get(ID_NITER_BLOCK), reg.get("niter"), commonTag("gems/niter"));
+        generateStorageRecipes(recipeOutput, reg.get(ID_SULFUR_BLOCK), reg.get("sulfur"), commonTag("gems/sulfur"));
 
-        generateGearRecipe(recipeOutput, reg.get("copper_gear"), Items.COPPER_INGOT, forgeTag("ingots/copper"));
-        generateGearRecipe(recipeOutput, reg.get("iron_gear"), Items.IRON_INGOT, forgeTag("ingots/iron"));
-        generateGearRecipe(recipeOutput, reg.get("gold_gear"), Items.GOLD_INGOT, forgeTag("ingots/gold"));
-        generateGearRecipe(recipeOutput, reg.get("netherite_gear"), Items.NETHERITE_INGOT, forgeTag("ingots/netherite"));
+        generateGearRecipe(recipeOutput, reg.get("copper_gear"), Items.COPPER_INGOT, commonTag("ingots/copper"));
+        generateGearRecipe(recipeOutput, reg.get("iron_gear"), Items.IRON_INGOT, commonTag("ingots/iron"));
+        generateGearRecipe(recipeOutput, reg.get("gold_gear"), Items.GOLD_INGOT, commonTag("ingots/gold"));
+        generateGearRecipe(recipeOutput, reg.get("netherite_gear"), Items.NETHERITE_INGOT, commonTag("ingots/netherite"));
 
-        generateGearRecipe(recipeOutput, reg.get("diamond_gear"), Items.IRON_INGOT, forgeTag("gems/diamond"));
-        generateGearRecipe(recipeOutput, reg.get("emerald_gear"), Items.IRON_INGOT, forgeTag("gems/emerald"));
-        generateGearRecipe(recipeOutput, reg.get("quartz_gear"), Items.IRON_INGOT, forgeTag("gems/quartz"));
-        generateGearRecipe(recipeOutput, reg.get("lapis_gear"), Items.IRON_INGOT, forgeTag("gems/lapis"));
+        generateGearRecipe(recipeOutput, reg.get("diamond_gear"), Items.IRON_INGOT, commonTag("gems/diamond"));
+        generateGearRecipe(recipeOutput, reg.get("emerald_gear"), Items.IRON_INGOT, commonTag("gems/emerald"));
+        generateGearRecipe(recipeOutput, reg.get("quartz_gear"), Items.IRON_INGOT, commonTag("gems/quartz"));
+        generateGearRecipe(recipeOutput, reg.get("lapis_gear"), Items.IRON_INGOT, commonTag("gems/lapis"));
 
         generateStorageRecipes(recipeOutput, reg.get(ID_SAWDUST_BLOCK), reg.get("sawdust"), ThermalTags.Items.SAWDUST);
         generateStorageRecipes(recipeOutput, reg.get(ID_COAL_COKE_BLOCK), reg.get("coal_coke"), ThermalTags.Items.COAL_COKE);

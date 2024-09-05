@@ -2,17 +2,23 @@ package cofh.thermal.core.util.recipes.device;
 
 import cofh.lib.common.block.BlockIngredient;
 import cofh.lib.util.Utils;
+import cofh.lib.util.recipes.JsonMapCodec;
 import cofh.lib.util.recipes.SerializableRecipe;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.fluids.FluidStack;
 
 import javax.annotation.Nullable;
 
+import static cofh.lib.util.recipes.RecipeJsonUtils.*;
 import static cofh.thermal.core.init.registries.TCoreRecipeSerializers.TREE_EXTRACTOR_SERIALIZER;
 import static cofh.thermal.core.init.registries.TCoreRecipeTypes.TREE_EXTRACTOR_MAPPING;
 
@@ -96,60 +102,70 @@ public class TreeExtractorMapping extends SerializableRecipe {
     // region SERIALIZER
     public static class Serializer implements RecipeSerializer<TreeExtractorMapping> {
 
-        // public static final Codec<TreeExtractorMapping> CODEC = RecordCodecBuilder.create();
-
         @Override
         public Codec<TreeExtractorMapping> codec() {
 
-            return null;
+            return JsonMapCodec.INSTANCE
+                    .flatXmap(json -> {
+                        try {
+                            return DataResult.success(fromJson(json));
+                        } catch (JsonParseException e) {
+                            return DataResult.error(e::getMessage);
+                        }
+                    }, recipe -> DataResult.success(toJson(recipe)))
+                    .codec();
         }
 
-        //        @Override
-        //        public TreeExtractorMapping fromJson(ResourceLocation recipeId, JsonObject json) {
-        //
-        //            BlockIngredient logs = BlockIngredient.EMPTY;
-        //            BlockIngredient leaves = BlockIngredient.EMPTY;
-        //            Block sapling = Blocks.AIR;
-        //            FluidStack fluid = FluidStack.EMPTY;
-        //            int minLeaves = 3;
-        //            int maxLeaves = 3;
-        //            int minHeight = 3;
-        //            int maxHeight = 3;
-        //
-        //            if (json.has(TRUNK)) {
-        //                logs = getAsBlockIngredient(json, TRUNK);
-        //            }
-        //
-        //            if (json.has(LEAF)) {
-        //                leaves = getAsBlockIngredient(json, LEAF);
-        //            } else if (json.has(LEAVES)) {
-        //                leaves = getAsBlockIngredient(json, LEAVES);
-        //            }
-        //
-        //            if (json.has(SAPLING)) {
-        //                sapling = parseBlock(json.get(SAPLING));
-        //            }
-        //
-        //            if (json.has(RESULT)) {
-        //                fluid = parseFluidStack(json.get(RESULT));
-        //            } else if (json.has(FLUID)) {
-        //                fluid = parseFluidStack(json.get(FLUID));
-        //            }
-        //
-        //            if (json.has(MIN_HEIGHT)) {
-        //                minHeight = json.get(MIN_HEIGHT).getAsInt();
-        //            }
-        //            if (json.has(MAX_HEIGHT)) {
-        //                maxHeight = json.get(MAX_HEIGHT).getAsInt();
-        //            }
-        //            if (json.has(MIN_LEAVES)) {
-        //                minLeaves = json.get(MIN_LEAVES).getAsInt();
-        //            }
-        //            if (json.has(MAX_LEAVES)) {
-        //                maxLeaves = json.get(MAX_LEAVES).getAsInt();
-        //            }
-        //            return new TreeExtractorMapping(recipeId, logs, leaves, sapling, fluid, minHeight, Math.max(maxHeight, minHeight), minLeaves, Math.max(maxLeaves, minLeaves));
-        //        }
+        public TreeExtractorMapping fromJson(JsonObject json) {
+
+            BlockIngredient logs = BlockIngredient.EMPTY;
+            BlockIngredient leaves = BlockIngredient.EMPTY;
+            Block sapling = Blocks.AIR;
+            FluidStack fluid = FluidStack.EMPTY;
+            int minLeaves = 3;
+            int maxLeaves = 3;
+            int minHeight = 3;
+            int maxHeight = 3;
+
+            if (json.has(TRUNK)) {
+                logs = getAsBlockIngredient(json, TRUNK);
+            }
+
+            if (json.has(LEAF)) {
+                leaves = getAsBlockIngredient(json, LEAF);
+            } else if (json.has(LEAVES)) {
+                leaves = getAsBlockIngredient(json, LEAVES);
+            }
+
+            if (json.has(SAPLING)) {
+                sapling = parseBlock(json.get(SAPLING));
+            }
+
+            if (json.has(RESULT)) {
+                fluid = parseFluidStack(json.get(RESULT));
+            } else if (json.has(FLUID)) {
+                fluid = parseFluidStack(json.get(FLUID));
+            }
+
+            if (json.has(MIN_HEIGHT)) {
+                minHeight = json.get(MIN_HEIGHT).getAsInt();
+            }
+            if (json.has(MAX_HEIGHT)) {
+                maxHeight = json.get(MAX_HEIGHT).getAsInt();
+            }
+            if (json.has(MIN_LEAVES)) {
+                minLeaves = json.get(MIN_LEAVES).getAsInt();
+            }
+            if (json.has(MAX_LEAVES)) {
+                maxLeaves = json.get(MAX_LEAVES).getAsInt();
+            }
+            return new TreeExtractorMapping(logs, leaves, sapling, fluid, minHeight, Math.max(maxHeight, minHeight), minLeaves, Math.max(maxLeaves, minLeaves));
+        }
+
+        protected JsonObject toJson(TreeExtractorMapping mapping) {
+
+            return null;
+        }
 
         @Nullable
         @Override

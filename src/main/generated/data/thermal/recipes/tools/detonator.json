@@ -3,13 +3,13 @@
   "category": "equipment",
   "key": {
     "G": {
-      "tag": "forge:gears/signalum"
+      "tag": "c:gears/signalum"
     },
     "I": {
       "tag": "forge:ingots/iron"
     },
     "S": {
-      "tag": "forge:ingots/silver"
+      "tag": "c:ingots/silver"
     }
   },
   "pattern": [

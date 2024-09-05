@@ -104,7 +104,7 @@ repositories {
 
 dependencies {
     implementation("net.neoforged:neoforge:${neo_version}")
-    implementation "com.teamcofh:cofh_core:${mc_version}-${cofh_core_version}.+"
+    implementation "com.teamcofh:cofh_core:${mc_version}-${cofh_core_version}+"
 
     implementation("mezz.jei:jei-${mc_version}-neoforge:${jei_version}") {
         transitive false

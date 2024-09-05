@@ -12,13 +12,13 @@
       "tag": "forge:glass"
     },
     "I": {
-      "tag": "forge:ingots/invar"
+      "tag": "c:ingots/invar"
     },
     "R": {
       "tag": "forge:dusts/redstone"
     },
     "X": {
-      "tag": "forge:gears/gold"
+      "tag": "c:gears/gold"
     }
   },
   "pattern": [

@@ -3,7 +3,7 @@
   "category": "equipment",
   "key": {
     "I": {
-      "tag": "forge:ingots/tin"
+      "tag": "c:ingots/tin"
     },
     "L": {
       "tag": "forge:leather"

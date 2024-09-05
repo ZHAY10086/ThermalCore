@@ -9,10 +9,10 @@
   "category": "misc",
   "key": {
     "G": {
-      "tag": "forge:gears/lead"
+      "tag": "c:gears/lead"
     },
     "L": {
-      "tag": "forge:plates/lumium"
+      "tag": "c:plates/lumium"
     },
     "X": {
       "tag": "thermal:glass/hardened"

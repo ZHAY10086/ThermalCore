@@ -9,13 +9,13 @@
   "category": "misc",
   "key": {
     "C": {
-      "tag": "forge:plates/constantan"
+      "tag": "c:plates/constantan"
     },
     "G": {
-      "tag": "forge:gears/signalum"
+      "tag": "c:gears/signalum"
     },
     "S": {
-      "tag": "forge:plates/silver"
+      "tag": "c:plates/silver"
     },
     "X": {
       "item": "thermal:redstone_servo"

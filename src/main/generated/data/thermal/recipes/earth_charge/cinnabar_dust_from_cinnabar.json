@@ -3,7 +3,7 @@
   "category": "misc",
   "ingredients": [
     {
-      "tag": "forge:gems/cinnabar"
+      "tag": "c:gems/cinnabar"
     },
     {
       "item": "thermal:earth_charge"

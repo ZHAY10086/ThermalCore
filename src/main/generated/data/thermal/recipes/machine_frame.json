@@ -15,7 +15,7 @@
       "tag": "forge:ingots/iron"
     },
     "T": {
-      "tag": "forge:gears/tin"
+      "tag": "c:gears/tin"
     }
   },
   "pattern": [

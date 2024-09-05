@@ -9,10 +9,10 @@
   "category": "misc",
   "key": {
     "S": {
-      "tag": "forge:ingots/signalum"
+      "tag": "c:ingots/signalum"
     },
     "c": {
-      "tag": "forge:nuggets/copper"
+      "tag": "c:nuggets/copper"
     }
   },
   "pattern": [

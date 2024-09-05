@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "#": {
-      "tag": "forge:ingots/lumium"
+      "tag": "c:ingots/lumium"
     },
     "I": {
       "item": "thermal:lumium_ingot"

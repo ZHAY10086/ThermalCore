@@ -15,13 +15,13 @@
       "tag": "forge:glass"
     },
     "I": {
-      "tag": "forge:ingots/silver"
+      "tag": "c:ingots/silver"
     },
     "P": {
       "item": "thermal:redstone_servo"
     },
     "X": {
-      "tag": "forge:gears/lapis"
+      "tag": "c:gears/lapis"
     }
   },
   "pattern": [

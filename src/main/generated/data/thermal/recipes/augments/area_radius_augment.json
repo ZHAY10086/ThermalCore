@@ -9,10 +9,10 @@
   "category": "misc",
   "key": {
     "G": {
-      "tag": "forge:gears/iron"
+      "tag": "c:gears/iron"
     },
     "I": {
-      "tag": "forge:ingots/tin"
+      "tag": "c:ingots/tin"
     },
     "X": {
       "item": "thermal:redstone_servo"

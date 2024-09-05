@@ -9,13 +9,13 @@
   "category": "misc",
   "key": {
     "E": {
-      "tag": "forge:gears/electrum"
+      "tag": "c:gears/electrum"
     },
     "G": {
       "tag": "forge:glass"
     },
     "I": {
-      "tag": "forge:ingots/lead"
+      "tag": "c:ingots/lead"
     }
   },
   "pattern": [

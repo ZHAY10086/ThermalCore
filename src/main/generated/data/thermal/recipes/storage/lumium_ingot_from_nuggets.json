@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "#": {
-      "tag": "forge:nuggets/lumium"
+      "tag": "c:nuggets/lumium"
     },
     "I": {
       "item": "thermal:lumium_nugget"

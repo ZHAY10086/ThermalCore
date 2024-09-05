@@ -15,11 +15,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 
 import static cofh.lib.util.helpers.StringHelper.DF0;
 import static cofh.lib.util.helpers.StringHelper.localize;
 
-public abstract class ThermalCatalystCategory<T extends ThermalCatalyst> implements IRecipeCategory<T> {
+public abstract class ThermalCatalystCategory<T extends RecipeHolder<? extends ThermalCatalyst>> implements IRecipeCategory<T> {
 
     protected final RecipeType<T> type;
     protected IDrawable background;
@@ -62,7 +63,7 @@ public abstract class ThermalCatalystCategory<T extends ThermalCatalyst> impleme
     public void setRecipe(IRecipeLayoutBuilder builder, T recipe, IFocusGroup focuses) {
 
         builder.addSlot(RecipeIngredientRole.INPUT, 17, 23)
-                .addIngredients(recipe.getIngredient());
+                .addIngredients(recipe.value().getIngredient());
     }
 
     @Override
@@ -72,16 +73,16 @@ public abstract class ThermalCatalystCategory<T extends ThermalCatalyst> impleme
 
         Minecraft minecraft = Minecraft.getInstance();
 
-        String primaryMod = localize("info.thermal.primary_mod") + ": " + recipe.getPrimaryMod() + "x";
+        String primaryMod = localize("info.thermal.primary_mod") + ": " + recipe.value().getPrimaryMod() + "x";
         guiGraphics.drawString(minecraft.font, primaryMod, 44, 8, 0xFF606060, false);
 
-        String secondaryMod = localize("info.thermal.secondary_mod") + ": " + recipe.getSecondaryMod() + "x";
+        String secondaryMod = localize("info.thermal.secondary_mod") + ": " + recipe.value().getSecondaryMod() + "x";
         guiGraphics.drawString(minecraft.font, secondaryMod, 44, 20, 0xFF606060, false);
 
-        String energyMod = localize("info.thermal.energy_mod") + ": " + recipe.getEnergyMod() + "x";
+        String energyMod = localize("info.thermal.energy_mod") + ": " + recipe.value().getEnergyMod() + "x";
         guiGraphics.drawString(minecraft.font, energyMod, 44, 32, 0xFF606060, false);
 
-        String useChance = localize("info.thermal.use_chance") + ": " + DF0.format(recipe.getUseChance() * 100) + "%";
+        String useChance = localize("info.thermal.use_chance") + ": " + DF0.format(recipe.value().getUseChance() * 100) + "%";
         guiGraphics.drawString(minecraft.font, useChance, 44, 44, 0xFF606060, false);
     }
     // endregion

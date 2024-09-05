@@ -21,7 +21,7 @@
       "item": "thermal:rf_coil"
     },
     "X": {
-      "tag": "forge:gears/lumium"
+      "tag": "c:gears/lumium"
     }
   },
   "pattern": [

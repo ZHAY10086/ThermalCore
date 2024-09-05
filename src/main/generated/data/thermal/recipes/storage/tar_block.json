@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "#": {
-      "tag": "forge:tar"
+      "tag": "c:tar"
     },
     "I": {
       "item": "thermal:tar"
