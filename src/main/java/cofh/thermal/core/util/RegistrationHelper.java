@@ -4,9 +4,6 @@ import cofh.core.common.entity.AbstractGrenade;
 import cofh.core.common.entity.AbstractTNTMinecart;
 import cofh.core.common.item.*;
 import cofh.lib.api.IDetonatable;
-import cofh.lib.common.block.CropBlockCoFH;
-import cofh.lib.common.block.CropBlockPerennial;
-import cofh.lib.common.block.CropBlockTall;
 import cofh.lib.common.block.TntBlockCoFH;
 import cofh.lib.common.entity.PrimedTntCoFH;
 import cofh.thermal.core.common.entity.explosive.DetonateUtils;
@@ -17,11 +14,8 @@ import cofh.thermal.lib.common.item.BlockItemAugmentable;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
@@ -37,9 +31,11 @@ import java.util.function.IntSupplier;
 import java.util.function.Supplier;
 
 import static cofh.lib.util.Utils.itemProperties;
-import static cofh.lib.util.constants.ModIds.*;
+import static cofh.lib.util.constants.ModIds.ID_THERMAL;
+import static cofh.lib.util.constants.ModIds.ID_THERMAL_LOCOMOTION;
 import static cofh.thermal.core.ThermalCore.*;
-import static cofh.thermal.core.init.registries.ThermalCreativeTabs.*;
+import static cofh.thermal.core.init.registries.ThermalCreativeTabs.blocksTab;
+import static cofh.thermal.core.init.registries.ThermalCreativeTabs.itemsTab;
 import static net.minecraft.world.level.block.state.BlockBehaviour.Properties.of;
 
 public final class RegistrationHelper {
@@ -222,62 +218,6 @@ public final class RegistrationHelper {
         itemsTab(order, registerItem(prefix + "_gear", () -> new ItemCoFH(itemProperties().rarity(rarity)).setModId(modId)));
         // itemsTab(registerItem(prefix + "_plate", () -> new CountedItem(itemProperties().group(group).rarity(rarity)).setModId(modId)));
         // itemsTab(registerItem(prefix + "_coin", () -> new CoinItem(itemProperties().group(group).rarity(rarity)).setModId(modId)));
-    }
-    // endregion
-
-    // TODO: Remove in 11.1
-    // region CROPS
-    public static void registerAnnual(String id) {
-
-        BLOCKS.register(id, () -> new CropBlockCoFH(of().mapColor(MapColor.PLANT).noCollission().randomTicks().strength(0.0F, 0.0F).sound(SoundType.CROP)).crop(ITEMS.getSup(id)).seed(ITEMS.getSup(seeds(id))));
-    }
-
-    public static void registerTallAnnual(String id) {
-
-        BLOCKS.register(id, () -> new CropBlockTall(of().mapColor(MapColor.PLANT).noCollission().randomTicks().strength(0.0F, 0.0F).sound(SoundType.CROP)).crop(ITEMS.getSup(id)).seed(ITEMS.getSup(seeds(id))));
-    }
-
-    public static void registerPerennial(String id) {
-
-        registerPerennial(id, CropBlockPerennial.DEFAULT_POST_HARVEST_AGE);
-    }
-
-    public static void registerPerennial(String id, int postHarvestAge) {
-
-        BLOCKS.register(id, () -> new CropBlockPerennial(of().mapColor(MapColor.PLANT).noCollission().randomTicks().strength(0.0F, 0.0F).sound(SoundType.CROP)).postHarvestAge(postHarvestAge).crop(ITEMS.getSup(id)).seed(ITEMS.getSup(seeds(id))));
-    }
-
-    public static void registerCropAndSeed(String id) {
-
-        registerCropAndSeed(id, null);
-    }
-
-    public static void registerCropAndSeed(String id, FoodProperties food) {
-
-        if (food != null) {
-            foodsTab(registerItem(id, () -> new ItemCoFH(itemProperties().food(food)).setModId(ID_THERMAL_CULTIVATION)));
-        } else {
-            foodsTab(registerItem(id, () -> new ItemCoFH(itemProperties()).setModId(ID_THERMAL_CULTIVATION)));
-        }
-        foodsTab(registerItem(seeds(id), () -> new BlockNamedItemCoFH(BLOCKS.get(id), itemProperties()).setModId(ID_THERMAL_CULTIVATION)));
-    }
-
-    public static void registerBowlFoodItem(String id, FoodProperties food, Rarity rarity) {
-
-        foodsTab(registerItem(id, () -> new ItemCoFH(itemProperties().stacksTo(1).food(food).rarity(rarity)) {
-
-            @Override
-            public ItemStack finishUsingItem(ItemStack stack, Level worldIn, LivingEntity entityLiving) {
-
-                ItemStack itemstack = super.finishUsingItem(stack, worldIn, entityLiving);
-                return entityLiving instanceof Player player && player.abilities.instabuild ? itemstack : new ItemStack(Items.BOWL);
-            }
-        }.setModId(ID_THERMAL_CULTIVATION)));
-    }
-
-    public static void registerSpores(String id) {
-
-        foodsTab(registerItem(spores(id), () -> new BlockNamedItemCoFH(BLOCKS.get(id), itemProperties()).setModId(ID_THERMAL_CULTIVATION)));
     }
     // endregion
 

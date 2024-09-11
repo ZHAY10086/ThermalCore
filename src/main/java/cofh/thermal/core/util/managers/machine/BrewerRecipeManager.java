@@ -157,7 +157,7 @@ public class BrewerRecipeManager extends AbstractManager implements IRecipeManag
         }
 
         if (defaultPotionRecipes) {
-            // TODO: Solve this nonsense with Forge.
+            // TODO: Solve this nonsense with NeoForge.
             ThermalCore.LOG.debug("Adding default Brewing Stand recipes to the Alchemical Imbuer...");
             createConvertedRecipes();
             for (var recipe : getConvertedRecipes()) {

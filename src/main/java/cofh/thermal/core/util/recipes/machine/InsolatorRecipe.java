@@ -8,7 +8,6 @@ import cofh.thermal.lib.util.recipes.MachineRecipeSerializer;
 import cofh.thermal.lib.util.recipes.ThermalRecipe;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;

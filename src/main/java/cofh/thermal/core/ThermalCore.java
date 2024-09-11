@@ -112,7 +112,7 @@ public class ThermalCore {
         modEventBus.addListener(this::entityLayerSetup);
         modEventBus.addListener(this::entityRendererSetup);
         modEventBus.addListener(this::spawnPlacementSetup);
-        modEventBus.addListener(this::capSetup);
+        modEventBus.addListener(this::capabilitySetup);
         modEventBus.addListener(this::menuScreenSetup);
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::clientSetup);
@@ -230,8 +230,9 @@ public class ThermalCore {
         event.register(BLIZZ.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Blizz::canSpawn, SpawnPlacementRegisterEvent.Operation.REPLACE);
     }
 
-    private void capSetup(RegisterCapabilitiesEvent event) {
+    private void capabilitySetup(RegisterCapabilitiesEvent event) {
 
+        TCoreBlockEntities.capabilitySetup(event);
     }
 
     private void menuScreenSetup(final RegisterMenuScreensEvent event) {
