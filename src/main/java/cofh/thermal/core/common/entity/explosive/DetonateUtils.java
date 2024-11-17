@@ -24,11 +24,11 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.registries.RegistryObject;
 
 import javax.annotation.Nullable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Supplier;
 
 import static cofh.core.init.CoreMobEffects.SLIMED;
 import static cofh.core.init.CoreParticles.FROST;
@@ -37,9 +37,9 @@ import static net.minecraft.world.effect.MobEffects.WITHER;
 public class DetonateUtils {
 
     // region RENDERING REGISTRATION
-    public static List<RegistryObject<EntityType<? extends AbstractGrenade>>> GRENADES = new LinkedList<>();
-    public static List<RegistryObject<EntityType<? extends PrimedTntCoFH>>> TNT = new LinkedList<>();
-    public static List<RegistryObject<EntityType<? extends AbstractTNTMinecart>>> CARTS = new LinkedList<>();
+    public static List<Supplier<EntityType<? extends AbstractGrenade>>> GRENADES = new LinkedList<>();
+    public static List<Supplier<EntityType<? extends PrimedTntCoFH>>> TNT = new LinkedList<>();
+    public static List<Supplier<EntityType<? extends AbstractTNTMinecart>>> CARTS = new LinkedList<>();
     // endregion
 
     // region HELPERS
@@ -126,7 +126,7 @@ public class DetonateUtils {
     public static void slime(Level level, Entity explosive, @Nullable Entity owner, Vec3 pos, int radius, int duration, int amplifier) {
 
         BlockPos blockPos = BlockPos.containing(pos);
-        AABB area = new AABB(blockPos.offset(-radius, -radius, -radius), blockPos.offset(1 + radius, 1 + radius, 1 + radius));
+        AABB area = AABB.encapsulatingFullBlocks(blockPos.offset(-radius, -radius, -radius), blockPos.offset(1 + radius, 1 + radius, 1 + radius));
 
         for (LivingEntity mob : level.getEntitiesOfClass(LivingEntity.class, area, EntitySelector.ENTITY_STILL_ALIVE)) {
             mob.addEffect(new MobEffectInstance(SLIMED.get(), duration, amplifier, false, true));
@@ -180,7 +180,7 @@ public class DetonateUtils {
         // ENTITIES
         int entityRadius = radius * 3;
         BlockPos blockPos = BlockPos.containing(pos);
-        AABB area = new AABB(blockPos.offset(-entityRadius, -entityRadius, -entityRadius), blockPos.offset(1 + entityRadius, 1 + entityRadius, 1 + entityRadius));
+        AABB area = AABB.encapsulatingFullBlocks(blockPos.offset(-entityRadius, -entityRadius, -entityRadius), blockPos.offset(1 + entityRadius, 1 + entityRadius, 1 + entityRadius));
         double entityRadiusSqr = entityRadius * entityRadius;
         level.getEntitiesOfClass(LivingEntity.class, area, EntitySelector.ENTITY_STILL_ALIVE)
                 .forEach(target -> {
@@ -197,7 +197,7 @@ public class DetonateUtils {
         int f = Math.min(AreaUtils.HORZ_MAX, blockRadius);
         float maxResistance = 400F * blockRadius * blockRadius;
         float f2 = f * f;
-        Explosion explosion = new Explosion(level, explosive, null, null, explosive.getX(), explosive.getY(), explosive.getZ(), radius * 0.38F, true, explosionsBreakBlocks ? Explosion.BlockInteraction.DESTROY : Explosion.BlockInteraction.KEEP);
+        Explosion explosion = new Explosion(level, explosive, explosive.getX(), explosive.getY(), explosive.getZ(), radius * 0.38F, true, explosionsBreakBlocks ? Explosion.BlockInteraction.DESTROY : Explosion.BlockInteraction.KEEP);
 
         for (BlockPos iterPos : BlockPos.betweenClosed(blockPos.offset(-f, -f / 2, -f), blockPos.offset(f, f, f))) {
             double distance = iterPos.distToCenterSqr(explosive.position());

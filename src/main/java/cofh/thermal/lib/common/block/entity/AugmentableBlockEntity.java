@@ -27,7 +27,6 @@ import cofh.lib.util.helpers.MathHelper;
 import cofh.lib.util.helpers.SoundHelper;
 import cofh.thermal.core.common.config.ThermalClientConfig;
 import cofh.thermal.core.common.config.ThermalCoreConfig;
-import cofh.thermal.lib.util.ThermalEnergyHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -50,15 +49,11 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.network.NetworkHooks;
+import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.items.IItemHandler;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -117,17 +112,6 @@ public abstract class AugmentableBlockEntity extends BlockEntityCoFH implements 
         return BASE_XP_STORAGE;
     }
     // endregion
-
-    // TODO: Does this need to exist?
-    @Override
-    public void setRemoved() {
-
-        super.setRemoved();
-
-        energyCap.invalidate();
-        itemCap.invalidate();
-        fluidCap.invalidate();
-    }
 
     // region HELPERS
     @Override
@@ -271,9 +255,10 @@ public abstract class AugmentableBlockEntity extends BlockEntityCoFH implements 
                 if (!player.getAbilities().instabuild) {
                     player.setItemInHand(hand, consumeItem(stack, 1));
                 }
-                player.level.playSound(null, player.blockPosition(), SOUND_TINKER.get(), SoundSource.PLAYERS, 0.1F, (MathHelper.RANDOM.nextFloat() - MathHelper.RANDOM.nextFloat()) * 0.35F + 0.9F);
+                player.level.playSound(null, player.blockPosition(), SOUND_TINKER.value(), SoundSource.PLAYERS, 0.1F, (MathHelper.RANDOM.nextFloat() - MathHelper.RANDOM.nextFloat()) * 0.35F + 0.9F);
+                player.level.sendBlockUpdated(pos, state, state, Block.UPDATE_CLIENTS);
             } else {
-                player.level.playSound(null, player.blockPosition(), SoundEvents.UI_BUTTON_CLICK.get(), SoundSource.PLAYERS, 0.1F, 0.25F);
+                player.level.playSound(null, player.blockPosition(), SoundEvents.UI_BUTTON_CLICK.value(), SoundSource.PLAYERS, 0.1F, 0.25F);
             }
             return true;
         }
@@ -728,67 +713,41 @@ public abstract class AugmentableBlockEntity extends BlockEntityCoFH implements 
     // endregion
 
     // region CAPABILITIES
-    protected LazyOptional<?> energyCap = LazyOptional.empty();
-    protected LazyOptional<?> itemCap = LazyOptional.empty();
-    protected LazyOptional<?> fluidCap = LazyOptional.empty();
+    protected IEnergyStorage energyCap = null;
+    protected IItemHandler itemCap = null;
+    protected IFluidHandler fluidCap = null;
 
     protected void updateHandlers() {
 
-        LazyOptional<?> prevEnergyCap = energyCap;
-        energyCap = energyStorage.getCapacity() > 0 ? LazyOptional.of(() -> energyStorage) : LazyOptional.empty();
-        prevEnergyCap.invalidate();
+        energyCap = energyStorage.getCapacity() > 0 ? energyStorage : null;
+        itemCap = inventory.hasAccessibleSlots() ? inventory.getHandler(ACCESSIBLE) : null;
+        fluidCap = tankInv.hasAccessibleTanks() ? tankInv.getHandler(ACCESSIBLE) : null;
 
-        LazyOptional<?> prevItemCap = itemCap;
-        IItemHandler invHandler = inventory.getHandler(ACCESSIBLE);
-        itemCap = inventory.hasAccessibleSlots() ? LazyOptional.of(() -> invHandler) : LazyOptional.empty();
-        prevItemCap.invalidate();
-
-        LazyOptional<?> prevFluidCap = fluidCap;
-        IFluidHandler fluidHandler = tankInv.getHandler(ACCESSIBLE);
-        fluidCap = tankInv.hasAccessibleTanks() ? LazyOptional.of(() -> fluidHandler) : LazyOptional.empty();
-        prevFluidCap.invalidate();
+        invalidateCapabilities();
     }
 
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
+    public IEnergyStorage getEnergyCapability(@Nullable Direction side) {
 
-        if (cap == ThermalEnergyHelper.getBaseEnergySystem() && energyStorage.getMaxEnergyStored() > 0) {
-            return getEnergyCapability(side);
+        if (energyCap == null && energyStorage.getCapacity() > 0) {
+            energyCap = energyStorage;
         }
-        if (cap == ForgeCapabilities.ITEM_HANDLER && inventory.hasAccessibleSlots()) {
-            return getItemHandlerCapability(side);
-        }
-        if (cap == ForgeCapabilities.FLUID_HANDLER && tankInv.hasAccessibleTanks()) {
-            return getFluidHandlerCapability(side);
-        }
-        return super.getCapability(cap, side);
+        return energyCap;
     }
 
-    protected <T> LazyOptional<T> getEnergyCapability(@Nullable Direction side) {
+    public IItemHandler getItemHandlerCapability(@Nullable Direction side) {
 
-        if (!energyCap.isPresent() && energyStorage.getCapacity() > 0) {
-            energyCap = LazyOptional.of(() -> energyStorage);
+        if (itemCap == null && inventory.hasAccessibleSlots()) {
+            itemCap = inventory.getHandler(ACCESSIBLE);
         }
-        return energyCap.cast();
+        return itemCap;
     }
 
-    protected <T> LazyOptional<T> getItemHandlerCapability(@Nullable Direction side) {
+    public IFluidHandler getFluidHandlerCapability(@Nullable Direction side) {
 
-        if (!itemCap.isPresent() && inventory.hasAccessibleSlots()) {
-            IItemHandler handler = inventory.getHandler(ACCESSIBLE);
-            itemCap = LazyOptional.of(() -> handler);
+        if (fluidCap == null && tankInv.hasAccessibleTanks()) {
+            fluidCap = tankInv.getHandler(ACCESSIBLE);
         }
-        return itemCap.cast();
-    }
-
-    protected <T> LazyOptional<T> getFluidHandlerCapability(@Nullable Direction side) {
-
-        if (!fluidCap.isPresent() && tankInv.hasAccessibleTanks()) {
-            IFluidHandler handler = tankInv.getHandler(ACCESSIBLE);
-            fluidCap = LazyOptional.of(() -> handler);
-        }
-        return fluidCap.cast();
+        return fluidCap;
     }
     // endregion
 
@@ -814,7 +773,7 @@ public abstract class AugmentableBlockEntity extends BlockEntityCoFH implements 
     public boolean openGui(ServerPlayer player) {
 
         if (canOpenGui()) {
-            NetworkHooks.openScreen(player, this, worldPosition);
+            player.openMenu(this, worldPosition);
             return true;
         }
         return false;

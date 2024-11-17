@@ -1,24 +1,24 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
-  "conditions": [
+  "neoforge:conditions": [
     {
-      "type": "thermal:flag",
+      "type": "cofh_core:flag_set",
       "flag": "charge_bench"
     }
   ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "C": {
       "tag": "forge:storage_blocks/redstone"
     },
     "I": {
-      "tag": "forge:ingots/electrum"
+      "tag": "c:ingots/electrum"
     },
     "P": {
       "item": "thermal:rf_coil"
     },
     "X": {
-      "tag": "forge:ingots/lead"
+      "tag": "c:ingots/lead"
     }
   },
   "pattern": [
@@ -28,6 +28,5 @@
   ],
   "result": {
     "item": "thermal:charge_bench"
-  },
-  "show_notification": true
+  }
 }

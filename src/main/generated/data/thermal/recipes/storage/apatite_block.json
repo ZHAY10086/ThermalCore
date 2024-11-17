@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "#": {
-      "tag": "forge:gems/apatite"
+      "tag": "c:gems/apatite"
     },
     "I": {
       "item": "thermal:apatite"
@@ -16,6 +16,5 @@
   ],
   "result": {
     "item": "thermal:apatite_block"
-  },
-  "show_notification": true
+  }
 }

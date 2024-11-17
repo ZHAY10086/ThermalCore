@@ -6,7 +6,7 @@ import cofh.core.util.helpers.AugmentDataHelper;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.List;
 import java.util.function.BiPredicate;
@@ -19,7 +19,7 @@ import static cofh.lib.api.ContainerType.FLUID;
 import static cofh.lib.util.Constants.MAX_POTION_AMPLIFIER;
 import static cofh.lib.util.Constants.MAX_POTION_DURATION;
 import static cofh.lib.util.constants.NBTTags.*;
-import static net.minecraftforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE;
+import static net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE;
 
 public class FluidContainerItemAugmentable extends FluidContainerItem implements IAugmentableItem {
 

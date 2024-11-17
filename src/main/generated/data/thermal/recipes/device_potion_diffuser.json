@@ -1,12 +1,12 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
-  "conditions": [
+  "neoforge:conditions": [
     {
-      "type": "thermal:flag",
+      "type": "cofh_core:flag_set",
       "flag": "device_potion_diffuser"
     }
   ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "C": {
       "item": "minecraft:glass_bottle"
@@ -15,13 +15,13 @@
       "tag": "forge:glass"
     },
     "I": {
-      "tag": "forge:ingots/silver"
+      "tag": "c:ingots/silver"
     },
     "P": {
       "item": "thermal:redstone_servo"
     },
     "X": {
-      "tag": "forge:gears/constantan"
+      "tag": "c:gears/constantan"
     }
   },
   "pattern": [
@@ -31,6 +31,5 @@
   ],
   "result": {
     "item": "thermal:device_potion_diffuser"
-  },
-  "show_notification": true
+  }
 }

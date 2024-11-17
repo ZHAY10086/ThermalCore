@@ -4,16 +4,17 @@ import cofh.thermal.core.ThermalCore;
 import cofh.thermal.core.util.recipes.dynamo.DisenchantmentFuel;
 import cofh.thermal.lib.util.managers.SingleItemFuelManager;
 import cofh.thermal.lib.util.recipes.internal.IDynamoFuel;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.EnchantedBookItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.EnchantmentInstance;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.capabilities.Capabilities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,7 @@ public class DisenchantmentFuelManager extends SingleItemFuelManager {
     @Override
     public boolean validFuel(ItemStack input) {
 
-        if (input.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent()) {
+        if (input.getCapability(Capabilities.FluidHandler.ITEM) != null) {
             return false;
         }
         return getEnergy(input) > 0;
@@ -86,16 +87,16 @@ public class DisenchantmentFuelManager extends SingleItemFuelManager {
         clear();
         var recipes = recipeManager.byType(DISENCHANTMENT_FUEL.get());
         for (var entry : recipes.entrySet()) {
-            addFuel(entry.getValue());
+            addFuel(entry.getValue().value());
         }
         createConvertedRecipes(recipeManager);
     }
     // endregion
 
     // region CONVERSION
-    protected List<DisenchantmentFuel> convertedFuels = new ArrayList<>();
+    protected List<RecipeHolder<DisenchantmentFuel>> convertedFuels = new ArrayList<>();
 
-    public List<DisenchantmentFuel> getConvertedFuels() {
+    public List<RecipeHolder<DisenchantmentFuel>> getConvertedFuels() {
 
         return convertedFuels;
     }
@@ -103,7 +104,7 @@ public class DisenchantmentFuelManager extends SingleItemFuelManager {
     protected void createConvertedRecipes(RecipeManager recipeManager) {
 
         List<ItemStack> books = new ArrayList<>();
-        for (Enchantment enchant : ForgeRegistries.ENCHANTMENTS) {
+        for (Enchantment enchant : BuiltInRegistries.ENCHANTMENT) {
             books.add(EnchantedBookItem.createForEnchantment(new EnchantmentInstance(enchant, enchant.getMaxLevel())));
         }
         for (ItemStack book : books) {
@@ -117,9 +118,9 @@ public class DisenchantmentFuelManager extends SingleItemFuelManager {
         }
     }
 
-    protected DisenchantmentFuel convert(ItemStack item, int energy) {
+    protected RecipeHolder<DisenchantmentFuel> convert(ItemStack item, int energy) {
 
-        return new DisenchantmentFuel(new ResourceLocation(ID_THERMAL, "disenchantment_" + getName(item)), energy, singletonList(Ingredient.of(item)), emptyList());
+        return new RecipeHolder<>(new ResourceLocation(ID_THERMAL, "disenchantment_" + getName(item)), new DisenchantmentFuel(energy, singletonList(Ingredient.of(item)), emptyList()));
     }
     // endregion
 }

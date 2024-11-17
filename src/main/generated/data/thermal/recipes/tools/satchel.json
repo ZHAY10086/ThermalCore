@@ -3,7 +3,7 @@
   "category": "equipment",
   "key": {
     "I": {
-      "tag": "forge:ingots/tin"
+      "tag": "c:ingots/tin"
     },
     "L": {
       "tag": "forge:leather"
@@ -19,6 +19,5 @@
   ],
   "result": {
     "item": "thermal:satchel"
-  },
-  "show_notification": true
+  }
 }

@@ -3,7 +3,7 @@
   "category": "equipment",
   "key": {
     "G": {
-      "tag": "forge:gears/iron"
+      "tag": "c:gears/iron"
     },
     "I": {
       "tag": "forge:ingots/iron"
@@ -16,6 +16,5 @@
   ],
   "result": {
     "item": "thermal:wrench"
-  },
-  "show_notification": true
+  }
 }

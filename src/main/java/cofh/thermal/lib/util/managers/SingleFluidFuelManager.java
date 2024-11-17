@@ -10,7 +10,7 @@ import cofh.thermal.lib.util.recipes.internal.BaseDynamoFuel;
 import cofh.thermal.lib.util.recipes.internal.IDynamoFuel;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,6 +45,12 @@ public abstract class SingleFluidFuelManager extends AbstractManager implements 
     public boolean validFuel(FluidStack input) {
 
         return getFuel(input) != null;
+    }
+
+    public int getEnergy(FluidStack stack) {
+
+        IDynamoFuel fuel = getFuel(stack);
+        return fuel != null ? fuel.getEnergy() : 0;
     }
 
     protected void clear() {

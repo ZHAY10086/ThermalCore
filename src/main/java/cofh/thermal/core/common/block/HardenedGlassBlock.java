@@ -9,15 +9,16 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.GlassBlock;
+import net.minecraft.world.level.block.TransparentBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
 import static cofh.core.common.config.CoreCommonConfig.returnDismantleDrops;
 
-public class HardenedGlassBlock extends GlassBlock implements IDismantleable {
+public class HardenedGlassBlock extends TransparentBlock implements IDismantleable {
 
-    public HardenedGlassBlock(Properties properties) {
+    public HardenedGlassBlock(BlockBehaviour.Properties properties) {
 
         super(properties);
     }

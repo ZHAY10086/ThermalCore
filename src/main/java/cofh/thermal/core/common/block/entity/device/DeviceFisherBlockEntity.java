@@ -33,8 +33,7 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
+import net.neoforged.neoforge.items.IItemHandler;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -295,10 +294,10 @@ public class DeviceFisherBlockEntity extends DeviceBlockEntity implements ITicka
         if (area == null) {
             if (!valid) {
                 BlockPos areaPos = worldPosition.relative(getBlockState().getValue(FACING_HORIZONTAL), 2);
-                area = new AABB(areaPos.offset(-1, 0, -1), areaPos.offset(2, 1, 2));
+                area = AABB.encapsulatingFullBlocks(areaPos.offset(-1, 0, -1), areaPos.offset(2, 1, 2));
             } else {
                 BlockPos areaPos = worldPosition.relative(getBlockState().getValue(FACING_HORIZONTAL), radius);
-                area = new AABB(areaPos.offset(-radius, -1 - radius, -radius), areaPos.offset(1 + radius, -1 + radius, 1 + radius));
+                area = AABB.encapsulatingFullBlocks(areaPos.offset(-radius, -1 - radius, -radius), areaPos.offset(1 + radius, -1 + radius, 1 + radius));
             }
         }
         return area;
@@ -315,20 +314,17 @@ public class DeviceFisherBlockEntity extends DeviceBlockEntity implements ITicka
     @Override
     protected void updateHandlers() {
 
-        LazyOptional<?> prevItemCap = itemCap;
-        IItemHandler invHandler = inventory.getHandler(INPUT_OUTPUT);
-        itemCap = inventory.hasAccessibleSlots() ? LazyOptional.of(() -> invHandler) : LazyOptional.empty();
-        prevItemCap.invalidate();
+        itemCap = inventory.hasAccessibleSlots() ? inventory.getHandler(INPUT_OUTPUT) : null;
+        invalidateCapabilities();
     }
 
     @Override
-    protected <T> LazyOptional<T> getItemHandlerCapability(@Nullable Direction side) {
+    public IItemHandler getItemHandlerCapability(@javax.annotation.Nullable Direction side) {
 
-        if (!itemCap.isPresent() && inventory.hasAccessibleSlots()) {
-            IItemHandler handler = inventory.getHandler(INPUT_OUTPUT);
-            itemCap = LazyOptional.of(() -> handler);
+        if (itemCap == null && inventory.hasAccessibleSlots()) {
+            itemCap = inventory.getHandler(INPUT_OUTPUT);
         }
-        return itemCap.cast();
+        return itemCap;
     }
     // endregion
 }

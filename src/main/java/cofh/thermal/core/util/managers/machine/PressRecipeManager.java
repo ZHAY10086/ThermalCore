@@ -14,7 +14,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.*;
 
@@ -63,12 +63,12 @@ public class PressRecipeManager extends AbstractManager implements IRecipeManage
 
     public boolean validInput(ItemStack item) {
 
-        return validInputs.contains(makeComparable(item));
+        return validInputs.contains(makeNBTComparable(item));
     }
 
     public boolean validDie(ItemStack item) {
 
-        return validDies.contains(makeComparable(item));
+        return validDies.contains(makeNBTComparable(item));
     }
 
     protected void clear() {
@@ -83,7 +83,7 @@ public class PressRecipeManager extends AbstractManager implements IRecipeManage
         ArrayList<ComparableItemStack> key = new ArrayList<>();
         for (IItemStackHolder slot : inputSlots) {
             if (!slot.isEmpty() && !(slot.getItemStack().getItem() instanceof SlotSealItem)) {
-                key.add(makeComparable(slot.getItemStack()));
+                key.add(makeNBTComparable(slot.getItemStack()));
             }
         }
         return key;
@@ -94,7 +94,7 @@ public class PressRecipeManager extends AbstractManager implements IRecipeManage
         ArrayList<ComparableItemStack> key = new ArrayList<>();
         for (ItemStack stack : inputStacks) {
             if (!stack.isEmpty() && !(stack.getItem() instanceof SlotSealItem)) {
-                key.add(makeComparable(stack));
+                key.add(makeNBTComparable(stack));
             }
         }
         return key;
@@ -129,10 +129,10 @@ public class PressRecipeManager extends AbstractManager implements IRecipeManage
         energy = (int) (energy * getDefaultScale());
 
         SimpleMachineRecipe recipe = new SimpleMachineRecipe(energy, experience, inputItems, inputFluids, outputItems, chance, outputFluids);
-        validInputs.add(makeComparable(inputItems.get(0)));
+        validInputs.add(makeNBTComparable(inputItems.get(0)));
 
         if (inputItems.size() > 1 && !inputItems.get(1).isEmpty()) {
-            validDies.add(makeComparable(inputItems.get(1)));
+            validDies.add(makeNBTComparable(inputItems.get(1)));
         }
         recipeMap.put(getKeyFromStacks(inputItems), recipe);
         return recipe;
@@ -166,7 +166,7 @@ public class PressRecipeManager extends AbstractManager implements IRecipeManage
         //        }
         var recipes = recipeManager.byType(PRESS_RECIPE.get());
         for (var entry : recipes.entrySet()) {
-            addRecipe(entry.getValue());
+            addRecipe(entry.getValue().value());
         }
     }
     // endregion

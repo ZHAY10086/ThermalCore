@@ -2,14 +2,17 @@ package cofh.thermal.lib.util.recipes;
 
 import cofh.lib.common.fluid.FluidIngredient;
 import cofh.lib.util.helpers.MathHelper;
+import cofh.lib.util.recipes.JsonMapCodec;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -29,7 +32,20 @@ public class MachineRecipeSerializer<T extends ThermalRecipe> implements RecipeS
     }
 
     @Override
-    public T fromJson(ResourceLocation recipeId, JsonObject json) {
+    public Codec<T> codec() {
+
+        return JsonMapCodec.INSTANCE
+                .flatXmap(json -> {
+                    try {
+                        return DataResult.success(fromJson(json));
+                    } catch (JsonParseException e) {
+                        return DataResult.error(e::getMessage);
+                    }
+                }, recipe -> DataResult.success(toJson(recipe)))
+                .codec();
+    }
+
+    protected T fromJson(JsonObject json) {
 
         int energy = defaultEnergy;
         float experience = 0.0F;
@@ -78,14 +94,19 @@ public class MachineRecipeSerializer<T extends ThermalRecipe> implements RecipeS
             experience = json.get(XP).getAsFloat();
         }
         if (inputItems.isEmpty() && inputFluids.isEmpty() || outputItems.isEmpty() && outputFluids.isEmpty() || energy <= 0) {
-            throw new JsonSyntaxException("Invalid Thermal Series recipe: " + recipeId + "\nRefer to the recipe's ResourceLocation to find the mod responsible and let them know!");
+            throw new JsonSyntaxException("Invalid Thermal Series recipe! Please check your datapacks!");
         }
-        return factory.create(recipeId, energy, experience, inputItems, inputFluids, outputItems, outputItemChances, outputFluids);
+        return factory.create(energy, experience, inputItems, inputFluids, outputItems, outputItemChances, outputFluids);
+    }
+
+    protected JsonObject toJson(T recipe) {
+
+        return null;
     }
 
     @Nullable
     @Override
-    public T fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
+    public T fromNetwork(FriendlyByteBuf buffer) {
 
         int energy = buffer.readVarInt();
         float experience = buffer.readFloat();
@@ -116,9 +137,9 @@ public class MachineRecipeSerializer<T extends ThermalRecipe> implements RecipeS
             outputFluids.add(buffer.readFluidStack());
         }
         if (inputItems.isEmpty() && inputFluids.isEmpty() || outputItems.isEmpty() && outputFluids.isEmpty()) {
-            throw new JsonSyntaxException("Invalid Thermal Series recipe: " + recipeId + "\nRefer to the recipe's ResourceLocation to find the mod responsible and let them know!");
+            throw new JsonSyntaxException("Invalid Thermal Series recipe! Please check your datapacks!");
         }
-        return factory.create(recipeId, energy, experience, inputItems, inputFluids, outputItems, outputItemChances, outputFluids);
+        return factory.create(energy, experience, inputItems, inputFluids, outputItems, outputItemChances, outputFluids);
     }
 
     @Override
@@ -152,7 +173,7 @@ public class MachineRecipeSerializer<T extends ThermalRecipe> implements RecipeS
 
     public interface IFactory<T extends ThermalRecipe> {
 
-        T create(ResourceLocation recipeId, int energy, float experience, List<Ingredient> inputItems, List<FluidIngredient> inputFluids, List<ItemStack> outputItems, List<Float> chance, List<FluidStack> outputFluids);
+        T create(int energy, float experience, List<Ingredient> inputItems, List<FluidIngredient> inputFluids, List<ItemStack> outputItems, List<Float> chance, List<FluidStack> outputFluids);
 
     }
 

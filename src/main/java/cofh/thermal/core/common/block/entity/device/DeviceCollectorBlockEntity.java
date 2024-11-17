@@ -21,8 +21,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.client.model.data.ModelData;
-import net.minecraftforge.items.IItemHandler;
+import net.neoforged.neoforge.client.model.data.ModelData;
+import net.neoforged.neoforge.items.IItemHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -203,7 +203,7 @@ public class DeviceCollectorBlockEntity extends DeviceBlockEntity implements ITi
     public AABB getArea() {
 
         if (area == null) {
-            area = new AABB(worldPosition.offset(-radius, -1, -radius), worldPosition.offset(1 + radius, 1 + radius, 1 + radius));
+            area = AABB.encapsulatingFullBlocks(worldPosition.offset(-radius, -1, -radius), worldPosition.offset(1 + radius, 1 + radius, 1 + radius));
         }
         return area;
     }

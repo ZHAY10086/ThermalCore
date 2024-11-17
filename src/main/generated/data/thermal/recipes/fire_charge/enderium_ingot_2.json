@@ -4,37 +4,37 @@
   "ingredients": [
     [
       {
-        "tag": "forge:dusts/lead"
+        "tag": "c:dusts/lead"
       },
       {
-        "tag": "forge:ingots/lead"
+        "tag": "c:ingots/lead"
       }
     ],
     [
       {
-        "tag": "forge:dusts/lead"
+        "tag": "c:dusts/lead"
       },
       {
-        "tag": "forge:ingots/lead"
+        "tag": "c:ingots/lead"
       }
     ],
     [
       {
-        "tag": "forge:dusts/lead"
+        "tag": "c:dusts/lead"
       },
       {
-        "tag": "forge:ingots/lead"
+        "tag": "c:ingots/lead"
       }
     ],
     {
-      "tag": "forge:dusts/diamond"
+      "tag": "c:dusts/diamond"
     },
     [
       {
         "tag": "forge:ender_pearls"
       },
       {
-        "tag": "forge:dusts/ender_pearl"
+        "tag": "c:dusts/ender_pearl"
       }
     ],
     [
@@ -42,7 +42,7 @@
         "tag": "forge:ender_pearls"
       },
       {
-        "tag": "forge:dusts/ender_pearl"
+        "tag": "c:dusts/ender_pearl"
       }
     ],
     {

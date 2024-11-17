@@ -6,7 +6,7 @@
       "tag": "forge:ingots/gold"
     },
     "i": {
-      "tag": "forge:nuggets/tin"
+      "tag": "c:nuggets/tin"
     }
   },
   "pattern": [
@@ -16,6 +16,5 @@
   ],
   "result": {
     "item": "thermal:side_config_augment"
-  },
-  "show_notification": true
+  }
 }

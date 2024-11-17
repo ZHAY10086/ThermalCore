@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "#": {
-      "tag": "forge:rosin"
+      "tag": "c:rosin"
     },
     "I": {
       "item": "thermal:rosin"
@@ -16,6 +16,5 @@
   ],
   "result": {
     "item": "thermal:rosin_block"
-  },
-  "show_notification": true
+  }
 }

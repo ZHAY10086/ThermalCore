@@ -2,7 +2,7 @@ package cofh.thermal.core.init.registries;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 import static cofh.lib.util.constants.ModIds.ID_THERMAL;
 import static cofh.thermal.core.ThermalCore.SOUND_EVENTS;
@@ -17,7 +17,7 @@ public class TCoreSounds {
 
     }
 
-    public static RegistryObject<SoundEvent> registerSound(String soundID) {
+    public static DeferredHolder<SoundEvent, SoundEvent> registerSound(String soundID) {
 
         return SOUND_EVENTS.register(soundID, () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(ID_THERMAL, soundID)));
     }
@@ -51,26 +51,26 @@ public class TCoreSounds {
     public static final String ID_SOUND_ARMOR_HAZMAT = "item.armor.equip_hazmat";
     // endregion
 
-    public static final RegistryObject<SoundEvent> SOUND_DEVICE_WATER_GEN = registerSound(ID_SOUND_DEVICE_WATER_GEN);
-    public static final RegistryObject<SoundEvent> SOUND_BASALZ_AMBIENT = registerSound(ID_SOUND_BASALZ_AMBIENT);
-    public static final RegistryObject<SoundEvent> SOUND_BASALZ_ROAM = registerSound(ID_SOUND_BASALZ_ROAM);
-    public static final RegistryObject<SoundEvent> SOUND_BASALZ_DEATH = registerSound(ID_SOUND_BASALZ_DEATH);
-    public static final RegistryObject<SoundEvent> SOUND_BASALZ_HURT = registerSound(ID_SOUND_BASALZ_HURT);
-    public static final RegistryObject<SoundEvent> SOUND_BASALZ_SHOOT = registerSound(ID_SOUND_BASALZ_SHOOT);
-    public static final RegistryObject<SoundEvent> SOUND_BLITZ_AMBIENT = registerSound(ID_SOUND_BLITZ_AMBIENT);
-    public static final RegistryObject<SoundEvent> SOUND_BLITZ_ROAM = registerSound(ID_SOUND_BLITZ_ROAM);
-    public static final RegistryObject<SoundEvent> SOUND_BLITZ_DEATH = registerSound(ID_SOUND_BLITZ_DEATH);
-    public static final RegistryObject<SoundEvent> SOUND_BLITZ_HURT = registerSound(ID_SOUND_BLITZ_HURT);
-    public static final RegistryObject<SoundEvent> SOUND_BLITZ_SHOOT = registerSound(ID_SOUND_BLITZ_SHOOT);
-    public static final RegistryObject<SoundEvent> SOUND_BLIZZ_AMBIENT = registerSound(ID_SOUND_BLIZZ_AMBIENT);
-    public static final RegistryObject<SoundEvent> SOUND_BLIZZ_ROAM = registerSound(ID_SOUND_BLIZZ_ROAM);
-    public static final RegistryObject<SoundEvent> SOUND_BLIZZ_DEATH = registerSound(ID_SOUND_BLIZZ_DEATH);
-    public static final RegistryObject<SoundEvent> SOUND_BLIZZ_HURT = registerSound(ID_SOUND_BLIZZ_HURT);
-    public static final RegistryObject<SoundEvent> SOUND_BLIZZ_SHOOT = registerSound(ID_SOUND_BLIZZ_SHOOT);
-    public static final RegistryObject<SoundEvent> SOUND_MAGNET = registerSound(ID_SOUND_MAGNET);
-    public static final RegistryObject<SoundEvent> SOUND_TINKER = registerSound(ID_SOUND_TINKER);
-    public static final RegistryObject<SoundEvent> SOUND_ARMOR_BEEKEEPER = registerSound(ID_SOUND_ARMOR_BEEKEEPER);
-    public static final RegistryObject<SoundEvent> SOUND_ARMOR_DIVING = registerSound(ID_SOUND_ARMOR_DIVING);
-    public static final RegistryObject<SoundEvent> SOUND_ARMOR_HAZMAT = registerSound(ID_SOUND_ARMOR_HAZMAT);
+    public static final DeferredHolder<SoundEvent, SoundEvent> SOUND_DEVICE_WATER_GEN = registerSound(ID_SOUND_DEVICE_WATER_GEN);
+    public static final DeferredHolder<SoundEvent, SoundEvent> SOUND_BASALZ_AMBIENT = registerSound(ID_SOUND_BASALZ_AMBIENT);
+    public static final DeferredHolder<SoundEvent, SoundEvent> SOUND_BASALZ_ROAM = registerSound(ID_SOUND_BASALZ_ROAM);
+    public static final DeferredHolder<SoundEvent, SoundEvent> SOUND_BASALZ_DEATH = registerSound(ID_SOUND_BASALZ_DEATH);
+    public static final DeferredHolder<SoundEvent, SoundEvent> SOUND_BASALZ_HURT = registerSound(ID_SOUND_BASALZ_HURT);
+    public static final DeferredHolder<SoundEvent, SoundEvent> SOUND_BASALZ_SHOOT = registerSound(ID_SOUND_BASALZ_SHOOT);
+    public static final DeferredHolder<SoundEvent, SoundEvent> SOUND_BLITZ_AMBIENT = registerSound(ID_SOUND_BLITZ_AMBIENT);
+    public static final DeferredHolder<SoundEvent, SoundEvent> SOUND_BLITZ_ROAM = registerSound(ID_SOUND_BLITZ_ROAM);
+    public static final DeferredHolder<SoundEvent, SoundEvent> SOUND_BLITZ_DEATH = registerSound(ID_SOUND_BLITZ_DEATH);
+    public static final DeferredHolder<SoundEvent, SoundEvent> SOUND_BLITZ_HURT = registerSound(ID_SOUND_BLITZ_HURT);
+    public static final DeferredHolder<SoundEvent, SoundEvent> SOUND_BLITZ_SHOOT = registerSound(ID_SOUND_BLITZ_SHOOT);
+    public static final DeferredHolder<SoundEvent, SoundEvent> SOUND_BLIZZ_AMBIENT = registerSound(ID_SOUND_BLIZZ_AMBIENT);
+    public static final DeferredHolder<SoundEvent, SoundEvent> SOUND_BLIZZ_ROAM = registerSound(ID_SOUND_BLIZZ_ROAM);
+    public static final DeferredHolder<SoundEvent, SoundEvent> SOUND_BLIZZ_DEATH = registerSound(ID_SOUND_BLIZZ_DEATH);
+    public static final DeferredHolder<SoundEvent, SoundEvent> SOUND_BLIZZ_HURT = registerSound(ID_SOUND_BLIZZ_HURT);
+    public static final DeferredHolder<SoundEvent, SoundEvent> SOUND_BLIZZ_SHOOT = registerSound(ID_SOUND_BLIZZ_SHOOT);
+    public static final DeferredHolder<SoundEvent, SoundEvent> SOUND_MAGNET = registerSound(ID_SOUND_MAGNET);
+    public static final DeferredHolder<SoundEvent, SoundEvent> SOUND_TINKER = registerSound(ID_SOUND_TINKER);
+    public static final DeferredHolder<SoundEvent, SoundEvent> SOUND_ARMOR_BEEKEEPER = registerSound(ID_SOUND_ARMOR_BEEKEEPER);
+    public static final DeferredHolder<SoundEvent, SoundEvent> SOUND_ARMOR_DIVING = registerSound(ID_SOUND_ARMOR_DIVING);
+    public static final DeferredHolder<SoundEvent, SoundEvent> SOUND_ARMOR_HAZMAT = registerSound(ID_SOUND_ARMOR_HAZMAT);
 
 }

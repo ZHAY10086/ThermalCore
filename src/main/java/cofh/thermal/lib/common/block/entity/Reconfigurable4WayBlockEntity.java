@@ -21,10 +21,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.ModelData;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.items.IItemHandler;
+import net.neoforged.neoforge.client.model.data.ModelData;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.items.IItemHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -69,19 +68,6 @@ public abstract class Reconfigurable4WayBlockEntity extends AugmentableBlockEnti
 
         super.setBlockState(state);
         updateSideCache();
-    }
-
-    // TODO: Does this need to exist?
-    @Override
-    public void setRemoved() {
-
-        super.setRemoved();
-
-        inputItemCap.invalidate();
-        outputItemCap.invalidate();
-
-        inputFluidCap.invalidate();
-        outputFluidCap.invalidate();
     }
 
     @Nonnull
@@ -355,71 +341,47 @@ public abstract class Reconfigurable4WayBlockEntity extends AugmentableBlockEnti
     // endregion
 
     // region CAPABILITIES
-    protected LazyOptional<?> inputItemCap = LazyOptional.empty();
-    protected LazyOptional<?> outputItemCap = LazyOptional.empty();
-    protected LazyOptional<?> ioItemCap = LazyOptional.empty();
+    protected IItemHandler inputItemCap = null;
+    protected IItemHandler outputItemCap = null;
+    protected IItemHandler ioItemCap = null;
 
-    protected LazyOptional<?> inputFluidCap = LazyOptional.empty();
-    protected LazyOptional<?> outputFluidCap = LazyOptional.empty();
-    protected LazyOptional<?> ioFluidCap = LazyOptional.empty();
+    protected IFluidHandler inputFluidCap = null;
+    protected IFluidHandler outputFluidCap = null;
+    protected IFluidHandler ioFluidCap = null;
 
     protected void updateHandlers() {
 
-        super.updateHandlers();
-
         // ITEMS
-        LazyOptional<?> prevItemInputCap = inputItemCap;
-        LazyOptional<?> prevItemOutputCap = outputItemCap;
-        LazyOptional<?> prevItemIOCap = ioItemCap;
-
-        IItemHandler inputInvHandler = inventory.getHandler(INPUT);
-        IItemHandler outputInvHandler = inventory.getHandler(OUTPUT);
-        IItemHandler ioInvHandler = inventory.getHandler(INPUT_OUTPUT);
-
-        inputItemCap = inventory.hasInputSlots() ? LazyOptional.of(() -> inputInvHandler) : LazyOptional.empty();
-        outputItemCap = inventory.hasOutputSlots() ? LazyOptional.of(() -> outputInvHandler) : LazyOptional.empty();
-        ioItemCap = inventory.hasAccessibleSlots() ? LazyOptional.of(() -> ioInvHandler) : LazyOptional.empty();
-
-        prevItemInputCap.invalidate();
-        prevItemOutputCap.invalidate();
-        prevItemIOCap.invalidate();
+        inputItemCap = inventory.hasInputSlots() ? inventory.getHandler(INPUT) : null;
+        outputItemCap = inventory.hasOutputSlots() ? inventory.getHandler(OUTPUT) : null;
+        ioItemCap = inventory.hasAccessibleSlots() ? inventory.getHandler(INPUT_OUTPUT) : null;
 
         // FLUID
-        LazyOptional<?> prevFluidInputCap = inputFluidCap;
-        LazyOptional<?> prevFluidOutputCap = outputFluidCap;
-        LazyOptional<?> prevFluidIOCap = ioFluidCap;
+        inputFluidCap = tankInv.hasInputTanks() ? tankInv.getHandler(INPUT) : null;
+        outputFluidCap = tankInv.hasOutputTanks() ? tankInv.getHandler(OUTPUT) : null;
+        ioFluidCap = tankInv.hasAccessibleTanks() ? tankInv.getHandler(INPUT_OUTPUT) : null;
 
-        IFluidHandler inputFluidHandler = tankInv.getHandler(INPUT);
-        IFluidHandler outputFluidHandler = tankInv.getHandler(OUTPUT);
-        IFluidHandler ioFluidHandler = tankInv.getHandler(INPUT_OUTPUT);
-
-        inputFluidCap = tankInv.hasInputTanks() ? LazyOptional.of(() -> inputFluidHandler) : LazyOptional.empty();
-        outputFluidCap = tankInv.hasOutputTanks() ? LazyOptional.of(() -> outputFluidHandler) : LazyOptional.empty();
-        ioFluidCap = tankInv.hasAccessibleTanks() ? LazyOptional.of(() -> ioFluidHandler) : LazyOptional.empty();
-
-        prevFluidInputCap.invalidate();
-        prevFluidOutputCap.invalidate();
-        prevFluidIOCap.invalidate();
+        super.updateHandlers();
     }
 
     @Override
-    protected <T> LazyOptional<T> getItemHandlerCapability(@Nullable Direction side) {
+    public IItemHandler getItemHandlerCapability(@Nullable Direction side) {
 
         if (side == null) {
             return super.getItemHandlerCapability(side);
         }
         switch (reconfigControl.getSideConfig(side)) {
             case SIDE_NONE:
-                return LazyOptional.empty();
+                return null;
             case SIDE_INPUT:
-                return inputItemCap.cast();
+                return inputItemCap;
             case SIDE_OUTPUT:
-                return outputItemCap.cast();
+                return outputItemCap;
             case SIDE_BOTH:
-                return ioItemCap.cast();
+                return ioItemCap;
             case SIDE_ACCESSIBLE:
                 if (!reconfigControl.isReconfigurable()) {
-                    return ioItemCap.cast();
+                    return ioItemCap;
                 }
             default:
                 return super.getItemHandlerCapability(side);
@@ -427,23 +389,23 @@ public abstract class Reconfigurable4WayBlockEntity extends AugmentableBlockEnti
     }
 
     @Override
-    protected <T> LazyOptional<T> getFluidHandlerCapability(@Nullable Direction side) {
+    public IFluidHandler getFluidHandlerCapability(@Nullable Direction side) {
 
         if (side == null) {
             return super.getFluidHandlerCapability(side);
         }
         switch (reconfigControl.getSideConfig(side)) {
             case SIDE_NONE:
-                return LazyOptional.empty();
+                return null;
             case SIDE_INPUT:
-                return inputFluidCap.cast();
+                return inputFluidCap;
             case SIDE_OUTPUT:
-                return outputFluidCap.cast();
+                return outputFluidCap;
             case SIDE_BOTH:
-                return ioFluidCap.cast();
+                return ioFluidCap;
             case SIDE_ACCESSIBLE:
                 if (!reconfigControl.isReconfigurable()) {
-                    return ioFluidCap.cast();
+                    return ioFluidCap;
                 }
             default:
                 return super.getFluidHandlerCapability(side);

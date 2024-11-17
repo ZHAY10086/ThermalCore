@@ -3,10 +3,9 @@ package cofh.thermal.lib.util.recipes;
 import cofh.lib.common.fluid.FluidIngredient;
 import cofh.lib.util.recipes.SerializableRecipe;
 import cofh.thermal.core.ThermalCore;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,12 +26,10 @@ public abstract class ThermalRecipe extends SerializableRecipe {
 
     protected boolean catalyzable;
 
-    protected ThermalRecipe(ResourceLocation recipeId, int energy, float xp, List<Ingredient> inputItems, List<FluidIngredient> inputFluids, List<ItemStack> outputItems, List<Float> outputItemChances, List<FluidStack> outputFluids) {
-
-        super(recipeId);
+    protected ThermalRecipe(int energy, float xp, List<Ingredient> inputItems, List<FluidIngredient> inputFluids, List<ItemStack> outputItems, List<Float> outputItemChances, List<FluidStack> outputFluids) {
 
         if ((inputItems == null || inputItems.isEmpty()) && (inputFluids == null || inputFluids.isEmpty()) || (outputItems == null || outputItems.isEmpty()) && (outputFluids == null || outputFluids.isEmpty())) {
-            ThermalCore.LOG.warn("Invalid Thermal Series recipe: " + recipeId + "\nRefer to the recipe's ResourceLocation to find the mod responsible and let them know!");
+            ThermalCore.LOG.warn("Invalid Thermal Series recipe! Please check your datapacks!");
         }
         this.energy = energy;
         this.xp = Math.max(0.0F, xp);

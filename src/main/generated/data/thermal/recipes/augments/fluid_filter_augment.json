@@ -1,18 +1,18 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
-  "conditions": [
+  "neoforge:conditions": [
     {
-      "type": "thermal:flag",
-      "flag": "filter_augments"
+      "type": "cofh_core:flag_set",
+      "flag": "thermal:filter_augments"
     }
   ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "S": {
-      "tag": "forge:ingots/signalum"
+      "tag": "c:ingots/signalum"
     },
     "c": {
-      "tag": "forge:nuggets/copper"
+      "tag": "c:nuggets/copper"
     }
   },
   "pattern": [
@@ -22,6 +22,5 @@
   ],
   "result": {
     "item": "thermal:fluid_filter_augment"
-  },
-  "show_notification": true
+  }
 }

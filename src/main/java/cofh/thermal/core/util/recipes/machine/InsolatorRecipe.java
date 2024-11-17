@@ -1,19 +1,19 @@
 package cofh.thermal.core.util.recipes.machine;
 
 import cofh.lib.common.fluid.FluidIngredient;
+import cofh.lib.util.helpers.MathHelper;
 import cofh.thermal.core.ThermalCore;
 import cofh.thermal.core.util.managers.machine.InsolatorRecipeManager;
 import cofh.thermal.lib.util.recipes.MachineRecipeSerializer;
 import cofh.thermal.lib.util.recipes.ThermalRecipe;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -25,13 +25,13 @@ import static cofh.thermal.core.init.registries.TCoreRecipeTypes.INSOLATOR_RECIP
 
 public class InsolatorRecipe extends ThermalRecipe {
 
-    public InsolatorRecipe(ResourceLocation recipeId, int energy, float experience, List<Ingredient> inputItems, List<FluidIngredient> inputFluids, List<ItemStack> outputItems, List<Float> outputItemChances, List<FluidStack> outputFluids) {
+    public InsolatorRecipe(int energy, float experience, List<Ingredient> inputItems, List<FluidIngredient> inputFluids, List<ItemStack> outputItems, List<Float> outputItemChances, List<FluidStack> outputFluids) {
 
-        super(recipeId, energy, experience, inputItems, inputFluids, outputItems, outputItemChances, outputFluids);
+        super(energy, experience, inputItems, inputFluids, outputItems, outputItemChances, outputFluids);
 
         if (this.energy <= 0) {
             int defaultEnergy = InsolatorRecipeManager.instance().getDefaultEnergy();
-            ThermalCore.LOG.warn("Energy value for " + recipeId + " was out of allowable range and has been set to a default value of " + defaultEnergy + ".");
+            ThermalCore.LOG.warn("Energy value for a Phytogenic Insolator recipe was out of allowable range and has been set to a default value of " + defaultEnergy + ".");
             this.energy = defaultEnergy;
         }
     }
@@ -62,7 +62,7 @@ public class InsolatorRecipe extends ThermalRecipe {
         }
 
         @Override
-        public T fromJson(ResourceLocation recipeId, JsonObject json) {
+        public T fromJson(JsonObject json) {
 
             int energy = defaultEnergy;
             int water = defaultWater;
@@ -103,10 +103,15 @@ public class InsolatorRecipe extends ThermalRecipe {
             if (json.has(ENERGY_MOD)) {
                 energy *= json.get(ENERGY_MOD).getAsFloat();
             }
+            energy = MathHelper.clamp(energy, 0, Integer.MAX_VALUE);
+
             /* EXPERIENCE */
             if (json.has(EXPERIENCE)) {
                 experience = json.get(EXPERIENCE).getAsFloat();
+            } else if (json.has(XP)) {
+                experience = json.get(XP).getAsFloat();
             }
+
             /* WATER */
             if (json.has(WATER)) {
                 water = json.get(WATER).getAsInt();
@@ -117,10 +122,10 @@ public class InsolatorRecipe extends ThermalRecipe {
             if (inputFluids.isEmpty()) {
                 inputFluids.add(FluidIngredient.of(new FluidStack(Fluids.WATER, water)));
             }
-            if (inputItems.isEmpty() || outputItems.isEmpty() && outputFluids.isEmpty()) {
-                throw new JsonSyntaxException("Invalid Thermal Series recipe: " + recipeId + "\nRefer to the recipe's ResourceLocation to find the mod responsible and let them know!");
+            if (inputItems.isEmpty() || outputItems.isEmpty() && outputFluids.isEmpty() || energy <= 0) {
+                throw new JsonSyntaxException("Invalid Thermal Series recipe! Please check your datapacks!");
             }
-            return factory.create(recipeId, energy, experience, inputItems, inputFluids, outputItems, outputItemChances, outputFluids);
+            return factory.create(energy, experience, inputItems, inputFluids, outputItems, outputItemChances, outputFluids);
         }
 
     }

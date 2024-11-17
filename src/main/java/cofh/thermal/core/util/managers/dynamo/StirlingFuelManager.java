@@ -1,17 +1,17 @@
 package cofh.thermal.core.util.managers.dynamo;
 
+import cofh.core.util.helpers.FluidHelper;
 import cofh.thermal.core.ThermalCore;
 import cofh.thermal.core.util.recipes.dynamo.StirlingFuel;
 import cofh.thermal.lib.util.managers.SingleItemFuelManager;
 import cofh.thermal.lib.util.recipes.internal.IDynamoFuel;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +42,7 @@ public class StirlingFuelManager extends SingleItemFuelManager {
     @Override
     public boolean validFuel(ItemStack input) {
 
-        if (input.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent()) {
+        if (FluidHelper.hasFluidHandlerCap(input)) {
             return false;
         }
         return getEnergy(input) > 0;
@@ -69,7 +69,7 @@ public class StirlingFuelManager extends SingleItemFuelManager {
         if (stack.getItem().hasCraftingRemainingItem(stack)) {
             return 0;
         }
-        int energy = ForgeHooks.getBurnTime(stack, null) * RF_PER_FURNACE_UNIT;
+        int energy = stack.getBurnTime(null) * RF_PER_FURNACE_UNIT;
         return energy >= MIN_ENERGY ? energy : 0;
     }
 
@@ -80,16 +80,16 @@ public class StirlingFuelManager extends SingleItemFuelManager {
         clear();
         var recipes = recipeManager.byType(STIRLING_FUEL.get());
         for (var entry : recipes.entrySet()) {
-            addFuel(entry.getValue());
+            addFuel(entry.getValue().value());
         }
         createConvertedRecipes(recipeManager);
     }
     // endregion
 
     // region CONVERSION
-    protected List<StirlingFuel> convertedFuels = new ArrayList<>();
+    protected List<RecipeHolder<StirlingFuel>> convertedFuels = new ArrayList<>();
 
-    public List<StirlingFuel> getConvertedFuels() {
+    public List<RecipeHolder<StirlingFuel>> getConvertedFuels() {
 
         return convertedFuels;
     }
@@ -97,7 +97,7 @@ public class StirlingFuelManager extends SingleItemFuelManager {
     protected void createConvertedRecipes(RecipeManager recipeManager) {
 
         ItemStack query;
-        for (Item item : ForgeRegistries.ITEMS) {
+        for (Item item : BuiltInRegistries.ITEM) {
             query = new ItemStack(item);
             try {
                 if (getFuel(query) == null && validFuel(query)) {
@@ -109,9 +109,9 @@ public class StirlingFuelManager extends SingleItemFuelManager {
         }
     }
 
-    protected StirlingFuel convert(ItemStack item, int energy) {
+    protected RecipeHolder<StirlingFuel> convert(ItemStack item, int energy) {
 
-        return new StirlingFuel(new ResourceLocation(ID_THERMAL, "stirling_" + getName(item)), energy, singletonList(Ingredient.of(item)), emptyList());
+        return new RecipeHolder<>(new ResourceLocation(ID_THERMAL, "stirling_" + getName(item)), new StirlingFuel(energy, singletonList(Ingredient.of(item)), emptyList()));
     }
     // endregion
 }

@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "#": {
-      "tag": "forge:gems/quartz"
+      "tag": "c:gems/quartz"
     },
     "i": {
       "tag": "forge:nuggets/iron"
@@ -16,6 +16,5 @@
   ],
   "result": {
     "item": "thermal:quartz_gear"
-  },
-  "show_notification": true
+  }
 }

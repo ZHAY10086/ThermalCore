@@ -11,11 +11,11 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.event.entity.player.EntityItemPickupEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 
 import static cofh.core.util.references.EnsorcIDs.ID_AIR_AFFINITY;
 import static cofh.lib.util.Utils.getEnchantment;
@@ -72,7 +72,6 @@ public class TCoreCommonEvents {
             for (int i = 0; i < c.getSlots(); ++i) {
                 ItemStack stack = c.getStackInSlot(i);
                 if (stack.getItem() instanceof SatchelItem) {
-                    // TODO: Revisit if copy is *really* necessary - probably isn't.
                     ItemStack satchelCopy = stack.copy();
                     cancel[0] |= SatchelItem.onItemPickup(event, satchelCopy);
                     c.setStackInSlot(i, satchelCopy);

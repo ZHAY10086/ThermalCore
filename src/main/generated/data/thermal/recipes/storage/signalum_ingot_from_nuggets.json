@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "#": {
-      "tag": "forge:nuggets/signalum"
+      "tag": "c:nuggets/signalum"
     },
     "I": {
       "item": "thermal:signalum_nugget"
@@ -16,6 +16,5 @@
   ],
   "result": {
     "item": "thermal:signalum_ingot"
-  },
-  "show_notification": true
+  }
 }

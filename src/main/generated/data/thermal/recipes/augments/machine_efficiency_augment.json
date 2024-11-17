@@ -1,18 +1,18 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
-  "conditions": [
+  "neoforge:conditions": [
     {
-      "type": "thermal:flag",
-      "flag": "machine_augments"
+      "type": "cofh_core:flag_set",
+      "flag": "thermal:machine_augments"
     }
   ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "L": {
-      "tag": "forge:plates/lumium"
+      "tag": "c:plates/lumium"
     },
     "N": {
-      "tag": "forge:gears/nickel"
+      "tag": "c:gears/nickel"
     },
     "X": {
       "item": "thermal:rf_coil"
@@ -25,6 +25,5 @@
   ],
   "result": {
     "item": "thermal:machine_efficiency_augment"
-  },
-  "show_notification": true
+  }
 }

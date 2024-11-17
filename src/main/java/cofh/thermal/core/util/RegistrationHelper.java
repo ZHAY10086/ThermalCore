@@ -4,9 +4,6 @@ import cofh.core.common.entity.AbstractGrenade;
 import cofh.core.common.entity.AbstractTNTMinecart;
 import cofh.core.common.item.*;
 import cofh.lib.api.IDetonatable;
-import cofh.lib.common.block.CropBlockCoFH;
-import cofh.lib.common.block.CropBlockPerennial;
-import cofh.lib.common.block.CropBlockTall;
 import cofh.lib.common.block.TntBlockCoFH;
 import cofh.lib.common.entity.PrimedTntCoFH;
 import cofh.thermal.core.common.entity.explosive.DetonateUtils;
@@ -17,11 +14,8 @@ import cofh.thermal.lib.common.item.BlockItemAugmentable;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
@@ -29,7 +23,7 @@ import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.util.List;
 import java.util.function.BiPredicate;
@@ -37,9 +31,11 @@ import java.util.function.IntSupplier;
 import java.util.function.Supplier;
 
 import static cofh.lib.util.Utils.itemProperties;
-import static cofh.lib.util.constants.ModIds.*;
+import static cofh.lib.util.constants.ModIds.ID_THERMAL;
+import static cofh.lib.util.constants.ModIds.ID_THERMAL_LOCOMOTION;
 import static cofh.thermal.core.ThermalCore.*;
-import static cofh.thermal.core.init.registries.ThermalCreativeTabs.*;
+import static cofh.thermal.core.init.registries.ThermalCreativeTabs.blocksTab;
+import static cofh.thermal.core.init.registries.ThermalCreativeTabs.itemsTab;
 import static net.minecraft.world.level.block.state.BlockBehaviour.Properties.of;
 
 public final class RegistrationHelper {
@@ -49,22 +45,22 @@ public final class RegistrationHelper {
     }
 
     // region BLOCKS
-    public static RegistryObject<Item> registerBlock(String name, Supplier<Block> sup) {
+    public static DeferredHolder<Item, Item> registerBlock(String name, Supplier<Block> sup) {
 
         return registerBlock(name, sup, ID_THERMAL);
     }
 
-    public static RegistryObject<Item> registerBlock(String name, Supplier<Block> sup, Rarity rarity) {
+    public static DeferredHolder<Item, Item> registerBlock(String name, Supplier<Block> sup, Rarity rarity) {
 
         return registerBlock(name, sup, rarity, ID_THERMAL);
     }
 
-    public static RegistryObject<Item> registerBlock(String name, Supplier<Block> sup, String modId) {
+    public static DeferredHolder<Item, Item> registerBlock(String name, Supplier<Block> sup, String modId) {
 
         return registerBlock(name, sup, Rarity.COMMON, modId);
     }
 
-    public static RegistryObject<Item> registerBlock(String name, Supplier<Block> sup, Rarity rarity, String modId) {
+    public static DeferredHolder<Item, Item> registerBlock(String name, Supplier<Block> sup, Rarity rarity, String modId) {
 
         return registerBlock(name, sup, () -> new BlockItemCoFH(BLOCKS.get(name), itemProperties().rarity(rarity)).setModId(modId));
     }
@@ -74,7 +70,7 @@ public final class RegistrationHelper {
         BLOCKS.register(name, sup);
     }
 
-    public static RegistryObject<Item> registerBlock(String name, Supplier<Block> blockSup, Supplier<Item> itemSup) {
+    public static DeferredHolder<Item, Item> registerBlock(String name, Supplier<Block> blockSup, Supplier<Item> itemSup) {
 
         BLOCKS.register(name, blockSup);
         return registerItem(name, itemSup);
@@ -82,17 +78,17 @@ public final class RegistrationHelper {
     // endregion
 
     // region AUGMENTABLE BLOCKS
-    public static RegistryObject<Item> registerAugmentableBlock(String name, Supplier<Block> sup, IntSupplier numSlots, BiPredicate<ItemStack, List<ItemStack>> validAugment) {
+    public static DeferredHolder<Item, Item> registerAugmentableBlock(String name, Supplier<Block> sup, IntSupplier numSlots, BiPredicate<ItemStack, List<ItemStack>> validAugment) {
 
         return registerAugmentableBlock(name, sup, numSlots, validAugment, ID_THERMAL);
     }
 
-    public static RegistryObject<Item> registerAugmentableBlock(String name, Supplier<Block> sup, IntSupplier numSlots, BiPredicate<ItemStack, List<ItemStack>> validAugment, String modId) {
+    public static DeferredHolder<Item, Item> registerAugmentableBlock(String name, Supplier<Block> sup, IntSupplier numSlots, BiPredicate<ItemStack, List<ItemStack>> validAugment, String modId) {
 
         return registerAugmentableBlock(name, sup, numSlots, validAugment, Rarity.COMMON, modId);
     }
 
-    public static RegistryObject<Item> registerAugmentableBlock(String name, Supplier<Block> sup, IntSupplier numSlots, BiPredicate<ItemStack, List<ItemStack>> validAugment, Rarity rarity, String modId) {
+    public static DeferredHolder<Item, Item> registerAugmentableBlock(String name, Supplier<Block> sup, IntSupplier numSlots, BiPredicate<ItemStack, List<ItemStack>> validAugment, Rarity rarity, String modId) {
 
         BLOCKS.register(name, sup);
         return registerItem(name, () -> new BlockItemAugmentable(BLOCKS.get(name), itemProperties().rarity(rarity)).setNumSlots(numSlots).setAugValidator(validAugment).setModId(modId));
@@ -105,27 +101,27 @@ public final class RegistrationHelper {
         blocksTab(150, registerBlock(woodName + "_planks", () -> new Block(of().mapColor(color).instrument(NoteBlockInstrument.BASS).strength(hardness, resistance).sound(soundType)), modId));
         blocksTab(150, registerBlock(woodName + "_slab", () -> new SlabBlock(of().mapColor(color).instrument(NoteBlockInstrument.BASS).strength(hardness, resistance).sound(soundType)), modId));
         blocksTab(150, registerBlock(woodName + "_stairs", () -> new StairBlock(() -> BLOCKS.get(woodName + "_planks").defaultBlockState(), of().mapColor(color).instrument(NoteBlockInstrument.BASS).strength(hardness, resistance).sound(soundType)), modId));
-        blocksTab(150, registerBlock(woodName + "_door", () -> new DoorBlock(of().mapColor(color).instrument(NoteBlockInstrument.BASS).strength(resistance).sound(soundType).noOcclusion(), type.setType()), modId));
-        blocksTab(150, registerBlock(woodName + "_trapdoor", () -> new TrapDoorBlock(of().mapColor(color).instrument(NoteBlockInstrument.BASS).strength(resistance).sound(soundType).noOcclusion().isValidSpawn((state, reader, pos, entityType) -> false), type.setType()), modId));
+        blocksTab(150, registerBlock(woodName + "_door", () -> new DoorBlock(type.setType(), of().mapColor(color).instrument(NoteBlockInstrument.BASS).strength(resistance).sound(soundType).noOcclusion()), modId));
+        blocksTab(150, registerBlock(woodName + "_trapdoor", () -> new TrapDoorBlock(type.setType(), of().mapColor(color).instrument(NoteBlockInstrument.BASS).strength(resistance).sound(soundType).noOcclusion().isValidSpawn((state, reader, pos, entityType) -> false)), modId));
         blocksTab(150, registerBlock(woodName + "_button", () -> Blocks.woodenButton(type.setType()), modId));
-        blocksTab(150, registerBlock(woodName + "_pressure_plate", () -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, of().mapColor(color).forceSolidOn().instrument(NoteBlockInstrument.BASS).noCollission().strength(0.5F).ignitedByLava().pushReaction(PushReaction.DESTROY), type.setType()), modId));
+        blocksTab(150, registerBlock(woodName + "_pressure_plate", () -> new PressurePlateBlock(type.setType(), of().mapColor(color).forceSolidOn().instrument(NoteBlockInstrument.BASS).noCollission().strength(0.5F).ignitedByLava().pushReaction(PushReaction.DESTROY)), modId));
         blocksTab(150, registerBlock(woodName + "_fence", () -> new FenceBlock(of().mapColor(color).instrument(NoteBlockInstrument.BASS).strength(hardness, resistance).sound(soundType)), modId));
-        blocksTab(150, registerBlock(woodName + "_fence_gate", () -> new FenceGateBlock(of().mapColor(color).forceSolidOn().instrument(NoteBlockInstrument.BASS).strength(hardness, resistance).ignitedByLava(), type), modId));
+        blocksTab(150, registerBlock(woodName + "_fence_gate", () -> new FenceGateBlock(type, of().mapColor(color).forceSolidOn().instrument(NoteBlockInstrument.BASS).strength(hardness, resistance).ignitedByLava()), modId));
     }
     // endregion
 
     // region ITEMS
-    public static RegistryObject<Item> registerItem(String name, Supplier<Item> sup) {
+    public static DeferredHolder<Item, Item> registerItem(String name, Supplier<Item> sup) {
 
         return ITEMS.register(name, sup);
     }
 
-    public static RegistryObject<Item> registerItem(String name) {
+    public static DeferredHolder<Item, Item> registerItem(String name) {
 
         return registerItem(name, Rarity.COMMON);
     }
 
-    public static RegistryObject<Item> registerItem(String name, Rarity rarity) {
+    public static DeferredHolder<Item, Item> registerItem(String name, Rarity rarity) {
 
         return registerItem(name, () -> new ItemCoFH(itemProperties().rarity(rarity)));
     }
@@ -225,66 +221,10 @@ public final class RegistrationHelper {
     }
     // endregion
 
-    // TODO: Remove in 11.1
-    // region CROPS
-    public static void registerAnnual(String id) {
-
-        BLOCKS.register(id, () -> new CropBlockCoFH(of().mapColor(MapColor.PLANT).noCollission().randomTicks().strength(0.0F, 0.0F).sound(SoundType.CROP)).crop(ITEMS.getSup(id)).seed(ITEMS.getSup(seeds(id))));
-    }
-
-    public static void registerTallAnnual(String id) {
-
-        BLOCKS.register(id, () -> new CropBlockTall(of().mapColor(MapColor.PLANT).noCollission().randomTicks().strength(0.0F, 0.0F).sound(SoundType.CROP)).crop(ITEMS.getSup(id)).seed(ITEMS.getSup(seeds(id))));
-    }
-
-    public static void registerPerennial(String id) {
-
-        registerPerennial(id, CropBlockPerennial.DEFAULT_POST_HARVEST_AGE);
-    }
-
-    public static void registerPerennial(String id, int postHarvestAge) {
-
-        BLOCKS.register(id, () -> new CropBlockPerennial(of().mapColor(MapColor.PLANT).noCollission().randomTicks().strength(0.0F, 0.0F).sound(SoundType.CROP)).postHarvestAge(postHarvestAge).crop(ITEMS.getSup(id)).seed(ITEMS.getSup(seeds(id))));
-    }
-
-    public static void registerCropAndSeed(String id) {
-
-        registerCropAndSeed(id, null);
-    }
-
-    public static void registerCropAndSeed(String id, FoodProperties food) {
-
-        if (food != null) {
-            foodsTab(registerItem(id, () -> new ItemCoFH(itemProperties().food(food)).setModId(ID_THERMAL_CULTIVATION)));
-        } else {
-            foodsTab(registerItem(id, () -> new ItemCoFH(itemProperties()).setModId(ID_THERMAL_CULTIVATION)));
-        }
-        foodsTab(registerItem(seeds(id), () -> new BlockNamedItemCoFH(BLOCKS.get(id), itemProperties()).setModId(ID_THERMAL_CULTIVATION)));
-    }
-
-    public static void registerBowlFoodItem(String id, FoodProperties food, Rarity rarity) {
-
-        foodsTab(registerItem(id, () -> new ItemCoFH(itemProperties().stacksTo(1).food(food).rarity(rarity)) {
-
-            @Override
-            public ItemStack finishUsingItem(ItemStack stack, Level worldIn, LivingEntity entityLiving) {
-
-                ItemStack itemstack = super.finishUsingItem(stack, worldIn, entityLiving);
-                return entityLiving instanceof Player player && player.abilities.instabuild ? itemstack : new ItemStack(Items.BOWL);
-            }
-        }.setModId(ID_THERMAL_CULTIVATION)));
-    }
-
-    public static void registerSpores(String id) {
-
-        foodsTab(registerItem(spores(id), () -> new BlockNamedItemCoFH(BLOCKS.get(id), itemProperties()).setModId(ID_THERMAL_CULTIVATION)));
-    }
-    // endregion
-
     // region EXPLOSIVES
-    public static RegistryObject<Item> registerGrenade(String id, IDetonatable.IDetonateAction action, Supplier<Boolean> flag) {
+    public static DeferredHolder<Item, Item> registerGrenade(String id, IDetonatable.IDetonateAction action) {
 
-        RegistryObject<EntityType<? extends AbstractGrenade>> entity = ENTITIES.register(id, () -> EntityType.Builder.<Grenade>of((type, world) -> new Grenade(type, world, action), MobCategory.MISC).sized(0.25F, 0.25F).build(id));
+        Supplier<EntityType<? extends AbstractGrenade>> entity = ENTITIES.register(id, () -> EntityType.Builder.<Grenade>of((type, world) -> new Grenade(type, world, action), MobCategory.MISC).sized(0.25F, 0.25F).build(id));
         DetonateUtils.GRENADES.add(entity);
         return registerItem(id, () -> new GrenadeItem(new GrenadeItem.IGrenadeFactory<>() {
 
@@ -303,18 +243,18 @@ public final class RegistrationHelper {
         }, itemProperties().stacksTo(16)));
     }
 
-    public static RegistryObject<Item> registerTNT(String id, IDetonatable.IDetonateAction action, Supplier<Boolean> flag) {
+    public static DeferredHolder<Item, Item> registerTNT(String id, IDetonatable.IDetonateAction action) {
 
-        RegistryObject<EntityType<? extends PrimedTntCoFH>> tntEntity = ENTITIES.register(id, () -> EntityType.Builder.<ThermalTNTEntity>of((type, world) -> new ThermalTNTEntity(type, world, action), MobCategory.MISC).fireImmune().sized(0.98F, 0.98F).build(id));
+        Supplier<EntityType<? extends PrimedTntCoFH>> tntEntity = ENTITIES.register(id, () -> EntityType.Builder.<ThermalTNTEntity>of((type, world) -> new ThermalTNTEntity(type, world, action), MobCategory.MISC).fireImmune().sized(0.98F, 0.98F).build(id));
         registerBlockOnly(id, () -> new TntBlockCoFH((world, x, y, z, igniter) -> new ThermalTNTEntity(tntEntity.get(), world, action, x, y, z, igniter), of().mapColor(MapColor.COLOR_YELLOW).strength(0.0F).sound(SoundType.GRASS)));
         DetonateUtils.TNT.add(tntEntity);
         return registerItem(id, () -> new BlockItemCoFH(BLOCKS.get(id), itemProperties()));
 
     }
 
-    public static RegistryObject<Item> registerTNTMinecart(String id, String tntId, IDetonatable.IDetonateAction action, Supplier<Boolean> flag) {
+    public static DeferredHolder<Item, Item> registerTNTMinecart(String id, String tntId, IDetonatable.IDetonateAction action) {
 
-        RegistryObject<EntityType<? extends AbstractTNTMinecart>> entity = ENTITIES.register(id, () -> EntityType.Builder.<ThermalTNTMinecart>of((type, world) -> new ThermalTNTMinecart(type, world, action, BLOCKS.get(tntId)), MobCategory.MISC).sized(0.98F, 0.7F).build(id));
+        Supplier<EntityType<? extends AbstractTNTMinecart>> entity = ENTITIES.register(id, () -> EntityType.Builder.<ThermalTNTMinecart>of((type, world) -> new ThermalTNTMinecart(type, world, action, BLOCKS.get(tntId)), MobCategory.MISC).sized(0.98F, 0.7F).build(id));
         DetonateUtils.CARTS.add(entity);
         return registerItem(id, () -> new MinecartItemCoFH((world, x, y, z) -> new ThermalTNTMinecart(entity.get(), world, action, BLOCKS.get(tntId), x, y, z), itemProperties()).setModId(ID_THERMAL_LOCOMOTION));
     }

@@ -3,6 +3,8 @@ package cofh.thermal.core.util.managers.machine;
 import cofh.lib.api.fluid.IFluidStackHolder;
 import cofh.lib.api.inventory.IItemStackHolder;
 import cofh.lib.util.crafting.ComparableItemStack;
+import cofh.thermal.core.ThermalCore;
+import cofh.thermal.core.util.recipes.machine.SmelterRecipe;
 import cofh.thermal.lib.util.managers.AbstractManager;
 import cofh.thermal.lib.util.managers.CatalyzedRecipeManager;
 import cofh.thermal.lib.util.managers.IRecipeManager;
@@ -12,13 +14,18 @@ import cofh.thermal.lib.util.recipes.ThermalRecipe;
 import cofh.thermal.lib.util.recipes.internal.*;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraft.world.item.crafting.*;
+import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import javax.annotation.Nullable;
 import java.util.*;
 
+import static cofh.core.util.helpers.ItemHelper.cloneStack;
+import static cofh.lib.util.constants.ModIds.ID_THERMAL;
+import static cofh.thermal.core.ThermalCore.ITEMS;
 import static cofh.thermal.core.init.registries.TCoreRecipeTypes.*;
 import static java.util.Arrays.asList;
 
@@ -26,6 +33,8 @@ public class SmelterRecipeManager extends AbstractManager implements IRecipeMana
 
     private static final SmelterRecipeManager INSTANCE = new SmelterRecipeManager();
     protected static final int DEFAULT_ENERGY = 3200;
+
+    protected boolean defaultFurnaceRecipes = true;
 
     protected Map<SmelterMapWrapper, IMachineRecipe> recipeMap = new Object2ObjectOpenHashMap<>();
     protected Map<ComparableItemStack, IRecipeCatalyst> catalystMap = new Object2ObjectOpenHashMap<>();
@@ -46,6 +55,11 @@ public class SmelterRecipeManager extends AbstractManager implements IRecipeMana
         this.maxInputItems = 3;
         this.maxOutputItems = 4;
         this.maxOutputFluids = 0;
+    }
+
+    public void setDefaultFurnaceRecipes(boolean defaultFurnaceRecipes) {
+
+        this.defaultFurnaceRecipes = defaultFurnaceRecipes;
     }
 
     public void addRecipe(ThermalRecipe recipe, BaseMachineRecipe.RecipeType type) {
@@ -79,7 +93,7 @@ public class SmelterRecipeManager extends AbstractManager implements IRecipeMana
 
     public boolean validItem(ItemStack item) {
 
-        return validItems.contains(makeComparable(item));
+        return validItems.contains(makeNBTComparable(item)) || validItems.contains(makeComparable(item));
     }
 
     protected void clear() {
@@ -87,6 +101,7 @@ public class SmelterRecipeManager extends AbstractManager implements IRecipeMana
         recipeMap.clear();
         catalystMap.clear();
         validItems.clear();
+        convertedRecipes.clear();
     }
 
     // region RECIPES
@@ -98,14 +113,29 @@ public class SmelterRecipeManager extends AbstractManager implements IRecipeMana
         List<ComparableItemStack> convertedItems = new ArrayList<>(maxInputItems);
         for (int i = 0; i < maxInputItems; ++i) {
             if (!inputSlots.get(i).isEmpty()) {
-                ComparableItemStack compStack = makeComparable(inputSlots.get(i).getItemStack());
+                ComparableItemStack compStack = makeNBTComparable(inputSlots.get(i).getItemStack());
                 convertedItems.add(compStack);
             }
         }
         if (convertedItems.isEmpty()) {
             return null;
         }
-        return recipeMap.get(new SmelterMapWrapper(convertedItems));
+        IMachineRecipe ret = recipeMap.get(new SmelterMapWrapper(convertedItems));
+
+        if (ret == null) {
+            convertedItems.clear();
+            for (int i = 0; i < maxInputItems; ++i) {
+                if (!inputSlots.get(i).isEmpty()) {
+                    ComparableItemStack compStack = makeComparable(inputSlots.get(i).getItemStack());
+                    convertedItems.add(compStack);
+                }
+            }
+            if (convertedItems.isEmpty()) {
+                return null;
+            }
+            ret = recipeMap.get(new SmelterMapWrapper(convertedItems));
+        }
+        return ret;
     }
 
     protected IMachineRecipe addRecipe(int energy, float experience, List<ItemStack> inputItems, List<FluidStack> inputFluids, List<ItemStack> outputItems, List<Float> chance, List<FluidStack> outputFluids, BaseMachineRecipe.RecipeType type) {
@@ -126,7 +156,7 @@ public class SmelterRecipeManager extends AbstractManager implements IRecipeMana
         List<ComparableItemStack> convertedItems = new ArrayList<>(inputItems.size());
         for (ItemStack stack : inputItems) {
             if (!inputItems.isEmpty()) {
-                ComparableItemStack compStack = makeComparable(stack);
+                ComparableItemStack compStack = type == BaseMachineRecipe.RecipeType.DISENCHANT ? makeComparable(stack) : makeNBTComparable(stack);
                 validItems.add(compStack);
                 convertedItems.add(compStack);
             }
@@ -156,13 +186,13 @@ public class SmelterRecipeManager extends AbstractManager implements IRecipeMana
     @Override
     public IRecipeCatalyst getCatalyst(IItemStackHolder input) {
 
-        return catalystMap.get(makeComparable(input.getItemStack()));
+        return catalystMap.get(makeNBTComparable(input.getItemStack()));
     }
 
     @Override
     public IRecipeCatalyst getCatalyst(ItemStack input) {
 
-        return catalystMap.get(makeComparable(input));
+        return catalystMap.get(makeNBTComparable(input));
     }
 
     public void addCatalyst(ThermalCatalyst catalyst) {
@@ -178,7 +208,7 @@ public class SmelterRecipeManager extends AbstractManager implements IRecipeMana
             return null;
         }
         BaseMachineCatalyst catalyst = new BaseMachineCatalyst(primaryMod, secondaryMod, energyMod, minChance, useChance);
-        catalystMap.put(makeComparable(input), catalyst);
+        catalystMap.put(makeNBTComparable(input), catalyst);
         return catalyst;
     }
 
@@ -189,7 +219,7 @@ public class SmelterRecipeManager extends AbstractManager implements IRecipeMana
 
     public IRecipeCatalyst removeCatalyst(ItemStack input) {
 
-        return catalystMap.remove(makeComparable(input));
+        return catalystMap.remove(makeNBTComparable(input));
     }
     // endregion
 
@@ -214,15 +244,23 @@ public class SmelterRecipeManager extends AbstractManager implements IRecipeMana
         clear();
         var recipes = recipeManager.byType(SMELTER_RECIPE.get());
         for (var entry : recipes.entrySet()) {
-            addRecipe(entry.getValue(), BaseMachineRecipe.RecipeType.CATALYZED);
+            addRecipe(entry.getValue().value(), BaseMachineRecipe.RecipeType.CATALYZED);
         }
         var recycle = recipeManager.byType(SMELTER_RECYCLE_RECIPE.get());
         for (var entry : recycle.entrySet()) {
-            addRecipe(entry.getValue(), BaseMachineRecipe.RecipeType.DISENCHANT);
+            addRecipe(entry.getValue().value(), BaseMachineRecipe.RecipeType.DISENCHANT);
         }
         var catalysts = recipeManager.byType(SMELTER_CATALYST.get());
         for (var entry : catalysts.entrySet()) {
-            addCatalyst(entry.getValue());
+            addCatalyst(entry.getValue().value());
+        }
+
+        if (defaultFurnaceRecipes) {
+            ThermalCore.LOG.debug("Adding default Furnace-Based processing recipes to the Induction Smelter...");
+            createConvertedRecipes(recipeManager);
+            for (var recipe : getConvertedRecipes()) {
+                addRecipe(recipe.value(), BaseMachineRecipe.RecipeType.CATALYZED);
+            }
         }
     }
     // endregion
@@ -280,6 +318,87 @@ public class SmelterRecipeManager extends AbstractManager implements IRecipeMana
             return instance().getCatalyst(input);
         }
 
+    }
+    // endregion
+
+    // region CONVERSION
+    protected List<RecipeHolder<SmelterRecipe>> convertedRecipes = new ArrayList<>();
+
+    public List<RecipeHolder<SmelterRecipe>> getConvertedRecipes() {
+
+        return convertedRecipes;
+    }
+
+    protected void createConvertedRecipes(RecipeManager recipeManager) {
+
+        for (var recipe : recipeManager.byType(RecipeType.BLASTING).values()) {
+            convertRecipe(recipe.value());
+        }
+    }
+
+    protected boolean convertRecipe(AbstractCookingRecipe recipe) {
+
+        if (recipe.isSpecial() || recipe.result.isEmpty()) {
+            return false;
+        }
+        Ingredient input = recipe.getIngredients().get(0);
+        ItemStack ingot = recipe.result;
+
+        if (!ingot.is(Tags.Items.INGOTS)) {
+            return false;
+        }
+
+        for (ItemStack inputStack : input.getItems()) {
+            if (validItem(inputStack)) {
+                return false;
+            }
+            if (inputStack.is(Tags.Items.DUSTS)) {
+                convertedRecipes.add(convertDust(input, ingot));
+                return true;
+            }
+            if (inputStack.is(Tags.Items.ORES)) {
+                convertedRecipes.add(convertOre(input, ingot));
+                return true;
+            }
+            if (inputStack.is(Tags.Items.RAW_MATERIALS)) {
+                convertedRecipes.add(convertRaw(input, ingot));
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected RecipeHolder<SmelterRecipe> convertDust(Ingredient input, ItemStack ingot) {
+
+        return new RecipeHolder<>(new ResourceLocation(ID_THERMAL, "smelter_dust_" + input.hashCode()),
+                new SmelterRecipe(getDefaultEnergy() / 2, 0.0F,
+                        Collections.singletonList(input),
+                        Collections.emptyList(), // no fluid input
+                        Collections.singletonList(cloneStack(ingot, 1)),
+                        List.of(-1.0F), // output chances
+                        Collections.emptyList())); // no fluid output
+    }
+
+    protected RecipeHolder<SmelterRecipe> convertOre(Ingredient input, ItemStack ingot) {
+
+        return new RecipeHolder<>(new ResourceLocation(ID_THERMAL, "smelter_ore_" + input.hashCode()),
+                new SmelterRecipe(getDefaultEnergy(), 0.5F,
+                        Collections.singletonList(input),
+                        Collections.emptyList(), // no fluid input
+                        Arrays.asList(cloneStack(ingot, 1), new ItemStack(ITEMS.get("rich_slag"))),
+                        Arrays.asList(1.0F, 0.2F), // output chances
+                        Collections.emptyList())); // no fluid output
+    }
+
+    protected RecipeHolder<SmelterRecipe> convertRaw(Ingredient input, ItemStack ingot) {
+
+        return new RecipeHolder<>(new ResourceLocation(ID_THERMAL, "smelter_raw_" + input.hashCode()),
+                new SmelterRecipe(getDefaultEnergy(), 0.5F,
+                        Collections.singletonList(input),
+                        Collections.emptyList(), // no fluid input
+                        Collections.singletonList(cloneStack(ingot, 1)),
+                        List.of(-1.5F), // output chances
+                        Collections.emptyList())); // no fluid output
     }
     // endregion
 }

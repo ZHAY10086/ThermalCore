@@ -1,18 +1,18 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
-  "conditions": [
+  "neoforge:conditions": [
     {
-      "type": "thermal:flag",
-      "flag": "area_augments"
+      "type": "cofh_core:flag_set",
+      "flag": "thermal:area_augments"
     }
   ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "G": {
-      "tag": "forge:gears/iron"
+      "tag": "c:gears/iron"
     },
     "I": {
-      "tag": "forge:ingots/tin"
+      "tag": "c:ingots/tin"
     },
     "X": {
       "item": "thermal:redstone_servo"
@@ -25,6 +25,5 @@
   ],
   "result": {
     "item": "thermal:area_radius_augment"
-  },
-  "show_notification": true
+  }
 }

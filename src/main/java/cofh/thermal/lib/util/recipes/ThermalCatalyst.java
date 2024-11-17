@@ -1,7 +1,6 @@
 package cofh.thermal.lib.util.recipes;
 
 import cofh.lib.util.recipes.SerializableRecipe;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 
 /**
@@ -10,17 +9,15 @@ import net.minecraft.world.item.crafting.Ingredient;
  */
 public abstract class ThermalCatalyst extends SerializableRecipe {
 
-    protected final Ingredient ingredient;
+    public final Ingredient ingredient;
 
-    protected float primaryMod = 1.0F;
-    protected float secondaryMod = 1.0F;
-    protected float energyMod = 1.0F;
-    protected float minChance = 0.0F;
-    protected float useChance = 1.0F;
+    public final float primaryMod;
+    public final float secondaryMod;
+    public final float energyMod;
+    public final float minChance;
+    public final float useChance;
 
-    protected ThermalCatalyst(ResourceLocation recipeId, Ingredient ingredient, float primaryMod, float secondaryMod, float energyMod, float minChance, float useChance) {
-
-        super(recipeId);
+    protected ThermalCatalyst(Ingredient ingredient, float primaryMod, float secondaryMod, float energyMod, float minChance, float useChance) {
 
         this.ingredient = ingredient;
 

@@ -1,18 +1,18 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
-  "conditions": [
+  "neoforge:conditions": [
     {
-      "type": "thermal:flag",
-      "flag": "dynamo_augments"
+      "type": "cofh_core:flag_set",
+      "flag": "thermal:dynamo_augments"
     }
   ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "E": {
-      "tag": "forge:ingots/electrum"
+      "tag": "c:ingots/electrum"
     },
     "l": {
-      "tag": "forge:nuggets/lead"
+      "tag": "c:nuggets/lead"
     }
   },
   "pattern": [
@@ -22,6 +22,5 @@
   ],
   "result": {
     "item": "thermal:dynamo_throttle_augment"
-  },
-  "show_notification": true
+  }
 }

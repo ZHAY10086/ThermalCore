@@ -12,6 +12,7 @@ import net.minecraft.world.entity.player.Inventory;
 import static cofh.core.util.helpers.GuiHelper.*;
 import static cofh.lib.util.Constants.PATH_ELEMENTS;
 import static cofh.lib.util.constants.ModIds.ID_THERMAL;
+import static cofh.lib.util.helpers.SoundHelper.playClickSound;
 
 public class TinkerBenchScreen extends AugmentableTileScreen<TinkerBenchMenu> {
 
@@ -44,6 +45,7 @@ public class TinkerBenchScreen extends AugmentableTileScreen<TinkerBenchMenu> {
             public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
 
                 menu.onModeChange();
+                playClickSound(0.6F);
                 return true;
             }
         }
@@ -58,6 +60,7 @@ public class TinkerBenchScreen extends AugmentableTileScreen<TinkerBenchMenu> {
             public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
 
                 menu.onModeChange();
+                playClickSound(0.8F);
                 return true;
             }
         }

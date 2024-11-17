@@ -1,7 +1,7 @@
 {
   "values": [
-    "#forge:ingots/enderium",
-    "#forge:ingots/lumium",
-    "#forge:ingots/signalum"
+    "#c:ingots/enderium",
+    "#c:ingots/lumium",
+    "#c:ingots/signalum"
   ]
 }

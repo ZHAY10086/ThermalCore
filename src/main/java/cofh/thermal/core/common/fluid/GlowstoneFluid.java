@@ -6,11 +6,10 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
-import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
-import net.minecraftforge.common.SoundActions;
-import net.minecraftforge.fluids.FluidType;
-import net.minecraftforge.fluids.ForgeFlowingFluid;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.neoforged.neoforge.common.SoundActions;
+import net.neoforged.neoforge.fluids.BaseFlowingFluid;
+import net.neoforged.neoforge.fluids.FluidType;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -40,9 +39,9 @@ public class GlowstoneFluid extends FluidCoFH {
     }
 
     @Override
-    protected ForgeFlowingFluid.Properties fluidProperties() {
+    protected BaseFlowingFluid.Properties fluidProperties() {
 
-        return new ForgeFlowingFluid.Properties(type(), stillFluid, flowingFluid).bucket(bucket);
+        return new BaseFlowingFluid.Properties(type(), stillFluid, flowingFluid).bucket(bucket);
     }
 
     @Override
@@ -51,7 +50,7 @@ public class GlowstoneFluid extends FluidCoFH {
         return TYPE;
     }
 
-    public static final RegistryObject<FluidType> TYPE = FLUID_TYPES.register(ID_FLUID_GLOWSTONE, () -> new FluidType(FluidType.Properties.create()
+    public static final Supplier<FluidType> TYPE = FLUID_TYPES.register(ID_FLUID_GLOWSTONE, () -> new FluidType(FluidType.Properties.create()
             .lightLevel(15)
             .density(-500)
             .viscosity(100)

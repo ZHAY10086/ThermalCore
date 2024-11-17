@@ -15,7 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -28,7 +28,7 @@ import static cofh.lib.util.constants.NBTTags.TAG_AUGMENT_TYPE_FLUID;
 import static cofh.lib.util.constants.NBTTags.TAG_AUGMENT_TYPE_UPGRADE;
 import static cofh.thermal.core.init.registries.TCoreBlockEntities.DEVICE_HIVE_EXTRACTOR_TILE;
 import static cofh.thermal.lib.util.ThermalAugmentRules.createAllowValidator;
-import static net.minecraftforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE;
+import static net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE;
 
 public class DeviceHiveExtractorBlockEntity extends DeviceBlockEntity {
 

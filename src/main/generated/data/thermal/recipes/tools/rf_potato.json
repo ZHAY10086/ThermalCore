@@ -6,7 +6,7 @@
       "tag": "forge:dusts/redstone"
     },
     "L": {
-      "tag": "forge:nuggets/lead"
+      "tag": "c:nuggets/lead"
     },
     "P": {
       "tag": "forge:crops/potato"
@@ -22,6 +22,5 @@
   ],
   "result": {
     "item": "thermal:rf_potato"
-  },
-  "show_notification": true
+  }
 }

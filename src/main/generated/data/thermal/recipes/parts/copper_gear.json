@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "#": {
-      "tag": "forge:ingots/copper"
+      "tag": "c:ingots/copper"
     },
     "i": {
       "tag": "forge:nuggets/iron"
@@ -16,6 +16,5 @@
   ],
   "result": {
     "item": "thermal:copper_gear"
-  },
-  "show_notification": true
+  }
 }

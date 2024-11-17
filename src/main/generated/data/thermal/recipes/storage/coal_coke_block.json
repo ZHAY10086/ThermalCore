@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "#": {
-      "tag": "forge:coal_coke"
+      "tag": "c:coal_coke"
     },
     "I": {
       "item": "thermal:coal_coke"
@@ -16,6 +16,5 @@
   ],
   "result": {
     "item": "thermal:coal_coke_block"
-  },
-  "show_notification": true
+  }
 }

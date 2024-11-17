@@ -5,13 +5,13 @@ import cofh.thermal.core.client.gui.device.DeviceTreeExtractorScreen;
 import cofh.thermal.core.util.recipes.device.TreeExtractorMapping;
 import cofh.thermal.lib.compat.jei.Drawables;
 import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;
 import mezz.jei.api.gui.drawable.IDrawableStatic;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.neoforge.NeoForgeTypes;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
@@ -19,6 +19,7 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 
 import java.util.List;
 
@@ -29,9 +30,9 @@ import static cofh.thermal.core.compat.jei.TCoreJeiPlugin.defaultFluidTooltip;
 import static cofh.thermal.core.compat.jei.TCoreJeiPlugin.tankSize;
 import static cofh.thermal.lib.util.ThermalIDs.ID_DEVICE_TREE_EXTRACTOR;
 
-public class TreeExtractorCategory implements IRecipeCategory<TreeExtractorMapping> {
+public class TreeExtractorCategory implements IRecipeCategory<RecipeHolder<TreeExtractorMapping>> {
 
-    protected final RecipeType<TreeExtractorMapping> type;
+    protected final RecipeType<RecipeHolder<TreeExtractorMapping>> type;
     protected IDrawable background;
     protected IDrawable icon;
     protected Component name;
@@ -41,7 +42,7 @@ public class TreeExtractorCategory implements IRecipeCategory<TreeExtractorMappi
     protected IDrawableStatic progressFluidBackground;
     protected IDrawableAnimated progressFluid;
 
-    public TreeExtractorCategory(IGuiHelper guiHelper, ItemStack icon, RecipeType<TreeExtractorMapping> type) {
+    public TreeExtractorCategory(IGuiHelper guiHelper, ItemStack icon, RecipeType<RecipeHolder<TreeExtractorMapping>> type) {
 
         this.type = type;
         this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, icon);
@@ -59,7 +60,7 @@ public class TreeExtractorCategory implements IRecipeCategory<TreeExtractorMappi
 
     // region IRecipeCategory
     @Override
-    public RecipeType<TreeExtractorMapping> getRecipeType() {
+    public RecipeType<RecipeHolder<TreeExtractorMapping>> getRecipeType() {
 
         return type;
     }
@@ -83,30 +84,30 @@ public class TreeExtractorCategory implements IRecipeCategory<TreeExtractorMappi
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, TreeExtractorMapping recipe, IFocusGroup focuses) {
+    public void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<TreeExtractorMapping> recipe, IFocusGroup focuses) {
+        //TODO Hek
+        List<ItemStack> trunk = recipe.value().getTrunk().getBlockStates().stream().map(state -> state.getBlock().asItem()).distinct().map(ItemStack::new).toList();
+        List<ItemStack> leaves = recipe.value().getLeaves().getBlockStates().stream().map(state -> state.getBlock().asItem()).distinct().map(ItemStack::new).toList();
 
-        ItemStack trunk = new ItemStack(recipe.getTrunk());
-        ItemStack leaves = new ItemStack(recipe.getLeaves());
-
-        builder.addSlot(RecipeIngredientRole.INPUT, 35, 41).addItemStack(trunk);
-        builder.addSlot(RecipeIngredientRole.INPUT, 35, 23).addItemStack(trunk);
-        builder.addSlot(RecipeIngredientRole.INPUT, 17, 14).addItemStack(leaves);
-        builder.addSlot(RecipeIngredientRole.INPUT, 35, 5).addItemStack(leaves);
-        builder.addSlot(RecipeIngredientRole.INPUT, 53, 14).addItemStack(leaves);
+        builder.addSlot(RecipeIngredientRole.INPUT, 35, 41).addItemStacks(trunk);
+        builder.addSlot(RecipeIngredientRole.INPUT, 35, 23).addItemStacks(trunk);
+        builder.addSlot(RecipeIngredientRole.INPUT, 17, 14).addItemStacks(leaves);
+        builder.addSlot(RecipeIngredientRole.INPUT, 35, 5).addItemStacks(leaves);
+        builder.addSlot(RecipeIngredientRole.INPUT, 53, 14).addItemStacks(leaves);
 
         builder.addSlot(RecipeIngredientRole.OUTPUT, 116, 11)
-                .addIngredients(ForgeTypes.FLUID_STACK, List.of(recipe.getFluid()))
+                .addIngredients(NeoForgeTypes.FLUID_STACK, List.of(recipe.value().getFluid()))
                 .setFluidRenderer(tankSize(TANK_MEDIUM), false, 16, 40)
                 .setOverlay(tankOverlay, 0, 0)
                 .addTooltipCallback(defaultFluidTooltip());
     }
 
     @Override
-    public void draw(TreeExtractorMapping recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+    public void draw(RecipeHolder<TreeExtractorMapping> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
 
         tankBackground.draw(guiGraphics, 115, 10);
 
-        RenderHelper.drawFluid(guiGraphics, 78, 24, recipe.getFluid(), 24, 16);
+        RenderHelper.drawFluid(guiGraphics, 78, 24, recipe.value().getFluid(), 24, 16);
         progressFluidBackground.draw(guiGraphics, 78, 24);
         progressFluid.draw(guiGraphics, 78, 24);
     }

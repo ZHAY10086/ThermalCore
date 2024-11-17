@@ -10,7 +10,7 @@ import cofh.thermal.lib.util.recipes.internal.BaseDynamoFuel;
 import cofh.thermal.lib.util.recipes.internal.IDynamoFuel;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -42,6 +42,12 @@ public abstract class SingleItemFuelManager extends AbstractManager implements I
         return getFuel(input) != null;
     }
 
+    public int getEnergy(ItemStack stack) {
+
+        IDynamoFuel fuel = getFuel(stack);
+        return fuel != null ? fuel.getEnergy() : 0;
+    }
+
     protected void clear() {
 
         fuelMap.clear();
@@ -57,7 +63,7 @@ public abstract class SingleItemFuelManager extends AbstractManager implements I
         if (inputSlots.isEmpty() || inputSlots.get(0).isEmpty()) {
             return null;
         }
-        return fuelMap.get(makeComparable(inputSlots.get(0).getItemStack()));
+        return fuelMap.get(makeNBTComparable(inputSlots.get(0).getItemStack()));
     }
 
     public IDynamoFuel addFuel(int energy, List<ItemStack> inputItems, List<FluidStack> inputFluids) {
@@ -75,7 +81,7 @@ public abstract class SingleItemFuelManager extends AbstractManager implements I
         energy = (int) (energy * getDefaultScale());
 
         BaseDynamoFuel fuel = new BaseDynamoFuel(energy, inputItems, inputFluids);
-        fuelMap.put(makeComparable(input), fuel);
+        fuelMap.put(makeNBTComparable(input), fuel);
         return fuel;
     }
 

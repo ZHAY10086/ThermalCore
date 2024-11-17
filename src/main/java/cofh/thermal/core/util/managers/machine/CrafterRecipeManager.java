@@ -7,8 +7,9 @@ import cofh.thermal.lib.util.recipes.internal.IMachineRecipe;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.IdentityHashMap;
 
@@ -39,15 +40,15 @@ public class CrafterRecipeManager extends AbstractManager implements IManager {
         return recipe instanceof CrafterRecipe crafterRecipe && crafterRecipe.validFluid(fluid);
     }
 
-    public CrafterRecipe getRecipe(Recipe<?> recipe, RegistryAccess registryAccess) {
+    public CrafterRecipe getRecipe(RecipeHolder<?> recipe, RegistryAccess registryAccess) {
 
-        if (recipe == null || recipe.isSpecial() || recipe.getResultItem(registryAccess).isEmpty()) {
+        if (recipe == null || recipe.value().isSpecial() || recipe.value().getResultItem(registryAccess).isEmpty()) {
             return null;
         }
-        if (!recipeMap.containsKey(recipe)) {
-            recipeMap.put(recipe, new CrafterRecipe((int) (getDefaultEnergy() * getDefaultScale()), recipe, registryAccess));
+        if (!recipeMap.containsKey(recipe.value())) {
+            recipeMap.put(recipe.value(), new CrafterRecipe((int) (getDefaultEnergy() * getDefaultScale()), recipe.value(), registryAccess));
         }
-        return recipeMap.get(recipe);
+        return recipeMap.get(recipe.value());
     }
 
     // region IManager

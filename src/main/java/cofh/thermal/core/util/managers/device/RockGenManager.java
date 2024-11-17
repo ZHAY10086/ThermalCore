@@ -87,7 +87,7 @@ public class RockGenManager extends AbstractManager {
         clear();
         var mappings = recipeManager.byType(ROCK_GEN_MAPPING.get());
         for (var entry : mappings.entrySet()) {
-            addMapping(entry.getValue());
+            addMapping(entry.getValue().value());
         }
     }
     // endregion

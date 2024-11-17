@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "#": {
-      "tag": "forge:gems/cinnabar"
+      "tag": "c:gems/cinnabar"
     },
     "I": {
       "item": "thermal:cinnabar"
@@ -16,6 +16,5 @@
   ],
   "result": {
     "item": "thermal:cinnabar_block"
-  },
-  "show_notification": true
+  }
 }

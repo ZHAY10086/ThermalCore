@@ -1,18 +1,18 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
-  "conditions": [
+  "neoforge:conditions": [
     {
-      "type": "thermal:flag",
-      "flag": "dynamo_augments"
+      "type": "cofh_core:flag_set",
+      "flag": "thermal:dynamo_augments"
     }
   ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "G": {
-      "tag": "forge:gears/lead"
+      "tag": "c:gears/lead"
     },
     "L": {
-      "tag": "forge:plates/lumium"
+      "tag": "c:plates/lumium"
     },
     "X": {
       "tag": "thermal:glass/hardened"
@@ -25,6 +25,5 @@
   ],
   "result": {
     "item": "thermal:dynamo_fuel_augment"
-  },
-  "show_notification": true
+  }
 }

@@ -24,9 +24,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.IDynamicBakedModel;
-import net.minecraftforge.client.model.data.ModelData;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.client.model.IDynamicBakedModel;
+import net.neoforged.neoforge.client.model.data.ModelData;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

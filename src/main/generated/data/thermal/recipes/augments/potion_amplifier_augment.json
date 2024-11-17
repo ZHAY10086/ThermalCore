@@ -1,15 +1,15 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
-  "conditions": [
+  "neoforge:conditions": [
     {
-      "type": "thermal:flag",
-      "flag": "potion_augments"
+      "type": "cofh_core:flag_set",
+      "flag": "thermal:potion_augments"
     }
   ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "G": {
-      "tag": "forge:gears/signalum"
+      "tag": "c:gears/signalum"
     },
     "I": {
       "tag": "forge:ingots/copper"
@@ -25,6 +25,5 @@
   ],
   "result": {
     "item": "thermal:potion_amplifier_augment"
-  },
-  "show_notification": true
+  }
 }

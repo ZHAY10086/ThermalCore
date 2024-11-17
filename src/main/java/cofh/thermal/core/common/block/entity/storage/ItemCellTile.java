@@ -19,10 +19,10 @@
 //import net.minecraft.network.PacketBuffer;
 //import net.minecraft.tileentity.ITickableTileEntity;
 //import net.minecraft.util.Direction;
-//import net.minecraftforge.client.model.data.ModelData;
-//import net.minecraftforge.client.model.data.ModelDataMap;
-//import net.minecraftforge.common.util.LazyOptional;
-//import net.minecraftforge.items.IItemHandler;
+//import net.neoforged.neoforge.client.model.data.ModelData;
+//import net.neoforged.neoforge.client.model.data.ModelDataMap;
+//import net.neoforged.neoforge.common.util.LazyOptional;
+//import net.neoforged.neoforge.items.IItemHandler;
 //
 //import javax.annotation.Nonnull;
 //import javax.annotation.Nullable;

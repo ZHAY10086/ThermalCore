@@ -1,12 +1,12 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "equipment",
-  "conditions": [
+  "neoforge:conditions": [
     {
-      "type": "thermal:flag",
-      "flag": "beekeeper_armor"
+      "type": "cofh_core:flag_set",
+      "flag": "thermal:beekeeper_armor"
     }
   ],
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
   "key": {
     "X": {
       "item": "thermal:beekeeper_fabric"
@@ -19,6 +19,5 @@
   ],
   "result": {
     "item": "thermal:beekeeper_chestplate"
-  },
-  "show_notification": true
+  }
 }

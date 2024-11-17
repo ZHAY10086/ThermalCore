@@ -5,13 +5,13 @@ import cofh.thermal.core.client.gui.device.DeviceRockGenScreen;
 import cofh.thermal.core.util.recipes.device.RockGenMapping;
 import cofh.thermal.lib.compat.jei.Drawables;
 import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;
 import mezz.jei.api.gui.drawable.IDrawableStatic;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.neoforge.NeoForgeTypes;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
@@ -19,11 +19,12 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.List;
 
@@ -33,11 +34,11 @@ import static cofh.thermal.core.ThermalCore.BLOCKS;
 import static cofh.thermal.lib.compat.jei.Drawables.SLOT;
 import static cofh.thermal.lib.util.ThermalIDs.ID_DEVICE_ROCK_GEN;
 
-public class RockGenCategory implements IRecipeCategory<RockGenMapping> {
+public class RockGenCategory implements IRecipeCategory<RecipeHolder<RockGenMapping>> {
 
     protected static final FluidStack LAVA_FLUID = new FluidStack(Fluids.LAVA, BUCKET_VOLUME);
 
-    protected final RecipeType<RockGenMapping> type;
+    protected final RecipeType<RecipeHolder<RockGenMapping>> type;
     protected IDrawable background;
     protected IDrawable icon;
     protected Component name;
@@ -46,7 +47,7 @@ public class RockGenCategory implements IRecipeCategory<RockGenMapping> {
     protected IDrawableStatic progressFluidBackground;
     protected IDrawableAnimated progressFluid;
 
-    public RockGenCategory(IGuiHelper guiHelper, ItemStack icon, RecipeType<RockGenMapping> type) {
+    public RockGenCategory(IGuiHelper guiHelper, ItemStack icon, RecipeType<RecipeHolder<RockGenMapping>> type) {
 
         this.type = type;
         this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, icon);
@@ -63,7 +64,7 @@ public class RockGenCategory implements IRecipeCategory<RockGenMapping> {
 
     // region IRecipeCategory
     @Override
-    public RecipeType<RockGenMapping> getRecipeType() {
+    public RecipeType<RecipeHolder<RockGenMapping>> getRecipeType() {
 
         return type;
     }
@@ -87,21 +88,21 @@ public class RockGenCategory implements IRecipeCategory<RockGenMapping> {
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, RockGenMapping recipe, IFocusGroup focuses) {
+    public void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<RockGenMapping> recipe, IFocusGroup focuses) {
 
         builder.addSlot(RecipeIngredientRole.INPUT, 23, 13)
-                .addIngredients(ForgeTypes.FLUID_STACK, List.of(LAVA_FLUID))
+                .addIngredients(NeoForgeTypes.FLUID_STACK, List.of(LAVA_FLUID))
                 .setFluidRenderer(BUCKET_VOLUME, false, 16, 16);
 
-        Block adjacent = recipe.getAdjacent();
-        Block below = recipe.getBelow();
+        Block adjacent = recipe.value().getAdjacent();
+        Block below = recipe.value().getBelow();
 
         builder.addSlot(RecipeIngredientRole.OUTPUT, 115, 24)
-                .addItemStack(recipe.getResult());
+                .addItemStack(recipe.value().getResult());
 
         if (adjacent instanceof LiquidBlock liquidBlock) {
             builder.addSlot(RecipeIngredientRole.INPUT, 45, 13)
-                    .addIngredients(ForgeTypes.FLUID_STACK, List.of(new FluidStack(liquidBlock.getFluid(), BUCKET_VOLUME)))
+                    .addIngredients(NeoForgeTypes.FLUID_STACK, List.of(new FluidStack(liquidBlock.getFluid(), BUCKET_VOLUME)))
                     .setFluidRenderer(BUCKET_VOLUME, false, 16, 16);
         } else if (adjacent != Blocks.AIR) {
             builder.addSlot(RecipeIngredientRole.INPUT, 45, 13)
@@ -109,7 +110,7 @@ public class RockGenCategory implements IRecipeCategory<RockGenMapping> {
         }
         if (below instanceof LiquidBlock liquidBlock) {
             builder.addSlot(RecipeIngredientRole.INPUT, 34, 34)
-                    .addIngredients(ForgeTypes.FLUID_STACK, List.of(new FluidStack(liquidBlock.getFluid(), BUCKET_VOLUME)))
+                    .addIngredients(NeoForgeTypes.FLUID_STACK, List.of(new FluidStack(liquidBlock.getFluid(), BUCKET_VOLUME)))
                     .setFluidRenderer(BUCKET_VOLUME, false, 16, 16);
         } else if (below != Blocks.AIR) {
             builder.addSlot(RecipeIngredientRole.INPUT, 34, 34)
@@ -118,9 +119,9 @@ public class RockGenCategory implements IRecipeCategory<RockGenMapping> {
     }
 
     @Override
-    public void draw(RockGenMapping recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+    public void draw(RecipeHolder<RockGenMapping> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
 
-        if (recipe.getBelow() != Blocks.AIR) {
+        if (recipe.value().getBelow() != Blocks.AIR) {
             slot.draw(guiGraphics, 33, 33);
         }
         RenderHelper.drawFluid(guiGraphics, 74, 24, LAVA_FLUID, 24, 16);

@@ -2,15 +2,15 @@ package cofh.thermal.core.util.recipes.device;
 
 import cofh.lib.util.recipes.SerializableRecipe;
 import cofh.thermal.core.util.managers.device.RockGenManager;
-import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 
@@ -26,9 +26,7 @@ public class RockGenMapping extends SerializableRecipe {
     protected final Block adjacent;
     protected final ItemStack result;
 
-    public RockGenMapping(ResourceLocation recipeId, int time, Block below, Block adjacent, ItemStack result) {
-
-        super(recipeId);
+    public RockGenMapping(int time, Block below, Block adjacent, ItemStack result) {
 
         this.time = time;
         this.below = below;
@@ -73,50 +71,64 @@ public class RockGenMapping extends SerializableRecipe {
     // region SERIALIZER
     public static class Serializer implements RecipeSerializer<RockGenMapping> {
 
+        public static final Codec<RockGenMapping> CODEC = RecordCodecBuilder.create(builder -> builder.group(
+                        Codec.INT.optionalFieldOf(TIME, RockGenManager.instance().getDefaultEnergy()).forGetter(recipe -> recipe.time),
+                        BuiltInRegistries.BLOCK.byNameCodec().optionalFieldOf(BELOW, Blocks.AIR).forGetter(recipe -> recipe.below),
+                        BuiltInRegistries.BLOCK.byNameCodec().fieldOf(ADJACENT).forGetter(recipe -> recipe.adjacent),
+                        ItemStack.ITEM_WITH_COUNT_CODEC.fieldOf(RESULT).forGetter(recipe -> recipe.result)
+                ).apply(builder, RockGenMapping::new)
+        );
+
         @Override
-        public RockGenMapping fromJson(ResourceLocation recipeId, JsonObject json) {
+        public Codec<RockGenMapping> codec() {
 
-            int time = RockGenManager.instance().getDefaultEnergy();
-
-            Block below = Blocks.AIR;
-            Block adjacent = Blocks.AIR;
-            ItemStack result = ItemStack.EMPTY;
-
-            /* BELOW */
-            if (json.has(BELOW)) {
-                below = parseBlock(json.get(BELOW));
-            } else if (json.has(BASE)) {
-                below = parseBlock(json.get(BASE));
-            }
-            /* ADJACENT */
-            if (json.has(ADJACENT)) {
-                adjacent = parseBlock(json.get(ADJACENT));
-            }
-            /* RESULT */
-            if (json.has(RESULT)) {
-                result = parseItemStack(json.get(RESULT));
-            } else if (json.has(ITEM)) {
-                result = parseItemStack(json.get(ITEM));
-            }
-            /* TIME */
-            if (json.has(TIME)) {
-                time = json.get(TIME).getAsInt();
-            } else if (json.has(TICKS)) {
-                time = json.get(TICKS).getAsInt();
-            }
-            return new RockGenMapping(recipeId, time, below, adjacent, result);
+            return CODEC;
         }
+
+        //        @Override
+        //        public RockGenMapping fromJson(ResourceLocation recipeId, JsonObject json) {
+        //
+        //            int time = RockGenManager.instance().getDefaultEnergy();
+        //
+        //            Block below = Blocks.AIR;
+        //            Block adjacent = Blocks.AIR;
+        //            ItemStack result = ItemStack.EMPTY;
+        //
+        //            /* BELOW */
+        //            if (json.has(BELOW)) {
+        //                below = parseBlock(json.get(BELOW));
+        //            } else if (json.has(BASE)) {
+        //                below = parseBlock(json.get(BASE));
+        //            }
+        //            /* ADJACENT */
+        //            if (json.has(ADJACENT)) {
+        //                adjacent = parseBlock(json.get(ADJACENT));
+        //            }
+        //            /* RESULT */
+        //            if (json.has(RESULT)) {
+        //                result = parseItemStack(json.get(RESULT));
+        //            } else if (json.has(ITEM)) {
+        //                result = parseItemStack(json.get(ITEM));
+        //            }
+        //            /* TIME */
+        //            if (json.has(TIME)) {
+        //                time = json.get(TIME).getAsInt();
+        //            } else if (json.has(TICKS)) {
+        //                time = json.get(TICKS).getAsInt();
+        //            }
+        //            return new RockGenMapping(recipeId, time, below, adjacent, result);
+        //        }
 
         @Nullable
         @Override
-        public RockGenMapping fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
+        public RockGenMapping fromNetwork(FriendlyByteBuf buffer) {
 
             int time = buffer.readInt();
-            Block trunk = ForgeRegistries.BLOCKS.getValue(buffer.readResourceLocation());
-            Block leaves = ForgeRegistries.BLOCKS.getValue(buffer.readResourceLocation());
+            Block trunk = BuiltInRegistries.BLOCK.get(buffer.readResourceLocation());
+            Block leaves = BuiltInRegistries.BLOCK.get(buffer.readResourceLocation());
             ItemStack result = buffer.readItem();
 
-            return new RockGenMapping(recipeId, time, trunk, leaves, result);
+            return new RockGenMapping(time, trunk, leaves, result);
         }
 
         @Override

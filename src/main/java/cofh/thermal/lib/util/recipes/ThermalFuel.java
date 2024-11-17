@@ -3,7 +3,6 @@ package cofh.thermal.lib.util.recipes;
 import cofh.lib.common.fluid.FluidIngredient;
 import cofh.lib.util.recipes.SerializableRecipe;
 import cofh.thermal.core.ThermalCore;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.ArrayList;
@@ -11,17 +10,15 @@ import java.util.List;
 
 public abstract class ThermalFuel extends SerializableRecipe {
 
-    protected final List<Ingredient> inputItems = new ArrayList<>();
-    protected final List<FluidIngredient> inputFluids = new ArrayList<>();
+    public final List<Ingredient> inputItems = new ArrayList<>();
+    public final List<FluidIngredient> inputFluids = new ArrayList<>();
 
-    protected int energy;
+    public int energy;
 
-    protected ThermalFuel(ResourceLocation recipeId, int energy, List<Ingredient> inputItems, List<FluidIngredient> inputFluids) {
-
-        super(recipeId);
+    protected ThermalFuel(int energy, List<Ingredient> inputItems, List<FluidIngredient> inputFluids) {
 
         if ((inputItems == null || inputItems.isEmpty()) && (inputFluids == null || inputFluids.isEmpty())) {
-            ThermalCore.LOG.warn("Invalid Thermal Series fuel: " + recipeId + "\nRefer to the fuel's ResourceLocation to find the mod responsible and let them know!");
+            ThermalCore.LOG.warn("Invalid Thermal Series fuel! Please check your datapacks!");
         }
         this.energy = energy;
 

@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "#": {
-      "tag": "forge:ingots/netherite"
+      "tag": "c:ingots/netherite"
     },
     "i": {
       "tag": "forge:nuggets/iron"
@@ -16,6 +16,5 @@
   ],
   "result": {
     "item": "thermal:netherite_gear"
-  },
-  "show_notification": true
+  }
 }

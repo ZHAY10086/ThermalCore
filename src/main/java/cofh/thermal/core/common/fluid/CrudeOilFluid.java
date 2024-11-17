@@ -15,11 +15,10 @@ import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
-import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
-import net.minecraftforge.common.SoundActions;
-import net.minecraftforge.fluids.FluidType;
-import net.minecraftforge.fluids.ForgeFlowingFluid;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.neoforged.neoforge.common.SoundActions;
+import net.neoforged.neoforge.fluids.BaseFlowingFluid;
+import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
@@ -56,9 +55,9 @@ public class CrudeOilFluid extends FluidCoFH {
     }
 
     @Override
-    protected ForgeFlowingFluid.Properties fluidProperties() {
+    protected BaseFlowingFluid.Properties fluidProperties() {
 
-        return new ForgeFlowingFluid.Properties(type(), stillFluid, flowingFluid).block(block).bucket(bucket).levelDecreasePerBlock(2);
+        return new BaseFlowingFluid.Properties(type(), stillFluid, flowingFluid).block(block).bucket(bucket).levelDecreasePerBlock(2);
     }
 
     @Override
@@ -67,7 +66,7 @@ public class CrudeOilFluid extends FluidCoFH {
         return TYPE;
     }
 
-    public static final RegistryObject<FluidType> TYPE = FLUID_TYPES.register(ID_FLUID_CRUDE_OIL, () -> new FluidType(FluidType.Properties.create()
+    public static final Supplier<FluidType> TYPE = FLUID_TYPES.register(ID_FLUID_CRUDE_OIL, () -> new FluidType(FluidType.Properties.create()
             .fallDistanceModifier(0F)
             .density(850)
             .viscosity(1400)

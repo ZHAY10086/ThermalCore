@@ -10,8 +10,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidUtil;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Collections;
@@ -42,6 +42,9 @@ public class CrafterRecipe extends BaseMachineRecipe {
         for (Ingredient ing : ingredients) {
             for (ItemStack stack : ing.getItems()) {
                 validItems.add(makeComparable(stack));
+                if (stack.hasCraftingRemainingItem()) {
+                    validItems.add(makeComparable(stack.getCraftingRemainingItem()));
+                }
                 FluidUtil.getFluidContained(stack).ifPresent(fluidStack -> {
                     if (!fluidStack.isEmpty()) {
                         validFluids.add(fluidStack.getFluid());

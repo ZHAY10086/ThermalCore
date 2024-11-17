@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "#": {
-      "tag": "forge:sawdust"
+      "tag": "c:sawdust"
     },
     "I": {
       "item": "thermal:sawdust"
@@ -16,6 +16,5 @@
   ],
   "result": {
     "item": "thermal:sawdust_block"
-  },
-  "show_notification": true
+  }
 }

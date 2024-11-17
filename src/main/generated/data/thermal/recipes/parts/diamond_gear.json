@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "#": {
-      "tag": "forge:gems/diamond"
+      "tag": "c:gems/diamond"
     },
     "i": {
       "tag": "forge:nuggets/iron"
@@ -16,6 +16,5 @@
   ],
   "result": {
     "item": "thermal:diamond_gear"
-  },
-  "show_notification": true
+  }
 }

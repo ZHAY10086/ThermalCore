@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "#": {
-      "tag": "forge:gems/niter"
+      "tag": "c:gems/niter"
     },
     "I": {
       "item": "thermal:niter"
@@ -16,6 +16,5 @@
   ],
   "result": {
     "item": "thermal:niter_block"
-  },
-  "show_notification": true
+  }
 }

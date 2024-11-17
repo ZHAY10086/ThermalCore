@@ -2,17 +2,17 @@ package cofh.thermal.core.common.config;
 
 import cofh.core.common.config.IBaseConfig;
 import cofh.thermal.core.util.managers.machine.*;
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 import java.util.function.Supplier;
 
-import static cofh.thermal.lib.util.ThermalFlags.getFlag;
+import static cofh.lib.util.FlagManager.getFlag;
 import static cofh.thermal.lib.util.ThermalIDs.*;
 
 public class ThermalRecipeConfig implements IBaseConfig {
 
     @Override
-    public void apply(ForgeConfigSpec.Builder builder) {
+    public void apply(ModConfigSpec.Builder builder) {
 
         builder.push("Recipes");
 
@@ -32,6 +32,10 @@ public class ThermalRecipeConfig implements IBaseConfig {
         if (getFlag(ID_MACHINE_SAWMILL).get()) {
             builder.push("Sawmill");
 
+            sawmillDefaultLogRecipes = builder
+                    .comment("If TRUE, default Log processing recipes will be automatically created for the Sawmill. Datapack recipes will take priority over these.")
+                    .define("Default Log Recipes", true);
+
             sawmillEnergyScale = builder
                     .comment("This sets the recipe energy multiplier for the Sawmill. This scales all recipe energy requirements.")
                     .defineInRange("Energy Multiplier", defaultScale, minScale, maxScale);
@@ -41,6 +45,10 @@ public class ThermalRecipeConfig implements IBaseConfig {
         if (getFlag(ID_MACHINE_PULVERIZER).get()) {
             builder.push("Pulverizer");
 
+            pulverizerDefaultFurnaceRecipes = builder
+                    .comment("If TRUE, default Furnace-Based processing recipes will be automatically created for the Pulverizer. Datapack recipes will take priority over these.")
+                    .define("Default Furnace-Based Recipes", true);
+
             pulverizerEnergyScale = builder
                     .comment("This sets the recipe energy multiplier for the Pulverizer. This scales all recipe energy requirements.")
                     .defineInRange("Energy Multiplier", defaultScale, minScale, maxScale);
@@ -49,6 +57,10 @@ public class ThermalRecipeConfig implements IBaseConfig {
         }
         if (getFlag(ID_MACHINE_SMELTER).get()) {
             builder.push("Smelter");
+
+            smelterDefaultFurnaceRecipes = builder
+                    .comment("If TRUE, default Furnace-Based processing recipes will be automatically created for the Smelter. Datapack recipes will take priority over these.")
+                    .define("Default Furnace-Based Recipes", true);
 
             smelterEnergyScale = builder
                     .comment("This sets the recipe energy multiplier for the Induction Smelter. This scales all recipe energy requirements.")
@@ -189,6 +201,15 @@ public class ThermalRecipeConfig implements IBaseConfig {
         if (brewerDefaultPotionRecipes != null) {
             BrewerRecipeManager.instance().setDefaultPotionRecipes(brewerDefaultPotionRecipes.get());
         }
+        if (sawmillDefaultLogRecipes != null) {
+            SawmillRecipeManager.instance().setDefaultLogRecipes(sawmillDefaultLogRecipes.get());
+        }
+        if (pulverizerDefaultFurnaceRecipes != null) {
+            PulverizerRecipeManager.instance().setDefaultFurnaceRecipes(pulverizerDefaultFurnaceRecipes.get());
+        }
+        if (smelterDefaultFurnaceRecipes != null) {
+            SmelterRecipeManager.instance().setDefaultFurnaceRecipes(smelterDefaultFurnaceRecipes.get());
+        }
 
         if (furnaceEnergyScale != null) {
             FurnaceRecipeManager.instance().setDefaultScale(furnaceEnergyScale.get().floatValue());
@@ -242,6 +263,9 @@ public class ThermalRecipeConfig implements IBaseConfig {
     private Supplier<Boolean> bottlerDefaultFlorbRecipes;
     private Supplier<Boolean> bottlerDefaultPotionRecipes;
     private Supplier<Boolean> brewerDefaultPotionRecipes;
+    private Supplier<Boolean> sawmillDefaultLogRecipes;
+    private Supplier<Boolean> pulverizerDefaultFurnaceRecipes;
+    private Supplier<Boolean> smelterDefaultFurnaceRecipes;
 
     private Supplier<Double> furnaceEnergyScale;
     private Supplier<Double> sawmillEnergyScale;

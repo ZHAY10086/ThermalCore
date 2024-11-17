@@ -4,17 +4,17 @@ import cofh.core.common.config.IBaseConfig;
 import cofh.thermal.core.common.block.entity.device.DeviceComposterBlockEntity;
 import cofh.thermal.core.common.block.entity.device.DeviceFisherBlockEntity;
 import cofh.thermal.core.common.block.entity.device.DeviceTreeExtractorBlockEntity;
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 import java.util.function.Supplier;
 
-import static cofh.thermal.lib.util.ThermalFlags.getFlag;
+import static cofh.lib.util.FlagManager.getFlag;
 import static cofh.thermal.lib.util.ThermalIDs.*;
 
 public class ThermalDeviceConfig implements IBaseConfig {
 
     @Override
-    public void apply(ForgeConfigSpec.Builder builder) {
+    public void apply(ModConfigSpec.Builder builder) {
 
         builder.push("Devices");
 

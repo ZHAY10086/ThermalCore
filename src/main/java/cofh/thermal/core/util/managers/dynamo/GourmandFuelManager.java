@@ -1,10 +1,12 @@
 package cofh.thermal.core.util.managers.dynamo;
 
+import cofh.core.util.helpers.FluidHelper;
 import cofh.thermal.core.ThermalCore;
 import cofh.thermal.core.util.recipes.dynamo.GourmandFuel;
 import cofh.thermal.lib.util.managers.SingleItemFuelManager;
 import cofh.thermal.lib.util.recipes.internal.IDynamoFuel;
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -12,9 +14,8 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,7 @@ public class GourmandFuelManager extends SingleItemFuelManager {
     @Override
     public boolean validFuel(ItemStack input) {
 
-        if (input.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent()) {
+        if (FluidHelper.hasFluidHandlerCap(input)) {
             return false;
         }
         return getEnergy(input) > 0;
@@ -101,16 +102,16 @@ public class GourmandFuelManager extends SingleItemFuelManager {
         clear();
         var recipes = recipeManager.byType(GOURMAND_FUEL.get());
         for (var entry : recipes.entrySet()) {
-            addFuel(entry.getValue());
+            addFuel(entry.getValue().value());
         }
         createConvertedRecipes(recipeManager);
     }
     // endregion
 
     // region CONVERSION
-    protected List<GourmandFuel> convertedFuels = new ArrayList<>();
+    protected List<RecipeHolder<GourmandFuel>> convertedFuels = new ArrayList<>();
 
-    public List<GourmandFuel> getConvertedFuels() {
+    public List<RecipeHolder<GourmandFuel>> getConvertedFuels() {
 
         return convertedFuels;
     }
@@ -118,7 +119,7 @@ public class GourmandFuelManager extends SingleItemFuelManager {
     protected void createConvertedRecipes(RecipeManager recipeManager) {
 
         ItemStack query;
-        for (Item item : ForgeRegistries.ITEMS) {
+        for (Item item : BuiltInRegistries.ITEM) {
             query = new ItemStack(item);
             try {
                 if (getFuel(query) == null && validFuel(query)) {
@@ -130,9 +131,9 @@ public class GourmandFuelManager extends SingleItemFuelManager {
         }
     }
 
-    protected GourmandFuel convert(ItemStack item, int energy) {
+    protected RecipeHolder<GourmandFuel> convert(ItemStack item, int energy) {
 
-        return new GourmandFuel(new ResourceLocation(ID_THERMAL, "gourmand_" + getName(item)), energy, singletonList(Ingredient.of(item)), emptyList());
+        return new RecipeHolder<>(new ResourceLocation(ID_THERMAL, "gourmand_" + getName(item)), new GourmandFuel(energy, singletonList(Ingredient.of(item)), emptyList()));
     }
     // endregion
 }

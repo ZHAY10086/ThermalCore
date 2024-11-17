@@ -10,10 +10,10 @@
     },
     [
       {
-        "tag": "forge:dusts/enderium"
+        "tag": "c:dusts/enderium"
       },
       {
-        "tag": "forge:ingots/enderium"
+        "tag": "c:ingots/enderium"
       }
     ],
     {

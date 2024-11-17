@@ -3,12 +3,10 @@ package cofh.thermal.core.util.managers.machine;
 import cofh.thermal.core.ThermalCore;
 import cofh.thermal.core.util.recipes.machine.FurnaceRecipe;
 import cofh.thermal.lib.util.managers.SingleItemRecipeManager;
-import cofh.thermal.lib.util.recipes.ThermalRecipe;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
-import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 
@@ -76,29 +74,29 @@ public class FurnaceRecipeManager extends SingleItemRecipeManager {
         if (defaultFurnaceRecipes) {
             ThermalCore.LOG.debug("Adding default Furnace recipes to the Redstone Furnace...");
             createConvertedRecipes(recipeManager);
-            for (ThermalRecipe recipe : getConvertedRecipes()) {
-                addRecipe(recipe);
+            for (var recipe : getConvertedRecipes()) {
+                addRecipe(recipe.value());
             }
         }
         var recipes = recipeManager.byType(FURNACE_RECIPE.get());
         for (var entry : recipes.entrySet()) {
-            addRecipe(entry.getValue());
+            addRecipe(entry.getValue().value());
         }
     }
     // endregion
 
     // region CONVERSION
-    protected List<FurnaceRecipe> convertedRecipes = new ArrayList<>();
+    protected List<RecipeHolder<FurnaceRecipe>> convertedRecipes = new ArrayList<>();
 
-    public List<FurnaceRecipe> getConvertedRecipes() {
+    public List<RecipeHolder<FurnaceRecipe>> getConvertedRecipes() {
 
         return convertedRecipes;
     }
 
     protected void createConvertedRecipes(RecipeManager recipeManager) {
 
-        for (Recipe<Container> recipe : recipeManager.byType(RecipeType.SMELTING).values()) {
-            createConvertedRecipe((AbstractCookingRecipe) recipe);
+        for (var recipe : recipeManager.byType(RecipeType.SMELTING).values()) {
+            createConvertedRecipe(recipe.value());
         }
     }
 
@@ -111,12 +109,13 @@ public class FurnaceRecipeManager extends SingleItemRecipeManager {
         return true;
     }
 
-    protected FurnaceRecipe convert(AbstractCookingRecipe recipe) {
+    protected RecipeHolder<FurnaceRecipe> convert(AbstractCookingRecipe recipe) {
 
         ItemStack recipeOutput = recipe.result;
         float experience = recipe.getExperience();
         int energy = defaultFoodRecipes && recipeOutput.getItem().isEdible() ? defaultEnergy / 2 : defaultEnergy;
-        return new FurnaceRecipe(new ResourceLocation(ID_THERMAL, "furnace_" + recipe.getIngredients().get(0).hashCode()), energy, experience, recipe);
+        return new RecipeHolder<>(new ResourceLocation(ID_THERMAL, "furnace_" + recipe.getIngredients().get(0).hashCode()),
+                new FurnaceRecipe(energy, experience, recipe));
     }
     // endregion
 }

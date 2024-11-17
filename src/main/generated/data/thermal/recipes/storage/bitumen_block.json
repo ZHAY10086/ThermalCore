@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "#": {
-      "tag": "forge:bitumen"
+      "tag": "c:bitumen"
     },
     "I": {
       "item": "thermal:bitumen"
@@ -16,6 +16,5 @@
   ],
   "result": {
     "item": "thermal:bitumen_block"
-  },
-  "show_notification": true
+  }
 }

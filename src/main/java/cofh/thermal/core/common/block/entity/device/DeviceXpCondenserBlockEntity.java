@@ -18,7 +18,7 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -161,7 +161,7 @@ public class DeviceXpCondenserBlockEntity extends DeviceBlockEntity implements I
     public AABB getArea() {
 
         if (area == null) {
-            area = new AABB(worldPosition.offset(-radius, -radius, -radius), worldPosition.offset(1 + radius, 1 + radius, 1 + radius));
+            area = AABB.encapsulatingFullBlocks(worldPosition.offset(-radius, -radius, -radius), worldPosition.offset(1 + radius, 1 + radius, 1 + radius));
         }
         return area;
     }

@@ -1,18 +1,18 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
-  "conditions": [
+  "neoforge:conditions": [
     {
-      "type": "thermal:flag",
-      "flag": "storage_augments"
+      "type": "cofh_core:flag_set",
+      "flag": "thermal:storage_augments"
     }
   ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "G": {
       "tag": "forge:ingots/gold"
     },
     "S": {
-      "tag": "forge:ingots/silver"
+      "tag": "c:ingots/silver"
     },
     "X": {
       "item": "thermal:rf_coil"
@@ -25,6 +25,5 @@
   ],
   "result": {
     "item": "thermal:rf_coil_xfer_augment"
-  },
-  "show_notification": true
+  }
 }

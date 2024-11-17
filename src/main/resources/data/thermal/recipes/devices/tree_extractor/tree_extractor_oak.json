@@ -1,9 +1,21 @@
 {
   "type": "thermal:tree_extractor",
-  "trunk": "minecraft:oak_log",
-  "leaves": "minecraft:oak_leaves",
+  "trunk": {
+    "Name": "minecraft:oak_log"
+  },
+  "leaves": {
+    "Name": "minecraft:oak_leaves",
+    "Properties": {
+      "persistent": "false"
+    }
+  },
+  "sapling": "minecraft:oak_sapling",
+  "min_height": 4,
+  "max_height": 10,
+  "min_leaves": 16,
+  "max_leaves": 24,
   "result": {
     "fluid": "thermal:resin",
-    "amount": 25
+    "amount": 15
   }
 }

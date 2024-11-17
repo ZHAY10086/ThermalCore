@@ -13,6 +13,7 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ import java.util.function.Supplier;
 import static cofh.lib.util.helpers.StringHelper.getTextComponent;
 import static cofh.lib.util.helpers.StringHelper.localize;
 
-public abstract class ThermalRecipeCategory<T extends ThermalRecipe> implements IRecipeCategory<T> {
+public abstract class ThermalRecipeCategory<T extends RecipeHolder<? extends ThermalRecipe>> implements IRecipeCategory<T> {
 
     protected static final int ENERGY_X = 2;
     protected static final int ENERGY_Y = 2;
@@ -80,13 +81,13 @@ public abstract class ThermalRecipeCategory<T extends ThermalRecipe> implements 
     @Override
     public void draw(T recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
 
-        int energyY = recipe.getXp() > 0 ? ENERGY_Y : ENERGY_Y + 8;
+        int energyY = recipe.value().getXp() > 0 ? ENERGY_Y : ENERGY_Y + 8;
 
-        if (recipe.getEnergy() > 0) {
+        if (recipe.value().getEnergy() > 0) {
             energyBackground.draw(guiGraphics, ENERGY_X, energyY);
             energy.draw(guiGraphics, ENERGY_X, energyY);
         }
-        if (recipe.getXp() > 0) {
+        if (recipe.value().getXp() > 0) {
             xp.draw(guiGraphics, XP_X, XP_Y);
         }
     }
@@ -96,13 +97,13 @@ public abstract class ThermalRecipeCategory<T extends ThermalRecipe> implements 
 
         List<Component> tooltip = new ArrayList<>();
 
-        int energyY = recipe.getXp() > 0 ? ENERGY_Y : ENERGY_Y + 8;
+        int energyY = recipe.value().getXp() > 0 ? ENERGY_Y : ENERGY_Y + 8;
 
-        if (recipe.getEnergy() > 0 && mouseX > ENERGY_X && mouseX < ENERGY_X + energy.getWidth() - 1 && mouseY > energyY && mouseY < energyY + energy.getHeight() - 1) {
-            tooltip.add(getTextComponent("info.cofh.energy").append(": " + StringHelper.format((long) (recipe.getEnergy() * energyMod.get())) + " " + localize("info.cofh.unit_rf")));
+        if (recipe.value().getEnergy() > 0 && mouseX > ENERGY_X && mouseX < ENERGY_X + energy.getWidth() - 1 && mouseY > energyY && mouseY < energyY + energy.getHeight() - 1) {
+            tooltip.add(getTextComponent("info.cofh.energy").append(": " + StringHelper.format((long) (recipe.value().getEnergy() * energyMod.get())) + " " + localize("info.cofh.unit_rf")));
         }
-        if (recipe.getXp() > 0 && mouseX > XP_X && mouseX < XP_X + xp.getWidth() - 1 && mouseY > XP_Y && mouseY < XP_Y + xp.getHeight() - 1) {
-            tooltip.add(Component.literal("" + recipe.getXp()).append(" " + localize("info.cofh.unit_xp")));
+        if (recipe.value().getXp() > 0 && mouseX > XP_X && mouseX < XP_X + xp.getWidth() - 1 && mouseY > XP_Y && mouseY < XP_Y + xp.getHeight() - 1) {
+            tooltip.add(Component.literal("" + recipe.value().getXp()).append(" " + localize("info.cofh.unit_xp")));
         }
         return tooltip;
     }

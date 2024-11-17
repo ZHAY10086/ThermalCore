@@ -13,7 +13,7 @@ import cofh.thermal.lib.util.recipes.internal.SimpleMachineRecipe;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -125,7 +125,7 @@ public class RefineryRecipeManager extends AbstractManager implements IRecipeMan
         clear();
         var recipes = recipeManager.byType(REFINERY_RECIPE.get());
         for (var entry : recipes.entrySet()) {
-            addRecipe(entry.getValue());
+            addRecipe(entry.getValue().value());
         }
     }
     // endregion

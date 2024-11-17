@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "#": {
-      "tag": "forge:gems/emerald"
+      "tag": "c:gems/emerald"
     },
     "i": {
       "tag": "forge:nuggets/iron"
@@ -16,6 +16,5 @@
   ],
   "result": {
     "item": "thermal:emerald_gear"
-  },
-  "show_notification": true
+  }
 }

@@ -1,20 +1,19 @@
 package cofh.thermal.core.common.block.entity;
 
 import cofh.core.util.helpers.AugmentDataHelper;
+import cofh.core.util.helpers.EnergyHelper;
 import cofh.lib.api.block.entity.ITickableTile;
 import cofh.lib.common.energy.EnergyStorageCoFH;
 import cofh.lib.common.inventory.ItemStorageCoFH;
 import cofh.thermal.core.common.inventory.ChargeBenchMenu;
 import cofh.thermal.lib.common.block.entity.AugmentableBlockEntity;
-import cofh.thermal.lib.util.ThermalEnergyHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.capabilities.Capabilities;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -36,7 +35,7 @@ public class ChargeBenchBlockEntity extends AugmentableBlockEntity implements IT
     public static final int BASE_XFER = 4000;
 
     protected ItemStorageCoFH[] benchSlots = new ItemStorageCoFH[9];
-    protected ItemStorageCoFH chargeSlot = new ItemStorageCoFH(1, ThermalEnergyHelper::hasEnergyHandlerCap);
+    protected ItemStorageCoFH chargeSlot = new ItemStorageCoFH(1, EnergyHelper::hasEnergyHandlerCap);
 
     public ChargeBenchBlockEntity(BlockPos pos, BlockState state) {
 
@@ -45,7 +44,7 @@ public class ChargeBenchBlockEntity extends AugmentableBlockEntity implements IT
         energyStorage = new EnergyStorageCoFH(BASE_CAPACITY, BASE_XFER);
 
         for (int i = 0; i < benchSlots.length; ++i) {
-            benchSlots[i] = new ItemStorageCoFH(1, (item -> filter.valid(item) && ThermalEnergyHelper.hasEnergyHandlerCap(item)));
+            benchSlots[i] = new ItemStorageCoFH(1, (item -> filter.valid(item) && item.getCapability(Capabilities.EnergyStorage.ITEM) != null));
             inventory.addSlot(benchSlots[i], ACCESSIBLE);
         }
         inventory.addSlot(chargeSlot, INTERNAL);
@@ -69,24 +68,24 @@ public class ChargeBenchBlockEntity extends AugmentableBlockEntity implements IT
     protected void chargeEnergy() {
 
         if (!chargeSlot.isEmpty()) {
-            int maxTransfer = Math.min(energyStorage.getMaxReceive(), energyStorage.getSpace());
-            chargeSlot.getItemStack().getCapability(ThermalEnergyHelper.getBaseEnergySystem(), null).ifPresent(c -> energyStorage.receiveEnergy(c.extractEnergy(maxTransfer, false), false));
+            var handler = chargeSlot.getItemStack().getCapability(Capabilities.EnergyStorage.ITEM);
+            if (handler != null) {
+                energyStorage.receiveEnergy(handler.extractEnergy(Math.min(energyStorage.getMaxReceive(), energyStorage.getSpace()), false), false);
+            }
         }
     }
 
     protected void chargeItems() {
 
         for (ItemStorageCoFH benchSlot : benchSlots) {
-            LazyOptional<? extends IEnergyStorage> lazyOpt = benchSlot.getItemStack().getCapability(ThermalEnergyHelper.getBaseEnergySystem(), null);
-            lazyOpt.ifPresent(c -> {
-                if (c.getEnergyStored() < c.getMaxEnergyStored()) {
-                    isActive = true;
-                    if (!energyStorage.isEmpty()) {
-                        int maxTransfer = Math.min(energyStorage.getMaxExtract(), energyStorage.getEnergyStored());
-                        energyStorage.extractEnergy(c.receiveEnergy(maxTransfer, false), false);
-                    }
+            var handler = benchSlot.getItemStack().getCapability(Capabilities.EnergyStorage.ITEM);
+            if (handler != null && handler.getEnergyStored() < handler.getMaxEnergyStored()) {
+                isActive = true;
+                if (!energyStorage.isEmpty()) {
+                    int maxTransfer = Math.min(energyStorage.getMaxExtract(), energyStorage.getEnergyStored());
+                    energyStorage.extractEnergy(handler.receiveEnergy(maxTransfer, false), false);
                 }
-            });
+            }
         }
     }
 

@@ -1,12 +1,12 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
-  "conditions": [
+  "neoforge:conditions": [
     {
-      "type": "thermal:flag",
+      "type": "cofh_core:flag_set",
       "flag": "device_soil_infuser"
     }
   ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "C": {
       "item": "thermal:phytogro"
@@ -21,7 +21,7 @@
       "item": "thermal:rf_coil"
     },
     "X": {
-      "tag": "forge:gears/lumium"
+      "tag": "c:gears/lumium"
     }
   },
   "pattern": [
@@ -31,6 +31,5 @@
   ],
   "result": {
     "item": "thermal:device_soil_infuser"
-  },
-  "show_notification": true
+  }
 }

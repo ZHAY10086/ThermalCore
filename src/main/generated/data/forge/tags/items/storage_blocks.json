@@ -1,19 +1,22 @@
 {
   "values": [
-    "#forge:storage_blocks/enderium",
-    "#forge:storage_blocks/lumium",
-    "#forge:storage_blocks/signalum",
-    "#forge:storage_blocks/bamboo",
-    "#forge:storage_blocks/charcoal",
-    "#forge:storage_blocks/gunpowder",
-    "#forge:storage_blocks/sugar_cane",
-    "#forge:storage_blocks/apatite",
-    "#forge:storage_blocks/cinnabar",
-    "#forge:storage_blocks/niter",
-    "#forge:storage_blocks/sulfur",
-    "#forge:storage_blocks/bitumen",
-    "#forge:storage_blocks/coal_coke",
-    "#forge:storage_blocks/slag",
-    "#forge:storage_blocks/tar"
+    "#c:storage_blocks/enderium",
+    "#c:storage_blocks/lumium",
+    "#c:storage_blocks/signalum",
+    "#c:storage_blocks/charcoal",
+    "#c:storage_blocks/gunpowder",
+    "#c:storage_blocks/sugar_cane",
+    "#c:storage_blocks/apatite",
+    "#c:storage_blocks/cinnabar",
+    "#c:storage_blocks/niter",
+    "#c:storage_blocks/sulfur",
+    "#c:storage_blocks/bitumen",
+    "#c:storage_blocks/coal_coke",
+    "#c:storage_blocks/slag",
+    "#c:storage_blocks/tar",
+    "#c:storage_blocks/apple",
+    "#c:storage_blocks/carrot",
+    "#c:storage_blocks/potato",
+    "#c:storage_blocks/beetroot"
   ]
 }

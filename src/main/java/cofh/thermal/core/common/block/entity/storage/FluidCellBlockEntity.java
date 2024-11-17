@@ -19,11 +19,9 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.ModelData;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.client.model.data.ModelData;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -32,6 +30,7 @@ import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
 import static cofh.core.client.renderer.model.ModelUtils.*;
+import static cofh.core.util.helpers.FluidHelper.getFluidHandlerCap;
 import static cofh.lib.api.StorageGroup.ACCESSIBLE;
 import static cofh.lib.util.Constants.BUCKET_VOLUME;
 import static cofh.lib.util.Constants.TANK_MEDIUM;
@@ -39,7 +38,7 @@ import static cofh.lib.util.constants.NBTTags.*;
 import static cofh.thermal.core.common.config.ThermalCoreConfig.storageAugments;
 import static cofh.thermal.core.init.registries.TCoreBlockEntities.FLUID_CELL_TILE;
 import static cofh.thermal.lib.util.ThermalAugmentRules.createAllowValidator;
-import static net.minecraftforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE;
+import static net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE;
 
 public class FluidCellBlockEntity extends StorageCellBlockEntity implements ITickableTile.IServerTickable {
 
@@ -145,10 +144,10 @@ public class FluidCellBlockEntity extends StorageCellBlockEntity implements ITic
 
         BlockEntity adjTile = BlockHelper.getAdjacentTileEntity(this, side);
         if (adjTile != null) {
-            Direction opposite = side.getOpposite();
-            int maxTransfer = Math.min(amountOutput, fluidStorage.getAmount());
-            adjTile.getCapability(ForgeCapabilities.FLUID_HANDLER, opposite)
-                    .ifPresent(e -> fluidStorage.modify(-e.fill(new FluidStack(fluidStorage.getFluidStack(), maxTransfer), EXECUTE)));
+            var handler = getFluidHandlerCap(adjTile, side.getOpposite());
+            if (handler != null) {
+                fluidStorage.modify(-handler.fill(new FluidStack(fluidStorage.getFluidStack(), Math.min(amountOutput, fluidStorage.getAmount())), EXECUTE));
+            }
         }
     }
 
@@ -175,16 +174,6 @@ public class FluidCellBlockEntity extends StorageCellBlockEntity implements ITic
     public AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
 
         return new FluidCellMenu(i, level, worldPosition, inventory, player);
-    }
-
-    // TODO: Does this need to exist?
-    @Override
-    public void setRemoved() {
-
-        super.setRemoved();
-
-        inputFluidCap.invalidate();
-        outputFluidCap.invalidate();
     }
 
     @Nonnull
@@ -233,39 +222,27 @@ public class FluidCellBlockEntity extends StorageCellBlockEntity implements ITic
     // endregion
 
     // region CAPABILITIES
-    protected LazyOptional<?> inputFluidCap = LazyOptional.empty();
-    protected LazyOptional<?> outputFluidCap = LazyOptional.empty();
+    protected IFluidHandler inputFluidCap = null;
+    protected IFluidHandler outputFluidCap = null;
 
     @Override
     protected void updateHandlers() {
 
-        // Optimization to prevent callback logic as contents may change rapidly.
-        LazyOptional<?> prevFluidCap = fluidCap;
-        LazyOptional<?> prevFluidInputCap = inputFluidCap;
-        LazyOptional<?> prevFluidOutputCap = outputFluidCap;
-
-        IFluidHandler inputHandler = new FluidHandlerRestrictionWrapper(fluidStorage, true, false);
-        IFluidHandler outputHandler = new FluidHandlerRestrictionWrapper(fluidStorage, false, true);
-
-        fluidCap = LazyOptional.of(() -> fluidStorage);
-        inputFluidCap = LazyOptional.of(() -> inputHandler);
-        outputFluidCap = LazyOptional.of(() -> outputHandler);
-
-        prevFluidCap.invalidate();
-        prevFluidInputCap.invalidate();
-        prevFluidOutputCap.invalidate();
+        fluidCap = fluidStorage;
+        inputFluidCap = new FluidHandlerRestrictionWrapper(fluidStorage, true, false);
+        outputFluidCap = new FluidHandlerRestrictionWrapper(fluidStorage, false, true);
     }
 
     @Override
-    protected <T> LazyOptional<T> getFluidHandlerCapability(@Nullable Direction side) {
+    public IFluidHandler getFluidHandlerCapability(@Nullable Direction side) {
 
         if (side == null) {
-            return super.getFluidHandlerCapability(side);
+            return fluidCap;
         }
         return switch (reconfigControl.getSideConfig(side)) {
-            case SIDE_NONE -> LazyOptional.empty();
-            case SIDE_INPUT -> inputFluidCap.cast();
-            case SIDE_OUTPUT -> outputFluidCap.cast();
+            case SIDE_NONE -> null;
+            case SIDE_INPUT -> inputFluidCap;
+            case SIDE_OUTPUT -> outputFluidCap;
             default -> super.getFluidHandlerCapability(side);
         };
     }

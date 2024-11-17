@@ -1,6 +1,7 @@
 package cofh.thermal.core.common.block.entity.device;
 
 import cofh.core.util.helpers.AugmentDataHelper;
+import cofh.core.util.helpers.EnergyHelper;
 import cofh.lib.api.block.entity.IAreaEffectTile;
 import cofh.lib.api.block.entity.ITickableTile;
 import cofh.lib.common.energy.EnergyStorageCoFH;
@@ -9,7 +10,6 @@ import cofh.thermal.core.common.block.ChargedSoilBlock;
 import cofh.thermal.core.common.config.ThermalCoreConfig;
 import cofh.thermal.core.common.inventory.device.DeviceSoilInfuserMenu;
 import cofh.thermal.lib.common.block.entity.AugmentableBlockEntity;
-import cofh.thermal.lib.util.ThermalEnergyHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -20,6 +20,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.neoforged.neoforge.capabilities.Capabilities;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -40,7 +41,7 @@ public class DeviceSoilInfuserBlockEntity extends AugmentableBlockEntity impleme
 
     protected static final int BASE_PROCESS_MAX = 4000;
 
-    protected ItemStorageCoFH chargeSlot = new ItemStorageCoFH(1, ThermalEnergyHelper::hasEnergyHandlerCap);
+    protected ItemStorageCoFH chargeSlot = new ItemStorageCoFH(1, EnergyHelper::hasEnergyHandlerCap);
 
     protected static final int RADIUS = 2;
     protected int radius = RADIUS;
@@ -171,9 +172,10 @@ public class DeviceSoilInfuserBlockEntity extends AugmentableBlockEntity impleme
     protected void chargeEnergy() {
 
         if (!chargeSlot.isEmpty()) {
-            chargeSlot.getItemStack()
-                    .getCapability(ThermalEnergyHelper.getBaseEnergySystem(), null)
-                    .ifPresent(c -> energyStorage.receiveEnergy(c.extractEnergy(Math.min(energyStorage.getMaxReceive(), energyStorage.getSpace()), false), false));
+            var handler = chargeSlot.getItemStack().getCapability(Capabilities.EnergyStorage.ITEM);
+            if (handler != null) {
+                energyStorage.receiveEnergy(handler.extractEnergy(Math.min(energyStorage.getMaxReceive(), energyStorage.getSpace()), false), false);
+            }
         }
     }
     // endregion
@@ -218,7 +220,7 @@ public class DeviceSoilInfuserBlockEntity extends AugmentableBlockEntity impleme
     public AABB getArea() {
 
         if (area == null) {
-            area = new AABB(worldPosition.offset(-radius, -1, -radius), worldPosition.offset(1 + radius, 1, 1 + radius));
+            area = AABB.encapsulatingFullBlocks(worldPosition.offset(-radius, -1, -radius), worldPosition.offset(1 + radius, 1, 1 + radius));
         }
         return area;
     }

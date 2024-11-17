@@ -7,26 +7,26 @@
     },
     [
       {
-        "tag": "forge:gems/apatite"
+        "tag": "c:gems/apatite"
       },
       {
-        "tag": "forge:dusts/apatite"
+        "tag": "c:dusts/apatite"
       }
     ],
     [
       {
-        "tag": "forge:gems/apatite"
+        "tag": "c:gems/apatite"
       },
       {
-        "tag": "forge:dusts/apatite"
+        "tag": "c:dusts/apatite"
       }
     ],
     [
       {
-        "tag": "forge:gems/niter"
+        "tag": "c:gems/niter"
       },
       {
-        "tag": "forge:dusts/niter"
+        "tag": "c:dusts/niter"
       }
     ]
   ],

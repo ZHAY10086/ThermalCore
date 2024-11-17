@@ -2,7 +2,7 @@ package cofh.thermal.core.compat.patchouli;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.CraftingRecipe;
-import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.level.Level;
 import org.apache.logging.log4j.LogManager;
@@ -24,9 +24,9 @@ public class CraftingProcessor implements IComponentProcessor {
         if (!variables.has("recipe"))
             return;
         ResourceLocation recipeId = new ResourceLocation(variables.get("recipe").asString());
-        Optional<? extends Recipe<?>> recipe = level.getRecipeManager().byKey(recipeId);
-        if (recipe.isPresent() && recipe.get() instanceof CraftingRecipe) {
-            this.recipe = (CraftingRecipe) recipe.get();
+        Optional<? extends RecipeHolder<?>> recipe = level.getRecipeManager().byKey(recipeId);
+        if (recipe.isPresent() && recipe.get().value() instanceof CraftingRecipe) {
+            this.recipe = (CraftingRecipe) recipe.get().value();
         } else {
             LogManager.getLogger().warn("Thermalpedia missing the crafting recipe: " + recipeId);
         }

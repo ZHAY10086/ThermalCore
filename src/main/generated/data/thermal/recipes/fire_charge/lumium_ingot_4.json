@@ -4,34 +4,34 @@
   "ingredients": [
     [
       {
-        "tag": "forge:dusts/tin"
+        "tag": "c:dusts/tin"
       },
       {
-        "tag": "forge:ingots/tin"
+        "tag": "c:ingots/tin"
       }
     ],
     [
       {
-        "tag": "forge:dusts/tin"
+        "tag": "c:dusts/tin"
       },
       {
-        "tag": "forge:ingots/tin"
+        "tag": "c:ingots/tin"
       }
     ],
     [
       {
-        "tag": "forge:dusts/tin"
+        "tag": "c:dusts/tin"
       },
       {
-        "tag": "forge:ingots/tin"
+        "tag": "c:ingots/tin"
       }
     ],
     [
       {
-        "tag": "forge:dusts/silver"
+        "tag": "c:dusts/silver"
       },
       {
-        "tag": "forge:ingots/silver"
+        "tag": "c:ingots/silver"
       }
     ],
     {

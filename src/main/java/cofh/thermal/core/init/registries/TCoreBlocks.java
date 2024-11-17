@@ -19,9 +19,9 @@ import cofh.thermal.core.common.item.FluidCellBlockItem;
 import cofh.thermal.lib.common.block.StorageCellBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.ColorRGBA;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.*;
@@ -29,6 +29,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.function.IntSupplier;
 
+import static cofh.lib.util.FlagManager.getFlag;
 import static cofh.lib.util.Utils.itemProperties;
 import static cofh.lib.util.constants.BlockStatePropertiesCoFH.ACTIVE;
 import static cofh.lib.util.helpers.BlockHelper.lightValue;
@@ -76,14 +77,14 @@ public class TCoreBlocks {
                 entityIn.causeFallDamage(fallDistance, 0.6F, entityIn.damageSources().fall());
             }
         }));
-        foodsTab(1000, registerBlock(ID_BAMBOO_BLOCK, () -> new RotatedPillarBlock(of().mapColor(PLANT).strength(1.0F).sound(SoundType.BAMBOO)) {
-
-            @Override
-            public void fallOn(Level worldIn, BlockState state, BlockPos pos, Entity entityIn, float fallDistance) {
-
-                entityIn.causeFallDamage(fallDistance, 0.8F, entityIn.damageSources().fall());
-            }
-        }));
+        //        foodsTab(1000, registerBlock(ID_BAMBOO_BLOCK, () -> new RotatedPillarBlock(of().mapColor(PLANT).strength(1.0F).sound(SoundType.BAMBOO)) {
+        //
+        //            @Override
+        //            public void fallOn(Level worldIn, BlockState state, BlockPos pos, Entity entityIn, float fallDistance) {
+        //
+        //                entityIn.causeFallDamage(fallDistance, 0.8F, entityIn.damageSources().fall());
+        //            }
+        //        }));
 
         foodsTab(1000, registerBlock(ID_APPLE_BLOCK, () -> new Block(of().mapColor(COLOR_RED).strength(1.5F).sound(SoundType.SCAFFOLDING))));
         foodsTab(1000, registerBlock(ID_CARROT_BLOCK, () -> new Block(of().mapColor(TERRACOTTA_ORANGE).strength(1.5F).sound(SoundType.SCAFFOLDING))));
@@ -108,14 +109,8 @@ public class TCoreBlocks {
             }
         }, () -> new BlockItemCoFH(BLOCKS.get(ID_SULFUR_BLOCK), itemProperties()).setBurnTime(12000)));
 
-        blocksTab(registerBlock(ID_SAWDUST_BLOCK, () -> new FallingBlock(of().strength(1.0F, 1.0F).sound(SoundType.SAND)) {
-
-            @Override
-            public int getDustColor(BlockState state, BlockGetter reader, BlockPos pos) {
-
-                return 11507581;
-            }
-        }, () -> new BlockItemCoFH(BLOCKS.get(ID_SAWDUST_BLOCK), itemProperties()).setBurnTime(2400)));
+        blocksTab(registerBlock(ID_SAWDUST_BLOCK, () -> new ColoredFallingBlock(new ColorRGBA(11507581), of().strength(1.0F, 1.0F).sound(SoundType.SAND)),
+                () -> new BlockItemCoFH(BLOCKS.get(ID_SAWDUST_BLOCK), itemProperties()).setBurnTime(2400)));
 
         blocksTab(registerBlock(ID_COAL_COKE_BLOCK, () -> new Block(of().mapColor(COLOR_BLACK).strength(5.0F, 6.0F).requiresCorrectToolForDrops()),
                 () -> new BlockItemCoFH(BLOCKS.get(ID_COAL_COKE_BLOCK), itemProperties()).setBurnTime(32000)));
@@ -194,17 +189,17 @@ public class TCoreBlocks {
 
         IntSupplier deviceAugs = () -> ThermalCoreConfig.deviceAugments;
 
-        devicesTab(100, registerAugmentableBlock(ID_DEVICE_HIVE_EXTRACTOR, () -> new EntityBlockActive4Way(of().sound(SoundType.SCAFFOLDING).strength(2.5F), DeviceHiveExtractorBlockEntity.class, DEVICE_HIVE_EXTRACTOR_TILE), deviceAugs, DeviceHiveExtractorBlockEntity.AUG_VALIDATOR));
-        devicesTab(100, registerAugmentableBlock(ID_DEVICE_TREE_EXTRACTOR, () -> new EntityBlockActive4Way(of().sound(SoundType.SCAFFOLDING).strength(2.5F), DeviceTreeExtractorBlockEntity.class, DEVICE_TREE_EXTRACTOR_TILE), deviceAugs, DeviceTreeExtractorBlockEntity.AUG_VALIDATOR));
-        devicesTab(100, registerAugmentableBlock(ID_DEVICE_FISHER, () -> new EntityBlockActive4Way(of().sound(SoundType.SCAFFOLDING).strength(2.5F), DeviceFisherBlockEntity.class, DEVICE_FISHER_TILE), deviceAugs, DeviceFisherBlockEntity.AUG_VALIDATOR));
-        devicesTab(100, registerAugmentableBlock(ID_DEVICE_COMPOSTER, () -> new EntityBlockComposter(of().sound(SoundType.SCAFFOLDING).strength(2.5F), DeviceComposterBlockEntity.class, DEVICE_COMPOSTER_TILE), deviceAugs, DeviceComposterBlockEntity.AUG_VALIDATOR));
-        devicesTab(100, registerAugmentableBlock(ID_DEVICE_SOIL_INFUSER, () -> new EntityBlockActive4Way(of().sound(SoundType.SCAFFOLDING).strength(2.5F).lightLevel(lightValue(ACTIVE, 10)), DeviceSoilInfuserBlockEntity.class, DEVICE_SOIL_INFUSER_TILE), deviceAugs, DeviceSoilInfuserBlockEntity.AUG_VALIDATOR));
-        devicesTab(100, registerAugmentableBlock(ID_DEVICE_WATER_GEN, () -> new EntityBlockActive4Way(of().sound(SoundType.LANTERN).strength(2.0F), DeviceWaterGenBlockEntity.class, DEVICE_WATER_GEN_TILE), deviceAugs, DeviceWaterGenBlockEntity.AUG_VALIDATOR));
-        devicesTab(100, registerAugmentableBlock(ID_DEVICE_ROCK_GEN, () -> new EntityBlockActive4Way(of().sound(SoundType.LANTERN).strength(2.0F).lightLevel(lightValue(ACTIVE, 14)), DeviceRockGenBlockEntity.class, DEVICE_ROCK_GEN_TILE), deviceAugs, DeviceRockGenBlockEntity.AUG_VALIDATOR));
-        devicesTab(100, registerAugmentableBlock(ID_DEVICE_COLLECTOR, () -> new EntityBlockActive4Way(of().sound(SoundType.LANTERN).strength(2.0F), DeviceCollectorBlockEntity.class, DEVICE_COLLECTOR_TILE), deviceAugs, DeviceCollectorBlockEntity.AUG_VALIDATOR));
-        devicesTab(100, registerAugmentableBlock(ID_DEVICE_XP_CONDENSER, () -> new EntityBlockActive4Way(of().sound(SoundType.LANTERN).strength(2.0F).lightLevel(lightValue(ACTIVE, 12)), DeviceXpCondenserBlockEntity.class, DEVICE_XP_CONDENSER_TILE), deviceAugs, DeviceXpCondenserBlockEntity.AUG_VALIDATOR));
-        devicesTab(100, registerAugmentableBlock(ID_DEVICE_NULLIFIER, () -> new EntityBlockActive4Way(of().sound(SoundType.LANTERN).strength(2.0F).lightLevel(lightValue(ACTIVE, 7)), DeviceNullifierBlockEntity.class, DEVICE_NULLIFIER_TILE), deviceAugs, DeviceNullifierBlockEntity.AUG_VALIDATOR));
-        devicesTab(100, registerAugmentableBlock(ID_DEVICE_POTION_DIFFUSER, () -> new EntityBlockActive4Way(of().sound(SoundType.LANTERN).strength(2.0F), DevicePotionDiffuserBlockEntity.class, DEVICE_POTION_DIFFUSER_TILE), deviceAugs, DevicePotionDiffuserBlockEntity.AUG_VALIDATOR));
+        devicesTab(100, registerAugmentableBlock(ID_DEVICE_HIVE_EXTRACTOR, () -> new EntityBlockActive4Way(of().sound(SoundType.SCAFFOLDING).strength(2.5F), DeviceHiveExtractorBlockEntity.class, DEVICE_HIVE_EXTRACTOR_TILE), deviceAugs, DeviceHiveExtractorBlockEntity.AUG_VALIDATOR), getFlag(ID_DEVICE_HIVE_EXTRACTOR));
+        devicesTab(100, registerAugmentableBlock(ID_DEVICE_TREE_EXTRACTOR, () -> new EntityBlockActive4Way(of().sound(SoundType.SCAFFOLDING).strength(2.5F), DeviceTreeExtractorBlockEntity.class, DEVICE_TREE_EXTRACTOR_TILE), deviceAugs, DeviceTreeExtractorBlockEntity.AUG_VALIDATOR), getFlag(ID_DEVICE_TREE_EXTRACTOR));
+        devicesTab(100, registerAugmentableBlock(ID_DEVICE_FISHER, () -> new EntityBlockActive4Way(of().sound(SoundType.SCAFFOLDING).strength(2.5F), DeviceFisherBlockEntity.class, DEVICE_FISHER_TILE), deviceAugs, DeviceFisherBlockEntity.AUG_VALIDATOR), getFlag(ID_DEVICE_FISHER));
+        devicesTab(100, registerAugmentableBlock(ID_DEVICE_COMPOSTER, () -> new EntityBlockComposter(of().sound(SoundType.SCAFFOLDING).strength(2.5F), DeviceComposterBlockEntity.class, DEVICE_COMPOSTER_TILE), deviceAugs, DeviceComposterBlockEntity.AUG_VALIDATOR), getFlag(ID_DEVICE_COMPOSTER));
+        devicesTab(100, registerAugmentableBlock(ID_DEVICE_SOIL_INFUSER, () -> new EntityBlockActive4Way(of().sound(SoundType.SCAFFOLDING).strength(2.5F).lightLevel(lightValue(ACTIVE, 10)), DeviceSoilInfuserBlockEntity.class, DEVICE_SOIL_INFUSER_TILE), deviceAugs, DeviceSoilInfuserBlockEntity.AUG_VALIDATOR), getFlag(ID_DEVICE_SOIL_INFUSER));
+        devicesTab(100, registerAugmentableBlock(ID_DEVICE_WATER_GEN, () -> new EntityBlockActive4Way(of().sound(SoundType.LANTERN).strength(2.0F), DeviceWaterGenBlockEntity.class, DEVICE_WATER_GEN_TILE), deviceAugs, DeviceWaterGenBlockEntity.AUG_VALIDATOR), getFlag(ID_DEVICE_WATER_GEN));
+        devicesTab(100, registerAugmentableBlock(ID_DEVICE_ROCK_GEN, () -> new EntityBlockActive4Way(of().sound(SoundType.LANTERN).strength(2.0F).lightLevel(lightValue(ACTIVE, 14)), DeviceRockGenBlockEntity.class, DEVICE_ROCK_GEN_TILE), deviceAugs, DeviceRockGenBlockEntity.AUG_VALIDATOR), getFlag(ID_DEVICE_ROCK_GEN));
+        devicesTab(100, registerAugmentableBlock(ID_DEVICE_COLLECTOR, () -> new EntityBlockActive4Way(of().sound(SoundType.LANTERN).strength(2.0F), DeviceCollectorBlockEntity.class, DEVICE_COLLECTOR_TILE), deviceAugs, DeviceCollectorBlockEntity.AUG_VALIDATOR), getFlag(ID_DEVICE_COLLECTOR));
+        devicesTab(100, registerAugmentableBlock(ID_DEVICE_XP_CONDENSER, () -> new EntityBlockActive4Way(of().sound(SoundType.LANTERN).strength(2.0F).lightLevel(lightValue(ACTIVE, 12)), DeviceXpCondenserBlockEntity.class, DEVICE_XP_CONDENSER_TILE), deviceAugs, DeviceXpCondenserBlockEntity.AUG_VALIDATOR), getFlag(ID_DEVICE_XP_CONDENSER));
+        devicesTab(100, registerAugmentableBlock(ID_DEVICE_NULLIFIER, () -> new EntityBlockActive4Way(of().sound(SoundType.LANTERN).strength(2.0F).lightLevel(lightValue(ACTIVE, 7)), DeviceNullifierBlockEntity.class, DEVICE_NULLIFIER_TILE), deviceAugs, DeviceNullifierBlockEntity.AUG_VALIDATOR), getFlag(ID_DEVICE_NULLIFIER));
+        devicesTab(100, registerAugmentableBlock(ID_DEVICE_POTION_DIFFUSER, () -> new EntityBlockActive4Way(of().sound(SoundType.LANTERN).strength(2.0F), DevicePotionDiffuserBlockEntity.class, DEVICE_POTION_DIFFUSER_TILE), deviceAugs, DevicePotionDiffuserBlockEntity.AUG_VALIDATOR), getFlag(ID_DEVICE_POTION_DIFFUSER));
 
         // registerBlock(ID_CHUNK_LOADER, () -> new TileBlockActive(of().sound(SoundType.NETHERITE_BLOCK).strength(10.0F).harvestTool(ToolType.PICKAXE), DeviceChunkLoaderTile::new), getFlag(ID_CHUNK_LOADER));
 
@@ -224,7 +219,7 @@ public class TCoreBlocks {
         fire.setFlammable(BLOCKS.get(ID_CHARCOAL_BLOCK), 5, 5);
         fire.setFlammable(BLOCKS.get(ID_GUNPOWDER_BLOCK), 15, 100);
         fire.setFlammable(BLOCKS.get(ID_SUGAR_CANE_BLOCK), 60, 20);
-        fire.setFlammable(BLOCKS.get(ID_BAMBOO_BLOCK), 60, 20);
+        // fire.setFlammable(BLOCKS.get(ID_BAMBOO_BLOCK), 60, 20);
     }
 
     private static void setupResources() {

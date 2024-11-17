@@ -21,9 +21,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionBrewing;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.*;
 
@@ -150,25 +151,26 @@ public class BrewerRecipeManager extends AbstractManager implements IRecipeManag
     public void refresh(RecipeManager recipeManager) {
 
         clear();
-        if (defaultPotionRecipes) {
-            // TODO: Solve this nonsense with Forge.
-            ThermalCore.LOG.debug("Adding default Brewing Stand recipes to the Alchemical Imbuer...");
-            createConvertedRecipes();
-            for (ThermalRecipe recipe : getConvertedRecipes()) {
-                addRecipe(recipe);
-            }
-        }
         var recipes = recipeManager.byType(BREWER_RECIPE.get());
         for (var entry : recipes.entrySet()) {
-            addRecipe(entry.getValue());
+            addRecipe(entry.getValue().value());
+        }
+
+        if (defaultPotionRecipes) {
+            // TODO: Solve this nonsense with NeoForge.
+            ThermalCore.LOG.debug("Adding default Brewing Stand recipes to the Alchemical Imbuer...");
+            createConvertedRecipes();
+            for (var recipe : getConvertedRecipes()) {
+                addRecipe(recipe.value());
+            }
         }
     }
     // endregion
 
     // region CONVERSION
-    protected List<BrewerRecipe> convertedRecipes = new ArrayList<>();
+    protected List<RecipeHolder<BrewerRecipe>> convertedRecipes = new ArrayList<>();
 
-    public List<BrewerRecipe> getConvertedRecipes() {
+    public List<RecipeHolder<BrewerRecipe>> getConvertedRecipes() {
 
         return convertedRecipes;
     }
@@ -176,7 +178,7 @@ public class BrewerRecipeManager extends AbstractManager implements IRecipeManag
     protected void createConvertedRecipes() {
 
         for (PotionBrewing.Mix<Potion> mix : PotionBrewing.POTION_MIXES) {
-            createConvertedRecipe(mix.from.get(), mix.ingredient, mix.to.get());
+            createConvertedRecipe(mix.from, mix.ingredient, mix.to);
         }
     }
 
@@ -189,13 +191,14 @@ public class BrewerRecipeManager extends AbstractManager implements IRecipeManag
         return true;
     }
 
-    protected BrewerRecipe convert(Potion inputPotion, Ingredient reagent, Potion outputPotion) {
+    protected RecipeHolder<BrewerRecipe> convert(Potion inputPotion, Ingredient reagent, Potion outputPotion) {
 
-        return new BrewerRecipe(new ResourceLocation(ID_THERMAL, "brewer_" + inputPotion.hashCode()), defaultEnergy, 0.0F,
-                Collections.singletonList(reagent),
-                Collections.singletonList(FluidIngredient.of(PotionFluid.getPotionAsFluid(defaultPotion, inputPotion))),
-                Collections.emptyList(), Collections.emptyList(),
-                Collections.singletonList(PotionFluid.getPotionAsFluid(defaultPotion, outputPotion)));
+        return new RecipeHolder<>(new ResourceLocation(ID_THERMAL, "brewer_" + inputPotion.hashCode()),
+                new BrewerRecipe(defaultEnergy, 0.0F,
+                        Collections.singletonList(reagent),
+                        Collections.singletonList(FluidIngredient.of(PotionFluid.getPotionAsFluid(defaultPotion, inputPotion))),
+                        Collections.emptyList(), Collections.emptyList(),
+                        Collections.singletonList(PotionFluid.getPotionAsFluid(defaultPotion, outputPotion))));
     }
     // endregion
 }

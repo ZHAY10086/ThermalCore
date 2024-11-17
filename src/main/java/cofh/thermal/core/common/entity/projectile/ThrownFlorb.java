@@ -5,8 +5,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntityType;
@@ -19,10 +17,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.fluids.FluidActionResult;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.network.NetworkHooks;
+import net.neoforged.neoforge.fluids.FluidActionResult;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidUtil;
 
 import static cofh.lib.util.Constants.BUCKET_VOLUME;
 import static cofh.lib.util.constants.NBTTags.TAG_FLUID;
@@ -113,12 +110,6 @@ public class ThrownFlorb extends ThrowableItemProjectile {
     protected float getGravity() {
 
         return gravity;
-    }
-
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-
-        return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     // region HELPERS

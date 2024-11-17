@@ -18,9 +18,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.client.model.data.ModelData;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.client.model.data.ModelData;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -38,7 +38,7 @@ import static cofh.lib.util.constants.NBTTags.*;
 import static cofh.thermal.core.init.registries.TCoreBlockEntities.DEVICE_WATER_GEN_TILE;
 import static cofh.thermal.core.init.registries.TCoreSounds.SOUND_DEVICE_WATER_GEN;
 import static cofh.thermal.lib.util.ThermalAugmentRules.createAllowValidator;
-import static net.minecraftforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE;
+import static net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE;
 
 public class DeviceWaterGenBlockEntity extends DeviceBlockEntity implements ITickableTile.IServerTickable {
 
@@ -114,12 +114,11 @@ public class DeviceWaterGenBlockEntity extends DeviceBlockEntity implements ITic
     protected void fillFluid() {
 
         if (!fillSlot.isEmpty()) {
-            fillSlot.getItemStack()
-                    .getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM, null)
-                    .ifPresent(c -> {
-                        tank.drain(c.fill(new FluidStack(tank.getFluidStack(), (int) (BUCKET_VOLUME * baseMod)), EXECUTE), EXECUTE);
-                        fillSlot.setItemStack(c.getContainer());
-                    });
+            var handler = fillSlot.getItemStack().getCapability(Capabilities.FluidHandler.ITEM);
+            if (handler != null) {
+                tank.drain(handler.fill(new FluidStack(tank.getFluidStack(), (int) (BUCKET_VOLUME * baseMod)), EXECUTE), EXECUTE);
+                fillSlot.setItemStack(handler.getContainer());
+            }
         }
     }
 

@@ -4,7 +4,7 @@ import cofh.lib.init.data.BlockStateProviderCoFH;
 import cofh.lib.util.DeferredRegisterCoFH;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import static cofh.lib.util.constants.ModIds.ID_THERMAL;
 import static cofh.thermal.core.ThermalCore.BLOCKS;
@@ -32,7 +32,7 @@ public class TCoreBlockStateProvider extends BlockStateProviderCoFH {
 
         simpleBlock(reg.getSup(ID_CHARCOAL_BLOCK));
         simpleBlock(reg.getSup(ID_GUNPOWDER_BLOCK));
-        axisBlock(reg.getSup(ID_BAMBOO_BLOCK), "bamboo_block");
+        // axisBlock(reg.getSup(ID_BAMBOO_BLOCK), "bamboo_block");
         axisBlock(reg.getSup(ID_SUGAR_CANE_BLOCK), "sugar_cane_block");
 
         // TODO: Missing - Food Crates

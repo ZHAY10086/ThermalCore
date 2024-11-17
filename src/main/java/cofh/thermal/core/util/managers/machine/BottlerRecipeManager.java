@@ -17,15 +17,16 @@ import cofh.thermal.lib.util.recipes.internal.IMachineRecipe;
 import cofh.thermal.lib.util.recipes.internal.SimpleMachineRecipe;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import javax.annotation.Nonnull;
 import java.util.*;
@@ -42,7 +43,7 @@ import static cofh.thermal.lib.util.ThermalIDs.ID_FLORB;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
-import static net.minecraftforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE;
+import static net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE;
 
 public class BottlerRecipeManager extends AbstractManager implements IRecipeManager {
 
@@ -202,11 +203,16 @@ public class BottlerRecipeManager extends AbstractManager implements IRecipeMana
     public void refresh(RecipeManager recipeManager) {
 
         clear();
+        var recipes = recipeManager.byType(BOTTLER_RECIPE.get());
+        for (var entry : recipes.entrySet()) {
+            addRecipe(entry.getValue().value());
+        }
+
         int energy = (int) (getDefaultEnergy() * getDefaultScale());
         if (defaultBucketRecipes) {
             ThermalCore.LOG.debug("Adding default Bucket recipes to the Fluid Encapsulator...");
             Set<Fluid> bucketFluids = new ObjectOpenHashSet<>(32);
-            for (Fluid fluid : ForgeRegistries.FLUIDS) {
+            for (Fluid fluid : BuiltInRegistries.FLUID) {
                 if (fluid instanceof FlowingFluid flowing) {
                     Fluid still = null;
                     try {
@@ -226,10 +232,11 @@ public class BottlerRecipeManager extends AbstractManager implements IRecipeMana
                 }
             }
         }
+
         if (defaultFlorbRecipes) {
             ThermalCore.LOG.debug("Adding default Florb recipes to the Fluid Encapsulator...");
             Set<Fluid> florbFluids = new ObjectOpenHashSet<>(32);
-            for (Fluid fluid : ForgeRegistries.FLUIDS) {
+            for (Fluid fluid : BuiltInRegistries.FLUID) {
                 if (fluid instanceof FlowingFluid flowing) {
                     Fluid still = null;
                     try {
@@ -253,28 +260,31 @@ public class BottlerRecipeManager extends AbstractManager implements IRecipeMana
                 }
             }
         }
+
         if (defaultPotionRecipes) {
             ThermalCore.LOG.debug("Adding default Potion recipes to the Fluid Encapsulator...");
             addRecipe(convert(energy, 0.0F, new ItemStack(Items.GLASS_BOTTLE), new FluidStack(POTION_FLUID.get(), BOTTLE_VOLUME), new ItemStack(Items.POTION)));
-        }
-        var recipes = recipeManager.byType(BOTTLER_RECIPE.get());
-        for (var entry : recipes.entrySet()) {
-            addRecipe(entry.getValue());
         }
     }
     // endregion
 
     // region CONVERSION
-    protected List<BottlerRecipe> convertedRecipes = new ArrayList<>();
+    protected List<RecipeHolder<BottlerRecipe>> convertedRecipes = new ArrayList<>();
 
-    public List<BottlerRecipe> getConvertedRecipes() {
+    public List<RecipeHolder<BottlerRecipe>> getConvertedRecipes() {
 
         return convertedRecipes;
     }
 
     protected BottlerRecipeNBT convert(int energy, float experience, @Nonnull ItemStack inputItem, @Nonnull FluidStack inputFluid, @Nonnull ItemStack outputItem) {
 
-        convertedRecipes.add(new BottlerRecipe(new ResourceLocation(ID_THERMAL, "bottler_" + getName(outputItem)), energy, experience, singletonList(Ingredient.of(inputItem)), singletonList(FluidIngredient.of(inputFluid).setAmount(inputFluid.getAmount())), singletonList(outputItem), emptyList(), emptyList()));
+        convertedRecipes.add(new RecipeHolder<>(new ResourceLocation(ID_THERMAL, "bottler_" + getName(outputItem)),
+                new BottlerRecipe(energy, experience,
+                        singletonList(Ingredient.of(inputItem)),
+                        singletonList(FluidIngredient.of(inputFluid).setAmount(inputFluid.getAmount())),
+                        singletonList(outputItem),
+                        emptyList(),
+                        emptyList())));
         return new BottlerRecipeNBT(energy, experience, inputItem, inputFluid, outputItem);
     }
     // endregion

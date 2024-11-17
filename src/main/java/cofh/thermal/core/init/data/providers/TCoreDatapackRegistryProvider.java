@@ -7,7 +7,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -16,7 +16,7 @@ import static cofh.lib.util.constants.ModIds.ID_THERMAL;
 public class TCoreDatapackRegistryProvider extends DatapackRegistryProviderCoFH {
 
     public static final RegistrySetBuilder REGISTRIES = new RegistrySetBuilder()
-            .add(ForgeRegistries.Keys.BIOME_MODIFIERS, TCoreBiomeModifiers::init)
+            .add(NeoForgeRegistries.Keys.BIOME_MODIFIERS, TCoreBiomeModifiers::init)
             .add(Registries.DAMAGE_TYPE, TCoreDamageTypes::init);
 
     public TCoreDatapackRegistryProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> provider) {

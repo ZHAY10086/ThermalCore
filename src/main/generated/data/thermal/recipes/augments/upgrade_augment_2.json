@@ -1,21 +1,21 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
-  "conditions": [
+  "neoforge:conditions": [
     {
-      "type": "thermal:flag",
-      "flag": "upgrade_augments"
+      "type": "cofh_core:flag_set",
+      "flag": "thermal:upgrade_augments"
     }
   ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "G": {
       "tag": "forge:gems/quartz"
     },
     "I": {
-      "tag": "forge:ingots/electrum"
+      "tag": "c:ingots/electrum"
     },
     "R": {
-      "tag": "forge:gears/signalum"
+      "tag": "c:gears/signalum"
     },
     "X": {
       "item": "thermal:upgrade_augment_1"
@@ -28,6 +28,5 @@
   ],
   "result": {
     "item": "thermal:upgrade_augment_2"
-  },
-  "show_notification": true
+  }
 }

@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "#": {
-      "tag": "forge:ingots/lumium"
+      "tag": "c:ingots/lumium"
     },
     "i": {
       "tag": "forge:nuggets/iron"
@@ -16,6 +16,5 @@
   ],
   "result": {
     "item": "thermal:lumium_gear"
-  },
-  "show_notification": true
+  }
 }

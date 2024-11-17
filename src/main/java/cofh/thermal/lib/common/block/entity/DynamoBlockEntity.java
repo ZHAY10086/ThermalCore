@@ -1,12 +1,12 @@
 package cofh.thermal.lib.common.block.entity;
 
 import cofh.core.util.helpers.AugmentDataHelper;
+import cofh.core.util.helpers.EnergyHelper;
 import cofh.lib.api.block.entity.ITickableTile;
 import cofh.lib.common.energy.EnergyStorageCoFH;
 import cofh.lib.util.Utils;
 import cofh.lib.util.helpers.BlockHelper;
 import cofh.lib.util.helpers.MathHelper;
-import cofh.thermal.lib.util.ThermalEnergyHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -19,7 +19,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.util.LazyOptional;
+import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.items.IItemHandler;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -147,10 +149,11 @@ public abstract class DynamoBlockEntity extends AugmentableBlockEntity implement
 
         BlockEntity adjTile = BlockHelper.getAdjacentTileEntity(this, getFacing());
         if (adjTile != null) {
-            Direction opposite = getFacing().getOpposite();
-            int maxTransfer = Math.min(energyStorage.getMaxExtract(), energyStorage.getEnergyStored());
-            adjTile.getCapability(ThermalEnergyHelper.getBaseEnergySystem(), opposite)
-                    .ifPresent(e -> energyStorage.modify(-e.receiveEnergy(maxTransfer, false)));
+            var handler = EnergyHelper.getEnergyHandlerCap(adjTile, getFacing().getOpposite());
+            if (handler != null && handler.canReceive()) {
+                int maxTransfer = Math.min(energyStorage.getMaxExtract(), energyStorage.getEnergyStored());
+                energyStorage.modify(-handler.receiveEnergy(maxTransfer, false));
+            }
         }
     }
 
@@ -346,28 +349,28 @@ public abstract class DynamoBlockEntity extends AugmentableBlockEntity implement
 
     // region CAPABILITIES
     @Override
-    protected <T> LazyOptional<T> getEnergyCapability(@Nullable Direction side) {
+    public IEnergyStorage getEnergyCapability(@Nullable Direction side) {
 
         if (side == null || side.equals(getFacing())) {
             return super.getEnergyCapability(side);
         }
-        return LazyOptional.empty();
+        return null;
     }
 
     @Override
-    protected <T> LazyOptional<T> getItemHandlerCapability(@Nullable Direction side) {
+    public IItemHandler getItemHandlerCapability(@Nullable Direction side) {
 
         if (side != null && side.equals(getFacing())) {
-            return LazyOptional.empty();
+            return null;
         }
         return super.getItemHandlerCapability(side);
     }
 
     @Override
-    protected <T> LazyOptional<T> getFluidHandlerCapability(@Nullable Direction side) {
+    public IFluidHandler getFluidHandlerCapability(@Nullable Direction side) {
 
         if (side != null && side.equals(getFacing())) {
-            return LazyOptional.empty();
+            return null;
         }
         return super.getFluidHandlerCapability(side);
     }

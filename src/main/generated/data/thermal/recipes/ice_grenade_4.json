@@ -1,12 +1,12 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "equipment",
-  "conditions": [
+  "neoforge:conditions": [
     {
-      "type": "thermal:flag",
-      "flag": "elemental_explosives"
+      "type": "cofh_core:flag_set",
+      "flag": "thermal:elemental_explosives"
     }
   ],
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
   "key": {
     "G": {
       "tag": "forge:gunpowder"
@@ -26,6 +26,5 @@
   "result": {
     "count": 4,
     "item": "thermal:ice_grenade"
-  },
-  "show_notification": true
+  }
 }

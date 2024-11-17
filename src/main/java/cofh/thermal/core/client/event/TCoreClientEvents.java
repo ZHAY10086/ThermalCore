@@ -21,11 +21,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import org.joml.Matrix4f;
 
 import java.util.HashSet;
@@ -100,7 +100,7 @@ public class TCoreClientEvents {
     @SubscribeEvent
     public static void handleRenderLevelStageEvent(RenderLevelStageEvent event) {
 
-        if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_LEVEL) {
+        if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_PARTICLES) {
             return;
         }
         LocalPlayer player = Minecraft.getInstance().player;

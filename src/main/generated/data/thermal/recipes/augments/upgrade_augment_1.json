@@ -1,24 +1,24 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
-  "conditions": [
+  "neoforge:conditions": [
     {
-      "type": "thermal:flag",
-      "flag": "upgrade_augments"
+      "type": "cofh_core:flag_set",
+      "flag": "thermal:upgrade_augments"
     }
   ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "G": {
       "tag": "forge:glass"
     },
     "I": {
-      "tag": "forge:ingots/invar"
+      "tag": "c:ingots/invar"
     },
     "R": {
       "tag": "forge:dusts/redstone"
     },
     "X": {
-      "tag": "forge:gears/gold"
+      "tag": "c:gears/gold"
     }
   },
   "pattern": [
@@ -28,6 +28,5 @@
   ],
   "result": {
     "item": "thermal:upgrade_augment_1"
-  },
-  "show_notification": true
+  }
 }

@@ -30,7 +30,7 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.client.model.data.ModelData;
+import net.neoforged.neoforge.client.model.data.ModelData;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -341,7 +341,7 @@ public class DevicePotionDiffuserBlockEntity extends DeviceBlockEntity implement
         if (renderFluid.getAmount() < FLUID_AMOUNT) {
             return;
         }
-        AABB area = new AABB(worldPosition.offset(-radius, -1, -radius), worldPosition.offset(1 + radius, 1 + radius, 1 + radius));
+        AABB area = AABB.encapsulatingFullBlocks(worldPosition.offset(-radius, -1, -radius), worldPosition.offset(1 + radius, 1 + radius, 1 + radius));
         List<LivingEntity> targets = level.getEntitiesOfClass(LivingEntity.class, area, EntitySelector.ENTITY_STILL_ALIVE);
         if (targets.isEmpty()) {
             return;
@@ -410,7 +410,7 @@ public class DevicePotionDiffuserBlockEntity extends DeviceBlockEntity implement
     public AABB getArea() {
 
         if (area == null) {
-            area = new AABB(worldPosition.offset(-radius, -1, -radius), worldPosition.offset(1 + radius, 1 + radius, 1 + radius));
+            area = AABB.encapsulatingFullBlocks(worldPosition.offset(-radius, -1, -radius), worldPosition.offset(1 + radius, 1 + radius, 1 + radius));
         }
         return area;
     }

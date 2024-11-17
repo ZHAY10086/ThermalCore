@@ -1,16 +1,15 @@
 package cofh.thermal.core.util.recipes.device;
 
 import cofh.lib.util.recipes.SerializableRecipe;
-import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import javax.annotation.Nullable;
 
@@ -25,9 +24,7 @@ public class HiveExtractorMapping extends SerializableRecipe {
     protected final ItemStack item;
     protected final FluidStack fluid;
 
-    public HiveExtractorMapping(ResourceLocation recipeId, Block hive, ItemStack item, FluidStack fluid) {
-
-        super(recipeId);
+    public HiveExtractorMapping(Block hive, ItemStack item, FluidStack fluid) {
 
         this.hive = hive;
         this.item = item;
@@ -66,34 +63,47 @@ public class HiveExtractorMapping extends SerializableRecipe {
     // region SERIALIZER
     public static class Serializer implements RecipeSerializer<HiveExtractorMapping> {
 
+        public static final Codec<HiveExtractorMapping> CODEC = RecordCodecBuilder.create(builder -> builder.group(
+                        Block.CODEC.fieldOf(HIVE).forGetter(recipe -> recipe.hive),
+                        ItemStack.ITEM_WITH_COUNT_CODEC.fieldOf(ITEM).forGetter(recipe -> recipe.item),
+                        FluidStack.CODEC.fieldOf(FLUID).forGetter(recipe -> recipe.fluid)
+                ).apply(builder, HiveExtractorMapping::new)
+        );
+
         @Override
-        public HiveExtractorMapping fromJson(ResourceLocation recipeId, JsonObject json) {
+        public Codec<HiveExtractorMapping> codec() {
 
-            Block hive = Blocks.AIR;
-            ItemStack item = ItemStack.EMPTY;
-            FluidStack fluid = FluidStack.EMPTY;
-
-            if (json.has(HIVE)) {
-                hive = parseBlock(json.get(HIVE));
-            }
-            if (json.has(ITEM)) {
-                item = parseItemStack(json.get(ITEM));
-            }
-            if (json.has(FLUID)) {
-                fluid = parseFluidStack(json.get(FLUID));
-            }
-            return new HiveExtractorMapping(recipeId, hive, item, fluid);
+            return CODEC;
         }
+
+        //        @Override
+        //        public HiveExtractorMapping fromJson(ResourceLocation recipeId, JsonObject json) {
+        //
+        //            Block hive = Blocks.AIR;
+        //            ItemStack item = ItemStack.EMPTY;
+        //            FluidStack fluid = FluidStack.EMPTY;
+        //
+        //            if (json.has(HIVE)) {
+        //                hive = parseBlock(json.get(HIVE));
+        //            }
+        //            if (json.has(ITEM)) {
+        //                item = parseItemStack(json.get(ITEM));
+        //            }
+        //            if (json.has(FLUID)) {
+        //                fluid = parseFluidStack(json.get(FLUID));
+        //            }
+        //            return new HiveExtractorMapping(recipeId, hive, item, fluid);
+        //        }
 
         @Nullable
         @Override
-        public HiveExtractorMapping fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
+        public HiveExtractorMapping fromNetwork(FriendlyByteBuf buffer) {
 
-            Block hive = ForgeRegistries.BLOCKS.getValue(buffer.readResourceLocation());
+            Block hive = BuiltInRegistries.BLOCK.get(buffer.readResourceLocation());
             ItemStack item = buffer.readItem();
             FluidStack fluid = buffer.readFluidStack();
 
-            return new HiveExtractorMapping(recipeId, hive, item, fluid);
+            return new HiveExtractorMapping(hive, item, fluid);
         }
 
         @Override
